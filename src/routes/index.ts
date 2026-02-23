@@ -5,6 +5,7 @@ import { ProviderRoutes } from "../modules/Provider/provider.route";
 import { CategoryRoutes } from "../modules/Categories/categories.route";
 import { OrderItemRoutes } from "../modules/OrderItem/orderItem.route";
 import { OrderRoutes } from "../modules/Order/order.route";
+import { ReviewRoutes } from "../modules/Review/review.route";
 
 const router = Router();
 // router.use("/auth", AuthRoutes);
@@ -34,6 +35,10 @@ const routerManager = [
   {
     path: "/order-item",
     route: OrderItemRoutes,
+  },
+  {
+    path: "/review",
+    route: ReviewRoutes,
   },
 ];
 
