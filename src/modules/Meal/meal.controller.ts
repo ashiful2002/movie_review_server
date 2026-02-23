@@ -1,8 +1,12 @@
-import { Request, RequestHandler, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import sendResponse from "../../utils/sendResponse";
 import { MealService } from "./meal.service";
 
-const createMeal: RequestHandler = async (req: Request, res: Response) => {
+const createMeal: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const result = await MealService.createMeal(req.body, req.user?.id);
     sendResponse(res, {
@@ -23,9 +27,9 @@ const createMeal: RequestHandler = async (req: Request, res: Response) => {
 // get all meals
 const getMeals: RequestHandler = async (req: Request, res: Response) => {
   try {
-    console.log("get user before", req.user?.id);
+    // console.log("get user before", req.user?.id);
 
-    const result = await MealService.getMeals(req.user?.id);
+    const result = await MealService.getMeals(req.user?.id, req.query);
 
     sendResponse(res, {
       statusCode: 201,

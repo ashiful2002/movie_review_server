@@ -10,3 +10,4 @@ router.get("/", auth(UserRole.PROVIDER), MealController.getMeals);
 router.get("/:id", MealController.getSingleMeal);
 
 export const MealRoutes = router;
+ 

@@ -3,6 +3,8 @@ import { prisma } from "../../lib/prisma";
 
 const createMeal = async (payload: any, userId: string) => {
  
+  // console.log(payload);
+  
   const provider = await prisma.providerProfile.findUnique({
     where: {
       userId: userId,
@@ -17,15 +19,57 @@ const createMeal = async (payload: any, userId: string) => {
   return result;
 };
 // get all meals
-const getMeals = async (userId: string) => {
-  const where = {
+const getMeals = async (
+  userId: string,
+  filters: {
+    name?: string;
+    categoryId?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    page?: string;
+    limit?: string;
+  }
+) => {
+  const {
+    name,
+    categoryId,
+    minPrice,
+    maxPrice,
+    page = "1",
+    limit = "10",
+  } = filters;
+  // ✅ Convert to numbers
+  const pageNumber = Number(page);
+  const limitNumber = Number(limit);
+  const skip = (pageNumber - 1) * limitNumber;
+
+  const where: any = {
     provider: { userId },
   };
 
+  if (name) {
+    where.name = {
+      contains: name,
+      mode: "insensitive",
+    };
+  }
+
+  if (categoryId) {
+    where.categoryId = categoryId;
+  }
+  if (minPrice || maxPrice) {
+    where.price = {};
+    if (minPrice) where.price.gte = Number(minPrice);
+    if (maxPrice) where.price.lte = Number(maxPrice);
+  }
+
+  // ✅ Transaction for total + paginated data
   const [total, data] = await prisma.$transaction([
     prisma.meal.count({ where }),
     prisma.meal.findMany({
       where,
+      skip,
+      take: limitNumber,
       orderBy: { createdAt: "desc" },
       include: {
         reviews: true,
@@ -35,7 +79,12 @@ const getMeals = async (userId: string) => {
 
   // return data;
   return {
-    meta: { total },
+    meta: {
+      total,
+      page: pageNumber,
+      limit: limitNumber,
+      totalPage: Math.ceil(total / limitNumber),
+    },
     data,
   };
 };

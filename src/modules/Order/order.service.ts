@@ -20,7 +20,6 @@ const createOrder = async (payload: CreateOrderPayload) => {
     throw new Error("No meals provided for the order");
   }
 
-  // Fetch all meals from DB
   const mealIds = payload.items.map((i) => i.mealId);
   const meals = await prisma.meal.findMany({
     where: { id: { in: mealIds } },
@@ -30,7 +29,6 @@ const createOrder = async (payload: CreateOrderPayload) => {
     throw new Error("Some meals were not found");
   }
 
-  // Ensure all meals belong to the same provider
   const providerId = meals[0].providerId;
   for (const meal of meals) {
     if (meal.providerId !== providerId) {
@@ -38,7 +36,6 @@ const createOrder = async (payload: CreateOrderPayload) => {
     }
   }
 
-  // Calculate total amount
   const totalAmount = payload.items.reduce((sum, item) => {
     const meal = meals.find((m) => m.id === item.mealId)!;
     return sum + meal.price * item.quantity;
@@ -60,8 +57,8 @@ const createOrder = async (payload: CreateOrderPayload) => {
           return {
             mealId: meal.id,
             quantity: item.quantity,
-            price: meal.price, // snapshot price
-            name: meal.name,   // snapshot name
+            price: meal.price, 
+            name: meal.name,  
           };
         }),
       },
@@ -72,7 +69,6 @@ const createOrder = async (payload: CreateOrderPayload) => {
   return order;
 };
 
-// Get all orders of a customer
 const getOrdersByCustomer = async (customerId: string) => {
   return await prisma.order.findMany({
     where: { customerId },
@@ -81,7 +77,6 @@ const getOrdersByCustomer = async (customerId: string) => {
   });
 };
 
-// Get single order by ID
 const getOrderById = async (orderId: string) => {
   const order = await prisma.order.findUnique({
     where: { id: orderId },
@@ -91,7 +86,6 @@ const getOrderById = async (orderId: string) => {
   return order;
 };
 
-// Update order status (for provider)
 const updateOrderStatus = async (orderId: string, status: OrderStatus) => {
   return await prisma.order.update({
     where: { id: orderId },

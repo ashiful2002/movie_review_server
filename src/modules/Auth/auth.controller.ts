@@ -1,9 +1,12 @@
-import { Request, RequestHandler, Response } from "express";
-import { prisma } from "../../lib/prisma";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { AuthService } from "./auth.service";
 import sendResponse from "../../utils/sendResponse";
 
-const createUser: RequestHandler = async (req: Request, res: Response) => {
+const createUser: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const result = await AuthService.createUserIntoDB(req.body);
 
@@ -14,16 +17,15 @@ const createUser: RequestHandler = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error: any) {
-    sendResponse(res, {
-      statusCode: 400,
-      success: false,
-      message: "User creation failed",
-      data: error.message,
-    });
+    next(error);
   }
 };
- 
-const loginUser: RequestHandler = async (req: Request, res: Response) => {
+
+const loginUser: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const result = await AuthService.loginUser(req.body);
 
@@ -45,12 +47,7 @@ const loginUser: RequestHandler = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error: any) {
-    sendResponse(res, {
-      statusCode: 401,
-      success: false,
-      message: "User login failed",
-      data: error.message,
-    });
+    next(error);
   }
 };
 
@@ -58,4 +55,3 @@ export const AuthController = {
   createUser,
   loginUser,
 };
- 
