@@ -33,20 +33,20 @@ enum DietaryType {
 }
 
 model User {
-  id              String           @id @default(uuid())
-  name            String
-  email           String           @unique
-  password        String
-  role            UserRole         @default(CUSTOMER)
-  status          UserStatus       @default(ACTIVE)
-  phone           String?
-  avatar          String?
+  id       String     @id @default(uuid())
+  name     String
+  email    String     @unique
+  password String
+  role     UserRole   @default(CUSTOMER)
+  status   UserStatus @default(ACTIVE)
+  phone    String?
+  avatar   String?
 
-  address         String?
-  postalCode      String?
-  city            String?
-  street          String?
-  
+  address    String?
+  postalCode String?
+  city       String?
+  street     String?
+
   providerProfile ProviderProfile?
   orders          Order[]
   reviews         Review[]
@@ -79,12 +79,18 @@ model ProviderProfile {
 }
 
 model Category {
-  id   String @id @default(uuid())
-  name String @unique
-  // name String @unique
-  slug String @unique
+  id    String  @id @default(uuid())
+  name  String  @unique
+  slug  String  @unique
+  image String?
+  views Int     @default(0)
 
   meals Meal[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("category")
 }
 
 model Meal {
@@ -99,7 +105,7 @@ model Meal {
   categoryId String
 
   provider ProviderProfile @relation(fields: [providerId], references: [id])
-  category Category        @relation(fields: [categoryId], references: [id])
+  category Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   views      Int           @default(0)
   dietary    DietaryType[]
@@ -153,7 +159,7 @@ model OrderItem {
   name     String // snapshot name
 
   order Order @relation(fields: [orderId], references: [id])
-  meal  Meal  @relation(fields: [mealId], references: [id])
+  meal  Meal  @relation(fields: [mealId], references: [id], onDelete: Cascade)
 
   @@index([orderId])
   @@index([mealId])
@@ -168,7 +174,7 @@ model Review {
   mealId     String
   customerId String
 
-  meal     Meal @relation(fields: [mealId], references: [id])
+  meal     Meal @relation(fields: [mealId], references: [id], onDelete: Cascade)
   customer User @relation(fields: [customerId], references: [id])
 
   createdAt DateTime @default(now())

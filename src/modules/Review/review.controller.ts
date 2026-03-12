@@ -2,11 +2,14 @@ import { NextFunction, RequestHandler } from "express";
 import sendResponse from "../../utils/sendResponse";
 import { ReviewService } from "./review.service";
 
- const createReview: RequestHandler = async (req, res, next: NextFunction) => {
+const createReview: RequestHandler = async (req, res, next) => {
   try {
-    const payload = req.body;
-    const customerId = req.user?.id;
-    const result = await ReviewService.createReview({ ...payload, customerId });
+    const payload = {
+      ...req.body,
+      customerId: req.user?.id,
+    };
+
+    const result = await ReviewService.createReview(payload);
 
     sendResponse(res, {
       statusCode: 201,
@@ -14,7 +17,7 @@ import { ReviewService } from "./review.service";
       message: "Review created successfully",
       data: result,
     });
-  } catch (error: any) {
+  } catch (error) {
     next(error);
   }
 };

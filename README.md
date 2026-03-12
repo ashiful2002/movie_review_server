@@ -1,175 +1,150 @@
-# 🍽️ FoodHub Server API
+# FoodHub Backend ⚙️
 
-Production Base URL:
+## Overview
 
-https://foodhubserver-lac.vercel.app/api/v1
+The FoodHub Backend is the server-side application responsible for
+handling business logic, authentication, database operations, and API
+endpoints.
 
-FoodHub Server is a RESTful backend API built with Express.js,
-TypeScript, and Prisma ORM. It powers a food marketplace platform
-connecting customers and food providers.
+It provides REST APIs that the frontend consumes to manage meals, users,
+and orders.
 
 ------------------------------------------------------------------------
 
-## 🚀 Tech Stack
+## Tech Stack
 
 -   Node.js
 -   Express.js
--   TypeScript
--   Prisma ORM
--   PostgreSQL
+-   MongoDB / PostgreSQL
 -   JWT Authentication
--   Vercel (Deployment)
+-   bcrypt (password hashing)
 
 ------------------------------------------------------------------------
 
-## 📦 Installation (Local Development)
+## Core Responsibilities
 
-``` bash
-git clone https://github.com/YOUR_USERNAME/foodhub-server.git
-cd foodhub-server
+-   User authentication
+-   Role-based authorization
+-   CRUD operations for meals
+-   Order management
+-   Review management
+-   Admin moderation
+
+------------------------------------------------------------------------
+
+## API Endpoints
+
+### Authentication
+
+POST /api/auth/register\
+POST /api/auth/login\
+GET /api/auth/me
+
+------------------------------------------------------------------------
+
+### Meals
+
+GET /api/meals\
+GET /api/meals/:id
+
+------------------------------------------------------------------------
+
+### Providers
+
+GET /api/providers\
+GET /api/providers/:id
+
+------------------------------------------------------------------------
+
+### Orders
+
+POST /api/orders\
+GET /api/orders\
+GET /api/orders/:id
+
+------------------------------------------------------------------------
+
+### Provider Management
+
+POST /api/provider/meals\
+PUT /api/provider/meals/:id\
+DELETE /api/provider/meals/:id\
+PATCH /api/provider/orders/:id
+
+------------------------------------------------------------------------
+
+### Admin
+
+GET /api/admin/users\
+PATCH /api/admin/users/:id
+
+------------------------------------------------------------------------
+
+## Database Tables
+
+### Users
+
+Stores authentication and role information.
+
+### ProviderProfiles
+
+Additional information for providers.
+
+### Categories
+
+Food categories (cuisine types).
+
+### Meals
+
+Menu items offered by providers.
+
+### Orders
+
+Customer orders including items and status.
+
+### Reviews
+
+Customer feedback for meals.
+
+------------------------------------------------------------------------
+
+## Order Status Flow
+
+PLACED → PREPARING → READY → DELIVERED
+
+Optional: CANCELLED
+
+------------------------------------------------------------------------
+
+## Running the Backend
+
+1.  Install dependencies
+
 npm install
-```
 
-Create a `.env` file:
+2.  Configure environment variables
 
-    DATABASE_URL=your_database_url
-    JWT_SECRET=your_secret_key
+Create `.env`
 
-Run migrations:
+PORT=5000 DB_URI=your_database_connection JWT_SECRET=your_secret_key
 
-``` bash
-npx prisma migrate dev
-```
+3.  Start server
 
-Start server:
-
-``` bash
 npm run dev
-```
+
+or
+
+node server.js
+
+Server runs at:
+
+http://localhost:5000
 
 ------------------------------------------------------------------------
 
-# 🔐 Authentication
+## Security
 
-Authentication is handled using JWT.
-
-Add to request headers:
-
-Authorization: Bearer `<your_access_token>`{=html}
-
-Roles: - ADMIN - PROVIDER - CUSTOMER
-
-------------------------------------------------------------------------
-
-# 📌 API Endpoints
-
-Base URL:
-
-https://foodhubserver-lac.vercel.app/api/v1
-
-------------------------------------------------------------------------
-
-## 👤 Auth Routes
-
-  Method   Endpoint         Description
-  -------- ---------------- -------------------
-  POST     /auth/register   Register new user
-  POST     /auth/login      Login user
-
-------------------------------------------------------------------------
-
-## 👨‍🍳 Provider Routes
-
-  Method   Endpoint        Access     Description
-  -------- --------------- ---------- -------------------------------
-  POST     /provider       PROVIDER   Create provider profile
-  GET      /provider       Public     Get all providers (paginated)
-  GET      /provider/:id   Public     Get single provider profile
-
-------------------------------------------------------------------------
-
-## 🍔 Meal Routes
-
-  Method   Endpoint    Access     Description
-  -------- ----------- ---------- -----------------
-  POST     /meal       PROVIDER   Create meal
-  GET      /meal       Public     Get all meals
-  GET      /meal/:id   Public     Get single meal
-  PATCH    /meal/:id   PROVIDER   Update meal
-  DELETE   /meal/:id   PROVIDER   Delete meal
-
-------------------------------------------------------------------------
-
-## 🛒 Order Routes
-
-  Method   Endpoint            Access           Description
-  -------- ------------------- ---------------- ---------------------
-  POST     /order              CUSTOMER         Create order
-  GET      /order              Protected        Get orders
-  PATCH    /order/:id/status   PROVIDER/ADMIN   Update order status
-
-------------------------------------------------------------------------
-
-## ⭐ Review Routes
-
-  Method   Endpoint      Access     Description
-  -------- ------------- ---------- ---------------
-  POST     /review       CUSTOMER   Create review
-  PATCH    /review/:id   CUSTOMER   Update review
-  DELETE   /review/:id   CUSTOMER   Delete review
-
-------------------------------------------------------------------------
-
-# 📄 Pagination
-
-Example:
-
-GET /provider?page=1&limit=10
-
-Response format:
-
-{ "success": true, "message": "All data fetched successfully", "data": {
-"meta": { "total": 100, "page": 1, "limit": 10, "totalPage": 10 },
-"data": \[\] } }
-
-------------------------------------------------------------------------
-
-# ❌ Error Format
-
-{ "success": false, "message": "Error message here", "data": null }
-
-------------------------------------------------------------------------
-
-# 🧠 Architecture Overview
-
-src/ ├── modules/ │ ├── auth/ │ ├── user/ │ ├── provider/ │ ├── meal/ │
-├── order/ │ └── review/ ├── middlewares/ ├── utils/ ├── lib/ └── app.ts
-
-Pattern: - Route → Controller → Service → Prisma - Centralized error
-handling - Role-based middleware
-
-------------------------------------------------------------------------
-
-# 🛡 Security Features
-
--   JWT Authentication
--   Role-based Authorization
--   Prisma ORM for safe DB queries
--   Error Handling Middleware
--   Protected Routes
-
-------------------------------------------------------------------------
-
-# 🌍 Deployment
-
-Live API:
-
-https://foodhubserver-lac.vercel.app/api/v1
-
-Hosted on Vercel.
-
-------------------------------------------------------------------------
-
-# 📜 License
-
-MIT License
+-   Passwords hashed with bcrypt
+-   JWT authentication
+-   Role-based access control
+-   Protected routes for customer, provider, and admin

@@ -1,6 +1,6 @@
 import { prisma } from "../../lib/prisma";
 
-const createCategory = async (payload: { name: string }) => {
+const createCategory = async (payload: { name: string; image: string }) => {
   const baseSlug = payload.name.toLowerCase().trim().replace(/\s+/g, "-");
 
   let slug = baseSlug;
@@ -23,6 +23,7 @@ const createCategory = async (payload: { name: string }) => {
   return await prisma.category.create({
     data: {
       name: payload.name,
+      image: payload.image,
       slug,
     },
   });

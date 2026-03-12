@@ -106,6 +106,50 @@ const getMyProviderProfile = async (id: string) => {
   return provider;
 };
 
+const providersAllMeal = async (
+  userId: string,
+  page: number,
+  limit: number
+) => {
+  const provider = await prisma.providerProfile.findUnique({
+    where: { userId },
+  });
+
+  if (!provider) {
+    throw new Error("Provider profile not found");
+  }
+
+  const skip = (page - 1) * limit;
+
+  const [data, total] = await Promise.all([
+    prisma.meal.findMany({
+      where: {
+        providerId: provider.id,
+      },
+      skip,
+      take: limit,
+      orderBy: {
+        createdAt: "desc",
+      },
+    }),
+    prisma.meal.count({
+      where: {
+        providerId: provider.id,
+      },
+    }),
+  ]);
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+      totalPage: Math.ceil(total / limit),
+    },
+    data,
+  };
+};
+
 // create meal
 const createMeal = async (payload: any, userId: string) => {
   const provider = await prisma.providerProfile.findUnique({
@@ -149,28 +193,32 @@ const updateMeal = async (mealId: string, data: Partial<Meal>, user: any) => {
   return updated;
 };
 
+//////////////////////////////////////////////////////////
 const deleteMeal = async (mealId: string, user: any) => {
-  const meal = await prisma.meal.findUnique({
-    where: { id: mealId },
+  const meal = await prisma.meal.findFirst({
+    where: {
+      id: mealId,
+      ...(user.role === "PROVIDER" && {
+        provider: {
+          userId: user.id,
+        },
+      }),
+    },
   });
 
-  if (!meal) throw new Error("Meal not found");
-
-  // If provider → check ownership
-  if (user.role === "PROVIDER") {
-    const provider = await prisma.providerProfile.findUnique({
-      where: { userId: user.id },
-    });
-
-    if (meal.providerId !== provider?.id) {
-      throw new Error("Forbidden");
-    }
+  if (!meal) {
+    throw new Error("Meal not found or access denied");
   }
+
+  await prisma.review.deleteMany({
+    where: { mealId },
+  });
 
   return prisma.meal.delete({
     where: { id: mealId },
   });
 };
+
 const updateOrderStatus = async (orderId: string, newStatus: OrderStatus) => {
   const order = await prisma.order.findUnique({ where: { id: orderId } });
   if (!order) {
@@ -183,6 +231,51 @@ const updateOrderStatus = async (orderId: string, newStatus: OrderStatus) => {
   });
 };
 
+const providersAllOrders = async (
+  userId: string,
+  page: number,
+  limit: number
+) => {
+  const skip = (page - 1) * limit;
+  const whereCondition = {
+    provider: {
+      userId: userId,
+    },
+  };
+
+  const total = await prisma.order.count({
+    where: whereCondition,
+  });
+
+  const orders = await prisma.order.findMany({
+    where: whereCondition,
+    skip,
+    take: limit,
+    include: {
+      items: true,
+      customer: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
+    },
+    orderBy: {
+      orderedAt: "desc",
+    },
+  });
+
+  return {
+    meta: {
+      total,
+      page,
+      limit,
+      totalPage: Math.ceil(total / limit),
+    },
+    data: orders,
+  };
+};
 export const providerService = {
   createMeal,
   createProviderProfile,
@@ -192,4 +285,6 @@ export const providerService = {
   deleteMeal,
   updateMeal,
   updateOrderStatus,
+  providersAllMeal,
+  providersAllOrders,
 };

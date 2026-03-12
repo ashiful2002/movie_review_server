@@ -7,27 +7,42 @@ const createReview = async (payload: CreateReviewDTO) => {
   const meal = await prisma.meal.findUnique({ where: { id: mealId } });
   if (!meal) throw new Error("Meal not found");
 
-  const existing = await prisma.review.findFirst({
-    where: { mealId, customerId },
-  });
-  if (existing) throw new Error("You have already reviewed this meal");
+  // const existing = await prisma.review.findFirst({
+  //   where: { mealId, customerId },
+  // });
+
+  // if (existing) throw new Error("You have already reviewed this meal");
 
   const review = await prisma.review.create({
     data: { mealId, customerId, rating, comment },
+    include: {
+      customer: {
+        select: {
+          id: true,
+          name: true,
+          avatar: true,
+        },
+      },
+    },
   });
 
-  const reviews = await prisma.review.findMany({ where: { mealId } });
-  const totalReviews = reviews.length;
-  const averageRating =
-    reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews;
+  const stats = await prisma.review.aggregate({
+    where: { mealId },
+    _avg: { rating: true },
+    _count: { rating: true },
+  });
 
   await prisma.meal.update({
     where: { id: mealId },
-    data: { averageRating, totalReviews },
+    data: {
+      averageRating: stats._avg.rating || 0,
+      totalReviews: stats._count.rating,
+    },
   });
 
   return review;
 };
+
 
 const getReviewsByMeal = async (mealId: string) => {
   return await prisma.review.findMany({

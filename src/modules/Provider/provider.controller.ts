@@ -2,6 +2,7 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import sendResponse from "../../utils/sendResponse";
 import { providerService } from "./provider.service";
 import { createECDH } from "node:crypto";
+
 const createProviderProfile: RequestHandler = async (
   req,
   res,
@@ -161,7 +162,7 @@ const deleteMeal: RequestHandler = async (req, res, next: NextFunction) => {
 const updateStatus: RequestHandler = async (req, res, next) => {
   const { id } = req.params;
   console.log(id, req.body);
-
+ 
   try {
     const order = await providerService.updateOrderStatus(
       id as string,
@@ -178,6 +179,57 @@ const updateStatus: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
+// get providers all meals
+const providersAllMeal: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = req.user?.id;
+
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+
+    const result = await providerService.providersAllMeal(
+      userId as string,
+      page,
+      limit
+    );
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Provider meals retrieved successfully",
+      meta: result.meta,
+      data: result.data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+// have to work on order
+// get providers all meals
+const providersAllOrders: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = req.user?.id;
+
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+
+    const result = await providerService.providersAllOrders(
+      userId as string,
+      page,
+      limit
+    );
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Provider meals retrieved successfully",
+      meta: result.meta,
+      data: result.data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 export const ProviderController = {
   createMeal,
   createProviderProfile,
@@ -187,4 +239,6 @@ export const ProviderController = {
   deleteMeal,
   updateMeal,
   updateStatus,
+  providersAllMeal,
+  providersAllOrders,
 };

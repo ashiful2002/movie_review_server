@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { prisma } from "../../lib/prisma";
 import bcrypt from "bcryptjs";
 import config from "../../config";
-import { UserRole, UserStatus } from "@prisma/client";
+import { UserStatus } from "@prisma/client";
 
 const createUserIntoDB = async (payload: any) => {
   const password = payload.password;

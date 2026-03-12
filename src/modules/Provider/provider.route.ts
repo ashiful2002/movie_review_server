@@ -16,6 +16,16 @@ router.get(
   auth(UserRole.PROVIDER),
   ProviderController.getMyProviderProfile
 );
+router.get(
+  "/meals",
+  auth(UserRole.PROVIDER),
+  ProviderController.providersAllMeal
+);
+router.get(
+  "/orders",
+  auth(UserRole.PROVIDER),
+  ProviderController.providersAllOrders
+);
 router.post("/meals", auth(UserRole.PROVIDER), ProviderController.createMeal);
 
 router.get("/:id", ProviderController.getSingleProvider);

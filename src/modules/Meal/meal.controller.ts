@@ -2,8 +2,6 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import sendResponse from "../../utils/sendResponse";
 import { MealService } from "./meal.service";
 
-
-
 const getPublicMeals: RequestHandler = async (req, res, next: NextFunction) => {
   try {
     const result = await MealService.getPublicMeals(req.query);
@@ -43,19 +41,18 @@ const getSingleMeal: RequestHandler = async (req, res, next: NextFunction) => {
     const { id } = req.params;
 
     const result = await MealService.getSingleMeal(id as string);
+    console.log(result);
 
     sendResponse(res, {
       statusCode: 200,
       success: true,
-      message: "Meal fetched successfully",
+      message: "Single Meal fetched successfully",
       data: result,
     });
   } catch (error: any) {
     next(error);
   }
 };
-
-
 
 export const MealController = {
   // createMeal,

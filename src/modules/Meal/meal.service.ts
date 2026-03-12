@@ -1,6 +1,5 @@
 import { prisma } from "../../lib/prisma";
 
-
 // get all meals
 const getMeals = async (userId: string, filters: any) => {
   const {
@@ -138,7 +137,7 @@ const getMyMeals = async (userId: string, filters: any) => {
     throw new Error("Provider not found");
   }
 
-  // ✅ Pagination
+
   const {
     page = "1",
     limit = "10",
@@ -156,7 +155,6 @@ const getMyMeals = async (userId: string, filters: any) => {
     providerId: provider.id,
   };
 
-  // ✅ Optional filters (same as public)
   if (name) {
     where.name = {
       contains: name,
@@ -211,7 +209,20 @@ const getSingleMeal = async (mealId: string) => {
     },
     include: {
       provider: true,
-      reviews: true,
+      reviews: {
+        include: {
+          customer: {
+            select: {
+              id: true,
+              name: true,
+              avatar: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
       category: true,
     },
   });

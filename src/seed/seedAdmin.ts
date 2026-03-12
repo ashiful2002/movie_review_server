@@ -1,13 +1,12 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "../lib/prisma";
-import { userInfo } from "node:os";
 import { UserRole } from "@prisma/client";
 const seedAdmin = async () => {
   const hashedPassword = await bcrypt.hash("asdf1234", 8);
 
   const adminData = {
     name: "Admin",
-    email: "admin@gmail.com",
+    email: "admin@foodhub.com",
     role: UserRole.ADMIN,
     password: hashedPassword,
   };
@@ -21,7 +20,7 @@ const seedAdmin = async () => {
       console.log("admin already exists!");
       return;
     }
-    const admin = await prisma.user.create({
+      await prisma.user.create({
       data: adminData,
     });
 
