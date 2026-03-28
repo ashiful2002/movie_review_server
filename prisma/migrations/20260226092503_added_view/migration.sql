@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "meal" ADD COLUMN     "views" INTEGER NOT NULL DEFAULT 0;

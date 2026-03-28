@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
-import { prisma } from "../../lib/prisma";
 import bcrypt from "bcryptjs";
 import config from "../../config";
-import { UserStatus } from "@prisma/client";
+import { prisma } from "../../lib/prisma";
 
-const createUserIntoDB = async (payload: any) => {
+const createUser = async (payload: any) => {
+  console.log("Service: createUser", payload);
   const password = payload.password;
   const hashedPassword = await bcrypt.hash(password, 8);
 
@@ -15,6 +15,7 @@ const createUserIntoDB = async (payload: any) => {
 };
 
 const loginUser = async (payload: any) => {
+  console.log("Service: loginUser", payload);
   const { email } = payload;
   const user = await prisma.user.findUnique({
     where: {
@@ -25,9 +26,7 @@ const loginUser = async (payload: any) => {
   if (!user) {
     throw new Error("user not found");
   }
-  if (user.status !== UserStatus.ACTIVE) {
-    throw new Error("User is suspended");
-  }
+
   const isPasswordMatched = await bcrypt.compare(
     payload.password,
     user.password
@@ -40,7 +39,6 @@ const loginUser = async (payload: any) => {
     name: user.name,
     email: user.email,
     role: user.role,
-    status: user.status,
   };
   const token = jwt.sign(userData, config.jwt_secret, {
     expiresIn: "1d",
@@ -52,16 +50,22 @@ const loginUser = async (payload: any) => {
   };
 };
 
+const logoutUser = async () => {
+  console.log("Service: logoutUser");
+
+  return null;
+};
+
 const getMe = async (id: string) => {
+ console.log(id);
+ 
   const user = await prisma.user.findUnique({
     where: {
-      id: id,
+      id,
     },
   });
 
-  return {
-    user,
-  };
+  return { user };
 };
 
 const updateProfile = async (userId: string, payload: any) => {
@@ -89,10 +93,10 @@ const updateProfile = async (userId: string, payload: any) => {
 
   return { user: updatedUser };
 };
-
 export const AuthService = {
-  createUserIntoDB,
+  createUser,
   loginUser,
+  logoutUser,
   getMe,
   updateProfile,
 };

@@ -1,185 +1,252 @@
 generator client {
   provider = "prisma-client-js"
-  // output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
+//////////////////////////////////////////////////////
+// ENUMS
+//////////////////////////////////////////////////////
+
 enum UserRole {
-  CUSTOMER
-  PROVIDER
+  USER
   ADMIN
 }
 
-enum UserStatus {
-  ACTIVE
-  SUSPENDED
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
 }
 
-enum OrderStatus {
-  PLACED
-  PREPARING
-  READY
-  DELIVERED
-  CANCELLED
+enum AccessType {
+  FREE
+  RENT
+  PURCHASE
+  SUBSCRIPTION
 }
 
-enum DietaryType {
-  VEG
-  HALAL
-  GLUTEN_FREE
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
+
+//////////////////////////////////////////////////////
+// USER
+//////////////////////////////////////////////////////
 
 model User {
-  id       String     @id @default(uuid())
+  id       String   @id @default(uuid())
   name     String
-  email    String     @unique
+  email    String   @unique
   password String
-  role     UserRole   @default(CUSTOMER)
-  status   UserStatus @default(ACTIVE)
-  phone    String?
-  avatar   String?
+  role     UserRole @default(USER)
 
-  address    String?
-  postalCode String?
-  city       String?
-  street     String?
+  avatar     String?
+  isVerified Boolean @default(false)
+  isDeleted  Boolean @default(false)
 
-  providerProfile ProviderProfile?
-  orders          Order[]
-  reviews         Review[]
+  provider   String? // google, github
+  providerId String? // oauth id
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([role])
-  @@map("user")
+  // Relations
+  reviews   Review[]
+  comments  Comment[]
+  likes     Like[]
+  watchlist Watchlist[]
+  payments  Payment[]
+  purchases Purchase[]
 }
 
-model ProviderProfile {
-  id             String  @id @default(uuid())
-  userId         String  @unique
-  restaurantName String
-  description    String?
-  location       String?
-  logo           String?
-  isApproved     Boolean @default(false)
+//////////////////////////////////////////////////////
+// MOVIE / SERIES
+//////////////////////////////////////////////////////
 
-  user   User    @relation(fields: [userId], references: [id])
-  meals  Meal[]
-  orders Order[]
+model Movie {
+  id          String @id @default(uuid())
+  title       String
+  description String
+  releaseYear Int
+
+  director String
+
+  streamingLink String?
+  price         Float   @default(0)
+  isPremium     Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([userId])
-  @@map("providerProfile")
+  reviews   Review[]
+  watchlist Watchlist[]
+  purchases Purchase[]
+
+  genres MovieGenre[]
 }
 
-model Category {
-  id    String  @id @default(uuid())
-  name  String  @unique
-  slug  String  @unique
-  image String?
-  views Int     @default(0)
-
-  meals Meal[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("category")
-}
-
-model Meal {
-  id          String  @id @default(uuid())
-  name        String
-  description String?
-  price       Float
-  image       String?
-  isAvailable Boolean @default(true)
-
-  providerId String
-  categoryId String
-
-  provider ProviderProfile @relation(fields: [providerId], references: [id])
-  category Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-
-  views      Int           @default(0)
-  dietary    DietaryType[]
-  reviews    Review[]
-  orderItems OrderItem[]
-
-  averageRating Float @default(0)
-  totalReviews  Int   @default(0)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([providerId])
-  @@index([categoryId])
-  @@map("meal")
-}
-
-model Order {
-  id         String @id @default(uuid())
-  customerId String
-  providerId String
-
-  totalAmount Float
-  status      OrderStatus @default(PLACED)
-
-  street     String
-  city       String
-  postalCode String
-  phone      String
-
-  customer User            @relation(fields: [customerId], references: [id])
-  provider ProviderProfile @relation(fields: [providerId], references: [id])
-  items    OrderItem[]
-
-  orderedAt   DateTime  @default(now())
-  deliveredAt DateTime?
-
-  @@index([customerId])
-  @@index([providerId])
-  @@index([status])
-  @@map("order")
-}
-
-model OrderItem {
-  id      String @id @default(uuid())
-  orderId String
-  mealId  String
-
-  quantity Int
-  price    Float // snapshot price
-  name     String // snapshot name
-
-  order Order @relation(fields: [orderId], references: [id])
-  meal  Meal  @relation(fields: [mealId], references: [id], onDelete: Cascade)
-
-  @@index([orderId])
-  @@index([mealId])
-  @@map("orderItem")
-}
+//////////////////////////////////////////////////////
+// REVIEW
+//////////////////////////////////////////////////////
 
 model Review {
-  id      String  @id @default(uuid())
-  rating  Int
-  comment String?
+  id      String   @id @default(uuid())
+  rating  Int      @default(0)
+  content String
+  tags    String[]
+  spoiler Boolean  @default(false)
 
-  mealId     String
-  customerId String
+  status   ReviewStatus @default(PENDING)
+  isEdited Boolean      @default(false)
 
-  meal     Meal @relation(fields: [mealId], references: [id], onDelete: Cascade)
-  customer User @relation(fields: [customerId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  movieId String
+  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  comments Comment[]
+  likes    Like[]
+}
+
+//////////////////////////////////////////////////////
+// COMMENT
+//////////////////////////////////////////////////////
+
+model Comment {
+  id      String @id @default(uuid())
+  content String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  isDeleted Boolean @default(false)
+
+  // Relations
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  reviewId String
+  review   Review @relation(fields: [reviewId], references: [id])
+
+  // Optional nested replies
+  parentId String?
+  parent   Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
+  replies  Comment[] @relation("CommentToComment")
+}
+
+//////////////////////////////////////////////////////
+// LIKE
+//////////////////////////////////////////////////////
+
+model Like {
+  id String @id @default(uuid())
+
+  userId   String
+  reviewId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id])
+  review Review @relation(fields: [reviewId], references: [id])
+
+  @@unique([userId, reviewId]) // one like per user
+}
+
+//////////////////////////////////////////////////////
+// WATCHLIST
+//////////////////////////////////////////////////////
+
+model Watchlist {
+  id String @id @default(uuid())
+
+  userId  String
+  movieId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id])
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, movieId])
+  @@map("id")
+}
+
+//////////////////////////////////////////////////////
+// PAYMENT
+//////////////////////////////////////////////////////
+
+model Payment {
+  id       String        @id @default(uuid())
+  amount   Float
+  status   PaymentStatus @default(PENDING)
+  provider String
+
+  transactionId String? @unique // from payment gateway
 
   createdAt DateTime @default(now())
 
-  @@index([mealId])
-  @@index([customerId])
-  @@map("review")
+  // Relations
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  purchaseId String?
+  purchase   Purchase? @relation(fields: [purchaseId], references: [id])
+
+  @@index([userId])
+}
+
+//////////////////////////////////////////////////////
+// PURCHASE / ACCESS CONTROL
+//////////////////////////////////////////////////////
+
+model Purchase {
+  id String @id @default(uuid())
+
+  accessType AccessType
+  price      Float
+
+  expiresAt DateTime?
+  isActive  Boolean   @default(true)
+
+  createdAt DateTime @default(now())
+
+  // Relations
+  userId  String
+  movieId String
+
+  user  User  @relation(fields: [userId], references: [id])
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  payments Payment[]
+
+  @@index([userId, movieId])
+}
+
+model Genre {
+  id   String @id @default(uuid())
+  name String @unique
+
+  movies MovieGenre[]
+}
+
+model MovieGenre {
+  movieId String
+  genreId String
+
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  genre Genre @relation(fields: [genreId], references: [id])
+
+  @@id([movieId, genreId])
 }

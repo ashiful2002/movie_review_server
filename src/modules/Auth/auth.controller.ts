@@ -8,7 +8,7 @@ const createUser: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
-    const result = await AuthService.createUserIntoDB(req.body);
+    const result = await AuthService.createUser(req.body);
 
     sendResponse(res, {
       statusCode: 201,
@@ -20,7 +20,7 @@ const createUser: RequestHandler = async (
     next(error);
   }
 };
- 
+
 const loginUser: RequestHandler = async (
   req: Request,
   res: Response,
@@ -52,11 +52,14 @@ const loginUser: RequestHandler = async (
 };
 
 const getMe: RequestHandler = async (
-  req: Request,
-  res: Response,
+  req,
+  res,
   next: NextFunction
 ) => {
   try {
+
+    console.log(req.user);
+    
     const result = await AuthService.getMe(req.user?.id);
     sendResponse(res, {
       statusCode: 200,
@@ -81,9 +84,27 @@ const updateProfile: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
+
+const logoutUser: RequestHandler = async (req, res, next) => {
+  try {
+    await AuthService.logoutUser();
+
+    res.clearCookie("token");
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Logout successful",
+      data: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 export const AuthController = {
   createUser,
   loginUser,
   getMe,
   updateProfile,
+  logoutUser,
 };

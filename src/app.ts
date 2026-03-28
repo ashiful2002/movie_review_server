@@ -18,7 +18,7 @@ app.use(
 app.use("/api/v1", router);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("https://food-hub-sigma-fawn.vercel.app/");
+  res.send("MMDB movie rateing platform");
 });
 
 app.use(notFound);

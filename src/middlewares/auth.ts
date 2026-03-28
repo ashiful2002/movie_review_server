@@ -1,4 +1,4 @@
-import { UserRole, UserStatus } from "@prisma/client";
+import { UserRole } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../config";
@@ -27,9 +27,9 @@ const auth = (...roles: UserRole[]) => {
       if (!userData) {
         throw new Error("unauthorised");
       }
-      if (userData.status !== UserStatus.ACTIVE) {
-        throw new Error("unauthorised");
-      }
+      // if (userData.status !== UserStatus.ACTIVE) {
+      //   throw new Error("unauthorised");
+      // }
       // Role check (optional)
       if (roles.length && !roles.includes(decoded.role)) {
         return res.status(403).json({
