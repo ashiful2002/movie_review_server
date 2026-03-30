@@ -6,7 +6,7 @@ import { UserRole } from "@prisma/client";
 const router = express.Router();
 
 router.post("/checkout", auth(UserRole.USER), PaymentsController.checkout);
-router.post("/webhook", auth(UserRole.USER), PaymentsController.webhook);
+router.post("/webhook",  PaymentsController.webhook);
 router.get("/history", PaymentsController.getPaymentHistory);
 
 export const PaymentsRoutes = router;

@@ -253,9 +253,9 @@ model Subscription {
 
 model SubscriptionPlan {
   id       String @id @default(uuid())
-  name     String // Basic, Standard, Premium
+  name     String 
   price    Float
-  duration Int // in days (7, 30, 365)
+  duration Int 
 
   stripePriceId String? @unique 
   // optional but useful

@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import { PaymentsService } from "./payments.service";
 import sendResponse from "../../utils/sendResponse";
+import { stripe } from "../../config/stripe.config";
+import config from "../../config";
 
 const checkout: RequestHandler = async (req, res, next) => {
   try {
@@ -18,17 +20,23 @@ const checkout: RequestHandler = async (req, res, next) => {
 };
 
 const webhook: RequestHandler = async (req, res, next) => {
-  try {
-    const result = await PaymentsService.handleWebhook(req.body);
+  const sig = req.headers["stripe-signature"];
+  let event;
 
-    // Stripe usually requires raw response
-    res.status(200).json({
-      received: true,
-      data: result,
-    });
-  } catch (err) {
-    next(err);
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      sig as string,
+      config.stripe_webhook_secret
+    );
+  } catch (err: any) {
+    return res.status(400).send(`Webhook Error: ${err.message}`);
   }
+
+  // Call your service to handle the event
+  await PaymentsService.handleStripeWebhookEvent(event);
+
+  res.status(200).json({ received: true });
 };
 
 const getPaymentHistory: RequestHandler = async (req, res, next) => {
@@ -46,17 +54,7 @@ const getPaymentHistory: RequestHandler = async (req, res, next) => {
   }
 };
 
-const handlerStripeWebhookEvent = async (req: Request, res: Response) => {
-  const signature = req.headers["stripe-signature"] as string;
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-  if (!signature || !webhookSecret) {
-    console.log("missing stripe webhook secret or signature");
-    return res
-      .status(status.BAD_REQUEST)
-      .json({ message: "Missing Stripe signature or secret" });
-  }
-};
 export const PaymentsController = {
   checkout,
   webhook,

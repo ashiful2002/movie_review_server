@@ -1,142 +1,145 @@
-import Stripe from "stripe";
+import { stripe } from "../../config/stripe.config";
 import { prisma } from "../../lib/prisma";
 import { PaymentStatus } from "@prisma/client";
+import config from "../../config";
 
 const checkout = async (payload: any, userId: string) => {
-  console.log("Service: checkout", payload, userId);
+  let dbAmount = payload.amount || 10;
+  let productName = payload.productName || "Purchase";
+  let metadata: any = { userId };
+
+  // Fetch true price from DB if planId is provided
+  if (payload.planId) {
+    const plan = await prisma.subscriptionPlan.findUnique({
+      where: { id: payload.planId },
+    });
+    if (!plan) throw new Error("Subscription plan not found");
+    dbAmount = plan.price;
+    productName = plan.name;
+    metadata.planId = plan.id;
+  } else if (payload.movieId) {
+    const movie = await prisma.movie.findUnique({
+      where: { id: payload.movieId },
+    });
+    if (!movie) throw new Error("Movie not found");
+    dbAmount = movie.price > 0 ? movie.price : dbAmount;
+    productName = movie.title;
+    metadata.movieId = movie.id;
+  }
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: [
+      {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: productName,
+          },
+          unit_amount: Math.round(dbAmount * 100),
+        },
+        quantity: 1,
+      },
+    ],
+    mode: "payment",
+    success_url: `${config.frontend_url}/success`,
+    cancel_url: `${config.frontend_url}/cancel`,
+    metadata,
+  });
+
+  await prisma.payment.create({
+    data: {
+      id: session.id,
+      amount: dbAmount,
+      status: PaymentStatus.PENDING,
+      provider: "stripe",
+      userId,
+      transactionId: (session.payment_intent as string) || null,
+    },
+  });
 
   return {
-    sessionId: "sess_123456",
-    paymentUrl: "https://fake-payment-gateway.com/checkout/sess_123456",
-    amount: payload.amount || 10,
+    sessionId: session.id,
+    paymentUrl: session.url,
+    amount: dbAmount,
     currency: "USD",
   };
 };
 
-const handleWebhook = async (payload: any) => {
-  console.log("Service: webhook received", payload);
+const handleStripeWebhookEvent = async (event: any) => {
+  if (event.type === "checkout.session.completed") {
+    // Check idempotency first before processing
+    const existingPayment = await prisma.payment.findFirst({
+      where: { stripeEventId: event.id },
+    });
 
-  return {
-    event: payload.type || "payment.success",
-    status: "processed",
-  };
-};
+    if (existingPayment) {
+      return { message: "Webhook already processed" };
+    }
 
-const getPaymentHistory = async (userId: string) => {
-  console.log("Service: getPaymentHistory", userId);
+    const session = event.data.object;
+    const metadata = session.metadata;
 
-  return [
-    {
-      id: "pay_1",
-      amount: 10,
-      status: "paid",
-      type: "purchase",
-      movieId: "1",
-    },
-    {
-      id: "pay_2",
-      amount: 5,
-      status: "paid",
-      type: "rent",
-      movieId: "2",
-    },
-  ];
-};
-
-const handlerStripeWebhookEvent = async (event: Stripe.Event) => {
-  const existingPayment = await prisma.payment.findFirst({
-    where: {
-      stripeEventId: event.id,
-    },
-  });
-
-  if (existingPayment) {
-    console.log(`Event ${event.id} already processed. skipping`);
-    return { message: `Event ${event.id} already processed. skipping` };
-  }
-
-  switch (event.type) {
-    case "checkout.session.completed": {
-      const session = event.data.object;
-      const appointmentId = session.metadata?.appointmentId;
-
-      const paymentId = session.metadata?.paymentId;
-
-      if (!paymentId || !appointmentId) {
-        console.error("Missing paymentId or appointmentId in session metadata");
-        return {
-          error: "Missing paymentId or appointmentId in session metadata",
-        };
-      }
-
-      const appointment = await prisma.purchase.findUnique({
-        where: {
-          id: appointmentId,
+    await prisma.$transaction(async (tx) => {
+      // 1. Update the Payment
+      const payment = await tx.payment.update({
+        where: { id: session.id },
+        data: {
+          status: PaymentStatus.SUCCESS,
+          transactionId: (session.payment_intent as string) || null,
+          stripeEventId: event.id,
         },
       });
-      if (!appointment) {
-        console.error("Missing paymentId or appointmentId in session metadata");
-        return {
-          error: "Missing paymentId or appointmentId in session metadata",
-        };
+
+      // 2. Fulfill Subscription if planId exists
+      if (metadata && metadata.planId) {
+        const plan = await tx.subscriptionPlan.findUnique({
+          where: { id: metadata.planId },
+        });
+
+        if (plan) {
+          const startDate = new Date();
+          const expiresAt = new Date();
+          expiresAt.setDate(expiresAt.getDate() + plan.duration);
+
+          const subscription = await tx.subscription.create({
+            data: {
+              userId: metadata.userId,
+              planId: plan.id,
+              startDate,
+              expiresAt,
+            },
+          });
+
+          // Link the payment to the created subscription
+          await tx.payment.update({
+            where: { id: payment.id },
+            data: { subscriptionId: subscription.id },
+          });
+        }
       }
-
-      await prisma.$transaction(async (tx) => {
-        await tx.payment.update({
-          where: { id: appointmentId },
-          data: {
-            // paymentStatus:
-            id:
-              session.payment_status === "paid"
-                ? PaymentStatus.SUCCESS
-                : PaymentStatus.PENDING,
-          },
-        });
-
-        await tx.payment.update({
-          where: {
-            id: paymentId,
-          },
-          data: {
-            // stripeEventId: event.id,
-            id: event.id,
-            status:
-              session.payment_status === "paid"
-                ? PaymentStatus.SUCCESS
-                : PaymentStatus.PENDING,
-            paymentGetwayData: session as any,
-          },
-        });
-      });
-      console.log(
-        `payment completed for ${appointmentId} and paymentid ${paymentId}`
-      );
-      break;
-    }
-    case "checkout.session.expired": {
-      const session = event.data.object;
-      console.log(
-        `Checkout session ${session.id} expired. Marking associated payment as failed`
-      );
-      break;
-    }
-    case "payment_intent.payment_failed": {
-      const session = event.data.object;
-      console.log(
-        `Checkout session ${session.id} expired. Marking associated payment as failed due to expired`
-      );
-      break;
-    }
-
-    default:
-      console.log(`unhandled event type ${event.type}`);
+    });
   }
 
   return { message: `Webhook Event ${event.id} processed successfully` };
 };
 
+const getPaymentHistory = async (userId: string) => {
+  return prisma.payment.findMany({
+    where: { userId },
+    orderBy: { createdAt: "desc" },
+    include: {
+      subscription: {
+        include: {
+          plan: true,
+        },
+      },
+    },
+  });
+};
+
 export const PaymentsService = {
   checkout,
-  handleWebhook,
+  handleStripeWebhookEvent,
   getPaymentHistory,
 };

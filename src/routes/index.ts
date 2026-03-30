@@ -7,6 +7,7 @@ import { PaymentsRoutes } from "../modules/Payments/payments.route";
 import { MoviesRoutes } from "../modules/movie/movie.route";
 import { AdminRoutes } from "../modules/Admin/admin.route";
 import { GenreRoutes } from "../modules/Genre/genre.route";
+import { SubscriptionRoutes } from "../modules/Subscription/subscription.route";
 
 const router = Router();
 
@@ -19,6 +20,7 @@ const routerManager = [
   { path: "/watchlist", route: WatchlistRoutes },
   { path: "/payments", route: PaymentsRoutes },
   { path: "/admin", route: AdminRoutes },
+  { path: "/subscription-plans", route: SubscriptionRoutes },
 ];
 
 routerManager.forEach((r) => router.use(r.path, r.route));
