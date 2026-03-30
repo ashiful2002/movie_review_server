@@ -7,6 +7,15 @@ import { errorHandler } from "./middlewares/globalErrorHandler";
 
 const app: Application = express();
 
+app.use(
+  "/payments/webhook",
+  express.raw({ type: "application/json" }),
+  async (req: Request, res: Response) => {
+    console.log(`Webhook Received: `, req.body);
+    res.status(200).json({ received: true });
+  }
+);
+
 app.use(express.json());
 app.use(
   cors({

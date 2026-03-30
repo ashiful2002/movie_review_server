@@ -1,10 +1,19 @@
-import { Movie, Review } from "@prisma/client";
 import { prisma } from "../../lib/prisma";
+import { ReviewStatus } from "@prisma/client";
 
-const createReview = async (userId: string, payload: Review) => {
+//////////////////////////////////////////////////////
+// CREATE REVIEW
+//////////////////////////////////////////////////////
+
+const createReview = async (userId: string, payload: any) => {
   const { movieId, rating, content, tags, spoiler } = payload;
 
-  const review = await prisma.review.create({
+  if (!movieId) throw new Error("Movie ID is required");
+  if (rating < 0 || rating > 10) {
+    throw new Error("Rating must be between 0 and 5");
+  }
+
+  return await prisma.review.create({
     data: {
       rating,
       content,
@@ -13,117 +22,164 @@ const createReview = async (userId: string, payload: Review) => {
       user: { connect: { id: userId } },
       movie: { connect: { id: movieId } },
     },
-  });
-
-  return review;
-};
-
-const getSingleReview = async (id: string) => {
-  console.log("Service: getSingleReview", id);
-
-  const review = await prisma.review.findUnique({
-    where: {
-      id,
+    include: {
+      user: true,
+      movie: true,
     },
   });
+};
+
+//////////////////////////////////////////////////////
+// GET SINGLE REVIEW
+//////////////////////////////////////////////////////
+
+const getSingleReview = async (id: string) => {
+  const review = await prisma.review.findUnique({
+    where: { id },
+    include: {
+      user: true,
+      movie: true,
+      comments: true,
+      likes: true,
+    },
+  });
+
+  if (!review) throw new Error("Review not found");
+
   return review;
 };
 
-const updateReview = async (id: string, userId: string, payload: any) => {
-  const { rating, content, tags, spoiler } = payload;
+//////////////////////////////////////////////////////
+// UPDATE REVIEW
+//////////////////////////////////////////////////////
 
+const updateReview = async (id: string, userId: string, payload: any) => {
   const existingReview = await prisma.review.findUnique({
     where: { id },
   });
 
-  if (!existingReview) {
-    throw new Error("Review not found");
-  }
-
+  if (!existingReview) throw new Error("Review not found");
   if (existingReview.userId !== userId) {
-    throw new Error("You are not authorized to update this review");
-  }
-  if (rating !== undefined && (rating < 0 || rating > 5)) {
-    throw new Error("Rating must be between 0 and 5");
+    throw new Error("Unauthorized");
   }
 
-  const updateData: any = {};
+  if (payload.rating !== undefined) {
+    if (payload.rating < 0 || payload.rating > 5) {
+      throw new Error("Rating must be between 0 and 5");
+    }
+  }
 
-  if (rating !== undefined) updateData.rating = rating;
-  if (content !== undefined) updateData.content = content;
-  if (tags !== undefined) updateData.tags = tags;
-  if (spoiler !== undefined) updateData.spoiler = spoiler;
-
-  updateData.isEdited = true;
-
-  const result = await prisma.review.updateMany({
-    where: {
-      id,
-      userId,
+  return await prisma.review.update({
+    where: { id },
+    data: {
+      ...payload,
+      isEdited: true,
     },
-    data: updateData,
   });
-
-  if (result.count === 0) {
-    throw new Error("Update failed or unauthorized");
-  }
-
-  return result;
 };
+
+//////////////////////////////////////////////////////
+// DELETE REVIEW
+//////////////////////////////////////////////////////
 
 const deleteReview = async (id: string, userId: string) => {
-  const result = await prisma.review.deleteMany({
-    where: { id, userId },
+  const existing = await prisma.review.findUnique({
+    where: { id },
   });
 
-  if (!result.count) {
-    throw new Error("Review not found or unauthorized");
-  }
+  if (!existing) throw new Error("Review not found");
+  if (existing.userId !== userId) throw new Error("Unauthorized");
 
+  await prisma.review.delete({
+    where: { id },
+  });
+
+  return { message: "Review deleted successfully" };
 };
 
-// ADMIN
-const getPendingReviews = async () => {
-  console.log("Service: getPendingReviews");
+//////////////////////////////////////////////////////
+// ADMIN: MODERATION
+//////////////////////////////////////////////////////
 
-  return [
-    { id: "rev_1", comment: "Pending review 1" },
-    { id: "rev_2", comment: "Pending review 2" },
-  ];
+const getPendingReviews = async () => {
+  return await prisma.review.findMany({
+    where: { status: ReviewStatus.PENDING },
+    include: {
+      user: true,
+      movie: true,
+    },
+  });
 };
 
 const approveReview = async (id: string) => {
-  console.log("Service: approveReview", id);
-
-  return { id, status: "approved" };
+  return await prisma.review.update({
+    where: { id },
+    data: { status: ReviewStatus.APPROVED },
+  });
 };
 
 const rejectReview = async (id: string) => {
-  console.log("Service: rejectReview", id);
-
-  return { id, status: "rejected" };
+  return await prisma.review.update({
+    where: { id },
+    data: { status: ReviewStatus.REJECTED },
+  });
 };
 
-// LIKES
-const likeReview = async (reviewId: string, userId: string) => {
-  console.log("Service: likeReview", reviewId, userId);
+//////////////////////////////////////////////////////
+// LIKE SYSTEM (TOGGLE)
+//////////////////////////////////////////////////////
 
-  return {
-    reviewId,
-    userId,
-    liked: true,
-  };
+const likeReview = async (reviewId: string, userId: string) => {
+  const existing = await prisma.like.findUnique({
+    where: {
+      userId_reviewId: {
+        userId,
+        reviewId,
+      },
+    },
+  });
+
+  if (existing) {
+    throw new Error("Already liked");
+  }
+
+  return await prisma.like.create({
+    data: {
+      userId,
+      reviewId,
+    },
+  });
 };
 
 const unlikeReview = async (reviewId: string, userId: string) => {
-  console.log("Service: unlikeReview", reviewId, userId);
+  const existing = await prisma.like.findUnique({
+    where: {
+      userId_reviewId: {
+        userId,
+        reviewId,
+      },
+    },
+  });
 
-  return {
-    reviewId,
-    userId,
-    liked: false,
-  };
+  if (!existing) {
+    throw new Error("Like not found");
+  }
+
+  await prisma.like.delete({
+    where: {
+      userId_reviewId: {
+        userId,
+        reviewId,
+      },
+    },
+  });
+
+  return { message: "Unliked successfully" };
 };
+
+//////////////////////////////////////////////////////
+// EXPORT
+//////////////////////////////////////////////////////
 
 export const ReviewService = {
   createReview,

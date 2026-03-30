@@ -46,6 +46,17 @@ const getPaymentHistory: RequestHandler = async (req, res, next) => {
   }
 };
 
+const handlerStripeWebhookEvent = async (req: Request, res: Response) => {
+  const signature = req.headers["stripe-signature"] as string;
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  if (!signature || !webhookSecret) {
+    console.log("missing stripe webhook secret or signature");
+    return res
+      .status(status.BAD_REQUEST)
+      .json({ message: "Missing Stripe signature or secret" });
+  }
+};
 export const PaymentsController = {
   checkout,
   webhook,

@@ -7,7 +7,6 @@ const getMovies = async (query: any) => {
 
   const where: any = {};
 
-  // 🔍 Search by title (case-insensitive)
   if (search) {
     where.title = {
       contains: search,
@@ -15,23 +14,20 @@ const getMovies = async (query: any) => {
     };
   }
 
-  // 🎭 Filter by genre (relation)
   if (genre) {
     where.genres = {
       some: {
         genre: {
-          name: genre, // depends on your Genre model
+          name: genre,
         },
       },
     };
   }
 
-  // 📅 Filter by release year
   if (year) {
     where.releaseYear = Number(year);
   }
 
-  // ⭐ Filter by rating (if you have rating field in Movie or Review)
   if (rating) {
     where.reviews = {
       some: {
@@ -45,7 +41,14 @@ const getMovies = async (query: any) => {
     where,
     include: {
       reviews: true,
-      genres: true,
+      genres: {
+        include: {
+          genre: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
 
@@ -56,6 +59,18 @@ const getSingleMovie = async (id: string) => {
   const singleMovie = await prisma.movie.findUnique({
     where: {
       id,
+    },
+    include: {
+      reviews: {
+        include: {
+          user: true,
+        },
+      },
+      genres: {
+        include: {
+          genre: true,
+        },
+      },
     },
   });
 
@@ -72,14 +87,35 @@ const getReviews = async (movieId: string) => {
 };
 
 const createMovie = async (payload: any) => {
+  const { genreIds, ...movieData } = payload;
+  console.log(payload);
 
-  const movie = await prisma.movie.create({
-    data: payload,
-  });
+  try {
+    const movie = await prisma.movie.create({
+      data: {
+        ...movieData,
+        genres: genreIds?.length
+          ? {
+              create: genreIds.map((id: string) => ({
+                genreId: id,
+              })),
+            }
+          : undefined,
+      },
+      include: {
+        genres: {
+          include: {
+            genre: true,
+          },
+        },
+      },
+    });
 
-  return {
-    movie,
-  };
+    return { movie };
+  } catch (error) {
+    console.error("PRISMA ERROR:", error); // 👈 IMPORTANT
+    throw error;
+  }
 };
 
 const updateMovie = async (id: string, payload: any) => {
