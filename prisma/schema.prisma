@@ -6,9 +6,6 @@ datasource db {
   provider = "postgresql"
 }
 
-//////////////////////////////////////////////////////
-// ENUMS
-//////////////////////////////////////////////////////
 
 enum UserRole {
   USER
@@ -19,13 +16,6 @@ enum PaymentStatus {
   PENDING
   SUCCESS
   FAILED
-}
-
-enum AccessType {
-  FREE
-  RENT
-  PURCHASE
-  SUBSCRIPTION
 }
 
 enum ReviewStatus {
@@ -61,7 +51,9 @@ model User {
   likes     Like[]
   watchlist Watchlist[]
   payments  Payment[]
-  purchases Purchase[]
+  // purchases Purchase[]
+
+  subscriptions Subscription[]
 }
 
 //////////////////////////////////////////////////////
@@ -82,26 +74,23 @@ model Movie {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Additional professional fields
-  cast        String[] // ["Leonardo DiCaprio", "Joseph Gordon-Levitt"]
-  language    String? // e.g., "English"
-  duration    Int? // in minutes
-  ageRating   String? // e.g., "PG-13", "R"
-  country     String? // production country
-  trailerLink String? // YouTube/Vimeo trailer
-  thumbnail   String? // Poster image URL
-  banner      String? // Banner image URL
-  subtitles   String[] // ["en", "es", "fr"]
-  awards      String[] // ["Oscar 2011", "Golden Globe 2010"]
-  budget      Float? // production budget
-  boxOffice   Float? // box office collection
-  status      String? // "released", "upcoming", "archived"
-  rating      Float? // average rating (can be computed)
+  cast        String[] 
+  language    String? 
+  duration    Int? 
+  ageRating   String? 
+  country     String?
+  trailerLink String? 
+  thumbnail   String? 
+  banner      String? 
+  subtitles   String[] 
+  awards      String[] 
+  budget      Float? 
+  boxOffice   Float? 
+  status      String? 
+  rating      Float? 
 
-  // Relations
   reviews   Review[]
   watchlist Watchlist[]
-  purchases Purchase[]
   genres    MovieGenre[]
 }
 
@@ -203,52 +192,26 @@ model Watchlist {
 //////////////////////////////////////////////////////
 
 model Payment {
-  stripeEventId String?       @unique // to link with Stripe events
+  stripeEventId String?       @unique
   id            String        @id @default(uuid())
   amount        Float
   status        PaymentStatus @default(PENDING)
   provider      String
-
-  transactionId String? @unique // from payment gateway
+  method        String? // "stripe"
+  transactionId String?       @unique
 
   createdAt DateTime @default(now())
 
-  // Relations
+  // relations
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
-  purchaseId String?
-  purchase   Purchase? @relation(fields: [purchaseId], references: [id])
+  subscriptionId String?
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
 
   @@index([userId])
 }
 
-//////////////////////////////////////////////////////
-// PURCHASE / ACCESS CONTROL
-//////////////////////////////////////////////////////
-
-model Purchase {
-  id String @id @default(uuid())
-
-  accessType AccessType
-  price      Float
-
-  expiresAt DateTime?
-  isActive  Boolean   @default(true)
-
-  createdAt DateTime @default(now())
-
-  // Relations
-  userId  String
-  movieId String
-
-  user  User  @relation(fields: [userId], references: [id])
-  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
-
-  payments Payment[]
-
-  @@index([userId, movieId])
-}
 
 model Genre {
   id   String @id @default(uuid())
@@ -265,4 +228,43 @@ model MovieGenre {
   genre Genre @relation(fields: [genreId], references: [id])
 
   @@id([movieId, genreId])
+}
+
+model Subscription {
+  id String @id @default(uuid())
+
+  userId String
+  planId String
+
+  startDate DateTime @default(now())
+  expiresAt DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relations
+  user User             @relation(fields: [userId], references: [id])
+  plan SubscriptionPlan @relation(fields: [planId], references: [id])
+
+  payments Payment[]
+
+  @@index([userId])
+}
+
+model SubscriptionPlan {
+  id       String @id @default(uuid())
+  name     String // Basic, Standard, Premium
+  price    Float
+  duration Int // in days (7, 30, 365)
+
+  stripePriceId String? @unique 
+  // optional but useful
+  description String?
+  isActive    Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relations
+  subscriptions Subscription[]
 }
