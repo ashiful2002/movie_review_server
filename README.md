@@ -1,4 +1,4 @@
-# FoodHub Backend ⚙️
+<!-- # FoodHub Backend ⚙️
 
 ## Overview
 
@@ -147,4 +147,4 @@ http://localhost:5000
 -   Passwords hashed with bcrypt
 -   JWT authentication
 -   Role-based access control
--   Protected routes for customer, provider, and admin
+-   Protected routes for customer, provider, and admin -->
