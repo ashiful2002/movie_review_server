@@ -1,71 +1,93 @@
-import { NextFunction, RequestHandler } from "express";
-import sendResponse from "../../utils/sendResponse";
-import { AdminService } from "./admin.service";
+import { NextFunction, Request, RequestHandler, Response } from "express";
+ import sendResponse from "../../utils/sendResponse";
+import { AuthService } from "../Auth/auth.service";
 
-const getAllUsers: RequestHandler = async (req, res, next: NextFunction) => {
+const createUser: RequestHandler = async (req, res, next) => {
   try {
-    const users = await AdminService.getAllUsers();
+    const result = await AuthService.createUser(req.body);
 
     sendResponse(res, {
-      statusCode: 200,
+      statusCode: 201,
       success: true,
-      message: "get all users successfully",
-      data: users,
-    });
-  } catch (error: any) {
-    next(error);
-  }
-};
-const getSingleUser: RequestHandler = async (req, res, next: NextFunction) => {
-  const { id } = req.params;
-  try {
-    const result = await AdminService.getSingleUser(id as string);
-
-    sendResponse(res, {
-      statusCode: 200,
-      success: true,
-      message: "get a specifuc user successfully",
-      data: result,
-    });
-  } catch (error: any) {
-    next(error);
-  }
-};
-
-const getAllOrders: RequestHandler = async (req, res, next: NextFunction) => {
-  try {
-    const result = await AdminService.getAllOrders();
-    sendResponse(res, {
-      statusCode: 200,
-      success: true,
-      message: "get all orders for admin",
-      data: result,
-    });
-  } catch (error: any) {
-    next(error);
-  }
-};
-const makeProvider: RequestHandler = async (req, res, next: NextFunction) => {
-  const { id } = req.params;
-  const { role } = req.body;
-  console.log({ id, role });
-
-  try {
-    const result = await AdminService.makeProvider(id as string, role);
-
-    sendResponse(res, {
-      statusCode: 200,
-      success: true,
-      message: "User promoted to provider successfully",
+      message: "User registered successfully",
       data: result,
     });
   } catch (error) {
     next(error);
   }
 };
-export const AdminController = {
-  getAllUsers,
-  getSingleUser,
-  getAllOrders,
-  makeProvider,
+
+const loginUser: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await AuthService.loginUser(req.body);
+
+    res.cookie("token", result.token, {
+      httpOnly: true,
+      secure: false,
+    });
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Login successful",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const logoutUser: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await AuthService.logoutUser();
+
+    res.clearCookie("token");
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Logout successful",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getMe: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await AuthService.getMe(req.user?.id);
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Current user fetched",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateProfile: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await AuthService.updateProfile(req.user?.id, req.body);
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Profile updated",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const AuthController = {
+  createUser,
+  loginUser,
+  logoutUser,
+  getMe,
+  updateProfile,
 };

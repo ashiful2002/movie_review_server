@@ -4,12 +4,9 @@ import { ReviewService } from "./review.service";
 
 const createReview: RequestHandler = async (req, res, next) => {
   try {
-    const payload = {
-      ...req.body,
-      customerId: req.user?.id,
-    };
+    const userId = req.user?.id;
 
-    const result = await ReviewService.createReview(payload);
+    const result = await ReviewService.createReview(userId, req.body);
 
     sendResponse(res, {
       statusCode: 201,
@@ -22,95 +19,147 @@ const createReview: RequestHandler = async (req, res, next) => {
   }
 };
 
-// --- Get all reviews for a meal ---
-const getReviewsByMeal: RequestHandler = async (
-  req,
-  res,
-  next: NextFunction
-) => {
+const getSingleReview: RequestHandler = async (req, res, next) => {
   try {
-    const { mealId } = req.params;
-    const result = await ReviewService.getReviewsByMeal(mealId as string);
+    const result = await ReviewService.getSingleReview(req.params.id as string);
 
     sendResponse(res, {
       statusCode: 200,
       success: true,
-      message: "Reviews retrieved successfully",
+      message: "Review fetched",
       data: result,
     });
-  } catch (error: any) {
+  } catch (error) {
     next(error);
   }
 };
 
-// --- Get single review ---
-const getSingleReview: RequestHandler = async (
-  req,
-  res,
-  next: NextFunction
-) => {
+const updateReview: RequestHandler = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const result = await ReviewService.getSingleReview(id as string);
-
-    sendResponse(res, {
-      statusCode: 200,
-      success: true,
-      message: "Review retrieved successfully",
-      data: result,
-    });
-  } catch (error: any) {
-    next(error);
-  }
-};
-
-// --- Update review ---
-const updateReview: RequestHandler = async (req, res, next: NextFunction) => {
-  try {
-    const { id } = req.params;
-    const customerId = req.user?.id;
-    const payload = req.body;
-
     const result = await ReviewService.updateReview(
-      id as string,
-      customerId!,
-      payload
+      req.params.id as string,
+      req.user?.id,
+      req.body
     );
 
     sendResponse(res, {
       statusCode: 200,
       success: true,
-      message: "Review updated successfully",
+      message: "Review updated",
       data: result,
     });
-  } catch (error: any) {
+  } catch (error) {
     next(error);
   }
 };
 
-// --- Delete review ---
-const deleteReview: RequestHandler = async (req, res, next: NextFunction) => {
+const deleteReview: RequestHandler = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const customerId = req.user?.id;
-
-    await ReviewService.deleteReview(id as string, customerId!);
+    await ReviewService.deleteReview(req.params.id as string, req.user?.id);
 
     sendResponse(res, {
       statusCode: 200,
       success: true,
-      message: "Review deleted successfully",
+      message: "Review deleted",
       data: null,
     });
-  } catch (error: any) {
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ADMIN
+const getPendingReviews: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await ReviewService.getPendingReviews();
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Pending reviews",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const approveReview: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await ReviewService.approveReview(req.params.id as string);
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Review approved",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const rejectReview: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await ReviewService.rejectReview(req.params.id as string);
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Review rejected",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// LIKES
+const likeReview: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await ReviewService.likeReview(
+      req.params.id as string,
+      req.user?.id
+    );
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Review liked",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const unlikeReview: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await ReviewService.unlikeReview(
+      req.params.id as string,
+      req.user?.id
+    );
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Like removed",
+      data: result,
+    });
+  } catch (error) {
     next(error);
   }
 };
 
 export const ReviewController = {
   createReview,
-  getReviewsByMeal,
   getSingleReview,
   updateReview,
   deleteReview,
+  getPendingReviews,
+  approveReview,
+  rejectReview,
+  likeReview,
+  unlikeReview,
 };
+ 

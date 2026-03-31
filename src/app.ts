@@ -7,18 +7,20 @@ import { errorHandler } from "./middlewares/globalErrorHandler";
 
 const app: Application = express();
 
-app.use(express.json());
 app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true,
   })
 );
+app.use("/api/v1/payments/webhook", express.raw({ type: "application/json" }));
+
+app.use(express.json());
 
 app.use("/api/v1", router);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("https://food-hub-sigma-fawn.vercel.app/");
+  res.send("MMDB movie rateing platform");
 });
 
 app.use(notFound);
