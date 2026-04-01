@@ -7,7 +7,8 @@ const checkout = async (payload: any, userId: string) => {
   let dbAmount = payload.amount || 10;
   let productName = payload.productName || "Purchase";
   let metadata: any = { userId };
-
+ console.log(userId);
+ 
   // Fetch true price from DB if planId is provided
   if (payload.planId) {
     const plan = await prisma.subscriptionPlan.findUnique({
@@ -46,7 +47,6 @@ const checkout = async (payload: any, userId: string) => {
     cancel_url: `${config.frontend_url}/cancel`,
     metadata,
   });
-
   await prisma.payment.create({
     data: {
       id: session.id,
@@ -54,7 +54,6 @@ const checkout = async (payload: any, userId: string) => {
       status: PaymentStatus.PENDING,
       provider: "stripe",
       userId,
-      transactionId: (session.payment_intent as string) || null,
     },
   });
 
@@ -86,7 +85,7 @@ const handleStripeWebhookEvent = async (event: any) => {
         where: { id: session.id },
         data: {
           status: PaymentStatus.SUCCESS,
-          transactionId: (session.payment_intent as string) || null,
+          transactionId: session.payment_intent as string,
           stripeEventId: event.id,
         },
       });
@@ -116,7 +115,20 @@ const handleStripeWebhookEvent = async (event: any) => {
             where: { id: payment.id },
             data: { subscriptionId: subscription.id },
           });
+
+          // Set user as premium for subscription
+          await tx.user.update({
+            where: { id: metadata.userId },
+            data: { isPremium: true },
+          });
         }
+      }
+      // If it's a premium movie purchase, set user as premium
+      else if (metadata && metadata.movieId) {
+        await tx.user.update({
+          where: { id: metadata.userId },
+          data: { isPremium: true },
+        });
       }
     });
   }

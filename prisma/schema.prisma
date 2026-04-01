@@ -6,7 +6,6 @@ datasource db {
   provider = "postgresql"
 }
 
-
 enum UserRole {
   USER
   ADMIN
@@ -29,11 +28,12 @@ enum ReviewStatus {
 //////////////////////////////////////////////////////
 
 model User {
-  id       String   @id @default(uuid())
-  name     String
-  email    String   @unique
-  password String
-  role     UserRole @default(USER)
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      UserRole @default(USER)
+  isPremium Boolean  @default(false)
 
   avatar     String?
   isVerified Boolean @default(false)
@@ -74,20 +74,20 @@ model Movie {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  cast        String[] 
-  language    String? 
-  duration    Int? 
-  ageRating   String? 
+  cast        String[]
+  language    String?
+  duration    Int?
+  ageRating   String?
   country     String?
-  trailerLink String? 
-  thumbnail   String? 
-  banner      String? 
-  subtitles   String[] 
-  awards      String[] 
-  budget      Float? 
-  boxOffice   Float? 
-  status      String? 
-  rating      Float? 
+  trailerLink String?
+  thumbnail   String?
+  banner      String?
+  subtitles   String[]
+  awards      String[]
+  budget      Float?
+  boxOffice   Float?
+  status      String?
+  rating      Float?
 
   reviews   Review[]
   watchlist Watchlist[]
@@ -212,7 +212,6 @@ model Payment {
   @@index([userId])
 }
 
-
 model Genre {
   id   String @id @default(uuid())
   name String @unique
@@ -253,14 +252,14 @@ model Subscription {
 
 model SubscriptionPlan {
   id       String @id @default(uuid())
-  name     String 
+  name     String
   price    Float
-  duration Int 
+  duration Int
 
-  stripePriceId String? @unique 
+  stripePriceId String? @unique
   // optional but useful
-  description String?
-  isActive    Boolean @default(true)
+  description   String?
+  isActive      Boolean @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

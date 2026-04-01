@@ -39,6 +39,7 @@ const loginUser = async (payload: any) => {
     name: user.name,
     email: user.email,
     role: user.role,
+    isPremium: user.isPremium,
   };
   const token = jwt.sign(userData, config.jwt_secret, {
     expiresIn: "1d",
@@ -57,8 +58,8 @@ const logoutUser = async () => {
 };
 
 const getMe = async (id: string) => {
- console.log(id);
- 
+  console.log(id);
+
   const user = await prisma.user.findUnique({
     where: {
       id,

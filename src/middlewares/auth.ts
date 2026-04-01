@@ -45,7 +45,11 @@ const auth = (...roles: UserRole[]) => {
         });
       }
 
-      req.user = decoded;
+      req.user = {
+        id: userData.id,
+        email: userData.email,
+        role: userData.role,
+      };
       next();
     } catch (error) {
       next(error);

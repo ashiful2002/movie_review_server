@@ -5,6 +5,7 @@ import { stripe } from "../../config/stripe.config";
 import config from "../../config";
 
 const checkout: RequestHandler = async (req, res, next) => {
+ 
   try {
     const result = await PaymentsService.checkout(req.body, req.user?.id);
 
@@ -53,7 +54,6 @@ const getPaymentHistory: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
-
 
 export const PaymentsController = {
   checkout,

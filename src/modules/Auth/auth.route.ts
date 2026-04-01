@@ -15,7 +15,7 @@ router.post(
   auth(UserRole.USER, UserRole.ADMIN),
   AuthController.logoutUser
 );
-router.get("/me", auth(UserRole.USER || UserRole.ADMIN), AuthController.getMe);
+router.get("/me", AuthController.getMe);
 router.patch("/me", auth(UserRole.USER), AuthController.updateProfile);
 
 export const AuthRoutes = router;
