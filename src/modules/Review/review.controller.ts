@@ -5,7 +5,13 @@ import { ReviewService } from "./review.service";
 const createReview: RequestHandler = async (req, res, next) => {
   try {
     const userId = req.user?.id;
-
+    if (!userId) {
+      return sendResponse(res, {
+        statusCode: 400,
+        success: false,
+        message: "User ID is required",
+      });
+    }
     const result = await ReviewService.createReview(userId, req.body);
 
     sendResponse(res, {
@@ -162,4 +168,3 @@ export const ReviewController = {
   likeReview,
   unlikeReview,
 };
- 

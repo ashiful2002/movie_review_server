@@ -140,7 +140,7 @@ model Comment {
   user   User   @relation(fields: [userId], references: [id])
 
   reviewId String
-  review   Review @relation(fields: [reviewId], references: [id])
+  review   Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
 
   // Optional nested replies
   parentId String?

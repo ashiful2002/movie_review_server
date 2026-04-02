@@ -23,7 +23,11 @@ router.patch(
 );
 
 // create
-router.post("/", auth(UserRole.ADMIN), ReviewController.createReview);
+router.post(
+  "/",
+  auth(UserRole.USER, UserRole.ADMIN),
+  ReviewController.createReview
+);
 
 // get
 router.get("/:id", ReviewController.getSingleReview);
