@@ -1,0 +1,23 @@
+model Review {
+  id      String   @id @default(uuid())
+  rating  Int      @default(0)
+  content String
+  tags    String[]
+  spoiler Boolean  @default(false)
+
+  status   ReviewStatus @default(PENDING)
+  isEdited Boolean      @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  movieId String
+  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  comments Comment[]
+  likes    Like[]
+}

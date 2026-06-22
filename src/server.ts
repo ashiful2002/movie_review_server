@@ -1,10 +1,10 @@
 import app from "./app";
-import config from "./config";
+import { envVars } from "./app/config/env";
 
 async function main() {
   try {
-    app.listen(config.port, () => {
-      console.log(`Server running on http://localhost:${config.port}`);
+    app.listen(envVars.PORT, () => {
+      console.log(`Server running on http://localhost:${envVars.PORT}`);
     });
   } catch (err) {
     console.error(err);

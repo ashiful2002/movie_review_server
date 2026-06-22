@@ -1,0 +1,23 @@
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Genre {
+  id   String @id @default(uuid())
+  name String @unique
+
+  movies MovieGenre[]
+}
