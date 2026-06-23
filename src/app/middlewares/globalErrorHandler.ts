@@ -17,19 +17,19 @@ export const globalErrorHandller = (
   }
 
   let errorSources: TErrorSource[] = [];
-  let statusCode: number = status.INTERNAL_SERVER_ERROR;
+  let httpStatusCode: number = status.INTERNAL_SERVER_ERROR;
   let message: string = "internal server error";
   let stack: string | undefined = undefined;
 
   if (err instanceof z.ZodError) {
     const simplifiedError = handleZodError(err);
 
-    statusCode = simplifiedError.statusCode as number;
+    httpStatusCode = simplifiedError.httpStatusCode as number;
     message = simplifiedError.message;
     errorSources = [...simplifiedError.errorSources];
     // stack = err.stack;
   } else if (err instanceof AppError) {
-    statusCode = err.statusCode;
+    httpStatusCode = err.httpStatusCode;
     message = err.message;
     stack = err.stack;
     errorSources = [
@@ -39,7 +39,7 @@ export const globalErrorHandller = (
       },
     ];
   } else if (err instanceof Error) {
-    statusCode = status.INTERNAL_SERVER_ERROR;
+    httpStatusCode = status.INTERNAL_SERVER_ERROR;
     message = err.message;
     stack = err.stack;
   }
@@ -52,5 +52,5 @@ export const globalErrorHandller = (
     error: envVars.NODE_ENV === "development" ? err : "undefined",
   };
 
-  res.status(statusCode).json(errorResponse);
+  res.status(httpStatusCode).json(errorResponse);
 };

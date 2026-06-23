@@ -1,13 +1,13 @@
-import { Request, Response, NextFunction, RequestHandler } from "express";
+import { RequestHandler } from "express";
 import { MovieService } from "./movie.service";
-import sendResponse from "../../shared/sendResponse";
+import { sendResponse } from "../../shared/sendResponse";
 
 const getMovies: RequestHandler = async (req, res, next) => {
   try {
     const result = await MovieService.getMovies(req.query);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Movies fetched successfully",
       data: result,
@@ -22,7 +22,7 @@ const getSingleMovie: RequestHandler = async (req, res, next) => {
     const result = await MovieService.getSingleMovie(req.params.id as string);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Movie fetched successfully",
       data: result,
@@ -37,7 +37,7 @@ const getReviews: RequestHandler = async (req, res, next) => {
     const result = await MovieService.getReviews(req.params.movieId as string);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Reviews fetched successfully",
       data: result,
@@ -52,7 +52,7 @@ const createMovie: RequestHandler = async (req, res, next) => {
     const result = await MovieService.createMovie(req.body);
 
     sendResponse(res, {
-      statusCode: 201,
+      httpStatusCode: 201,
       success: true,
       message: "Movie created successfully",
       data: result,
@@ -70,7 +70,7 @@ const updateMovie: RequestHandler = async (req, res, next) => {
     );
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Movie updated successfully",
       data: result,
@@ -85,7 +85,7 @@ const deleteMovie: RequestHandler = async (req, res, next) => {
     const result = await MovieService.deleteMovie(req.params.id as string);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Movie deleted successfully",
       data: result,
@@ -103,7 +103,7 @@ const purchaseMovie: RequestHandler = async (req, res, next) => {
     );
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Movie purchased",
       data: result,
@@ -121,7 +121,7 @@ const rentMovie: RequestHandler = async (req, res, next) => {
     );
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Movie rented",
       data: result,

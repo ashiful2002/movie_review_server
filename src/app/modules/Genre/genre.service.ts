@@ -1,4 +1,7 @@
 import { prisma } from "../../lib/prisma";
+import { IGenrePayload } from "./genre.interface";
+
+
 
 const getAllGenres = async () => {
   return await prisma.genre.findMany();
@@ -7,23 +10,16 @@ const getAllGenres = async () => {
 const getGenreById = async (id: string) => {
   return await prisma.genre.findUnique({
     where: { id },
-    // include: {
-    //   movies: {
-    //     include: {
-    //       movie: true,
-    //     },
-    //   },
-    // },
   });
 };
 
-const createGenre = async (data: { name: string }) => {
+const createGenre = async (data: IGenrePayload) => {
   return await prisma.genre.create({
     data,
   });
 };
 
-const updateGenre = async (id: string, data: Partial<{ name: string }>) => {
+const updateGenre = async (id: string, data: Partial<IGenrePayload>) => {
   try {
     return await prisma.genre.update({
       where: { id },

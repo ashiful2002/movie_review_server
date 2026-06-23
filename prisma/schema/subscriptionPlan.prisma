@@ -1,17 +1,12 @@
 model SubscriptionPlan {
-    id       String @id @default(uuid())
-    name     String
-    price    Float
-    duration Int
-
-    stripePriceId String? @unique
-    // optional but useful
-    description   String?
-    isActive      Boolean @default(true)
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    // relations
-    subscriptions Subscription[]
+  id            String         @id @default(uuid())
+  name          String
+  price         Float
+  duration      Int
+  stripePriceId String?        @unique
+  description   String?
+  isActive      Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  subscriptions Subscription[]
 }

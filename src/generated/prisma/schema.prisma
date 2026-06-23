@@ -1,0 +1,357 @@
+model Activity {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String
+  movieId   String?
+  reviewId  String?
+  targetId  String?
+  createdAt DateTime @default(now())
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  review Review? @relation(fields: [reviewId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("activities")
+}
+
+model Admin {
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  profilePhoto  String?
+  contactNumber String?
+  isDeleted     Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@index([isDeleted])
+  @@map("admins")
+}
+
+model Comment {
+  id        String    @id @default(uuid())
+  content   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
+  userId    String
+  reviewId  String
+  parentId  String?
+  parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
+  replies   Comment[] @relation("CommentToComment")
+  review    Review    @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id])
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Follow {
+  id          String   @id @default(uuid())
+  followerId  String
+  followingId String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  follower  User @relation("Followers", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("Following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@index([followingId])
+  @@map("follows")
+}
+
+model Genre {
+  id        String  @id @default(uuid())
+  name      String  @unique
+  slug      String? @unique
+  image     String?
+  isActive  Boolean @default(true)
+  isDeleted Boolean @default(false)
+
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  deletedAt DateTime?
+  movies    MovieGenre[]
+
+  @@index([isDeleted])
+  @@index([name])
+  @@index([slug])
+  @@map("genres")
+}
+
+model MovieGenre {
+  movieId String
+  genreId String
+  genre   Genre  @relation(fields: [genreId], references: [id])
+  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@id([movieId, genreId])
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  userId    String
+  reviewId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  review    Review   @relation(fields: [reviewId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, reviewId])
+}
+
+model Movie {
+  id            String       @id @default(uuid())
+  title         String
+  description   String
+  releaseYear   Int
+  director      String
+  streamingLink String?
+  price         Float        @default(0)
+  isPremium     Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  ageRating     String?
+  awards        String[]
+  banner        String?
+  boxOffice     Float?
+  budget        Float?
+  cast          String[]
+  country       String?
+  duration      Int?
+  language      String?
+  rating        Float?
+  status        String?
+  subtitles     String[]
+  thumbnail     String?
+  trailerLink   String?
+  genres        MovieGenre[]
+  reviews       Review[]
+  watchlist     Watchlist[]
+}
+
+// Feature: Real-time Notifications
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String // 'review_liked', 'followed', 'subscription_renewed', 'comment_reply'
+  title     String
+  message   String
+  data      Json? // Metadata: reviewId, userId, etc.
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isRead])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+model Payment {
+  id     String @id @default(uuid())
+  userId String
+
+  amount             Float
+  status             PaymentStatus @default(PENDING)
+  transactionId      String?       @unique
+  subscriptionId     String?
+  invoiceUrl         String?
+  provider           String?
+  createdAt          DateTime      @default(now())
+  stripeEventId      String?       @unique
+  method             String?
+  paymentGatewayData Json?
+  currency           String?
+  refundedAmount     Float?
+  refundedAt         DateTime?
+  purchaseAt         DateTime      @default(now())
+  expiresAt          DateTime      @default(now())
+
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id])
+  user         User          @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model DocumentEmbedding {
+  id String @id @default(uuid())
+
+  chunkKey    String  @unique
+  sourceType  String
+  sourceId    String
+  sourceLabel String?
+  content     String
+  metadata    Json?
+
+  embedding Unsupported("vector(2048)")
+
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([sourceType], name: "idx_document_embeddings_sourceType")
+  @@index([sourceId], name: "idx_document_embeddings_sourceId")
+  @@map("document_embeddings")
+}
+
+model Review {
+  id              String           @id @default(uuid())
+  rating          Int              @default(0)
+  content         String
+  tags            String[]
+  spoiler         Boolean          @default(false)
+  status          ReviewStatus     @default(PENDING)
+  isEdited        Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  userId          String
+  movieId         String
+  comments        Comment[]
+  likes           Like[]
+  movie           Movie            @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  user            User             @relation(fields: [userId], references: [id])
+  reviewVotes     ReviewVote[]
+  activities      Activity[]
+  reviewAnalytics ReviewAnalytics?
+}
+
+model ReviewVote {
+  id        String   @id @default(uuid())
+  userId    String
+  reviewId  String
+  helpful   Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user   User   @relation("ReviewVotes", fields: [userId], references: [id])
+
+  @@unique([userId, reviewId])
+  @@index([reviewId])
+  @@map("review_votes")
+}
+
+model ReviewAnalytics {
+  id             String   @id @default(uuid())
+  reviewId       String   @unique
+  views          Int      @default(0)
+  helpfulCount   Int      @default(0)
+  unhelpfulCount Int      @default(0)
+  updatedAt      DateTime @updatedAt
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  @@map("review_analytics")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../../src/generated/prisma"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  extensions = [vector]
+}
+
+model Subscription {
+  id        String           @id @default(uuid())
+  userId    String
+  planId    String
+  startDate DateTime         @default(now())
+  expiresAt DateTime
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  payments  Payment[]
+  plan      SubscriptionPlan @relation(fields: [planId], references: [id])
+  user      User             @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model SubscriptionPlan {
+  id            String         @id @default(uuid())
+  name          String
+  price         Float
+  duration      Int
+  stripePriceId String?        @unique
+  description   String?
+  isActive      Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  subscriptions Subscription[]
+}
+
+model User {
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  password   String
+  role       UserRole @default(USER)
+  avatar     String?
+  isVerified Boolean  @default(false)
+  isDeleted  Boolean  @default(false)
+  provider   String?
+  providerId String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  isPremium  Boolean  @default(false)
+
+  comments      Comment[]
+  likes         Like[]
+  payments      Payment[]
+  reviews       Review[]
+  subscriptions Subscription[]
+  watchlist     Watchlist[]
+  admin         Admin?
+  notifications Notification[]
+  activities    Activity[]
+  reviewVotes   ReviewVote[]   @relation("ReviewVotes") // ← ADD THIS
+  followers     Follow[]       @relation("Followers") // Users who follow me
+  following     Follow[]       @relation("Following") // Users I follow
+
+  @@map("users")
+}
+
+model Watchlist {
+  id      String @id @default(uuid())
+  userId  String
+  movieId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id])
+
+  @@unique([userId, movieId])
+  @@map("watchlists")
+}

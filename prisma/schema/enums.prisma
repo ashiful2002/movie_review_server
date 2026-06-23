@@ -1,6 +1,7 @@
 enum UserRole {
   USER
   ADMIN
+  SUPER_ADMIN
 }
 
 enum PaymentStatus {
@@ -13,11 +14,4 @@ enum ReviewStatus {
   PENDING
   APPROVED
   REJECTED
-}
-
-model Genre {
-  id   String @id @default(uuid())
-  name String @unique
-
-  movies MovieGenre[]
 }

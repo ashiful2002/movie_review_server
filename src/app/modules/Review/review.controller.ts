@@ -1,13 +1,13 @@
-import { NextFunction, RequestHandler } from "express";
-import sendResponse from "../../shared/sendResponse";
+import { RequestHandler } from "express";
 import { ReviewService } from "./review.service";
+import { sendResponse } from "../../shared/sendResponse";
 
 const createReview: RequestHandler = async (req, res, next) => {
   try {
     const userId = req.user?.id;
     if (!userId) {
       return sendResponse(res, {
-        statusCode: 400,
+        httpStatusCode: 400,
         success: false,
         message: "User ID is required",
       });
@@ -15,7 +15,7 @@ const createReview: RequestHandler = async (req, res, next) => {
     const result = await ReviewService.createReview(userId, req.body);
 
     sendResponse(res, {
-      statusCode: 201,
+      httpStatusCode: 201,
       success: true,
       message: "Review created successfully",
       data: result,
@@ -30,7 +30,7 @@ const getSingleReview: RequestHandler = async (req, res, next) => {
     const result = await ReviewService.getSingleReview(req.params.id as string);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Review fetched",
       data: result,
@@ -49,7 +49,7 @@ const updateReview: RequestHandler = async (req, res, next) => {
     );
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Review updated",
       data: result,
@@ -64,7 +64,7 @@ const deleteReview: RequestHandler = async (req, res, next) => {
     await ReviewService.deleteReview(req.params.id as string, req.user?.id);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Review deleted",
       data: null,
@@ -80,7 +80,7 @@ const getPendingReviews: RequestHandler = async (req, res, next) => {
     const result = await ReviewService.getPendingReviews();
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Pending reviews",
       data: result,
@@ -95,7 +95,7 @@ const approveReview: RequestHandler = async (req, res, next) => {
     const result = await ReviewService.approveReview(req.params.id as string);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Review approved",
       data: result,
@@ -110,7 +110,7 @@ const rejectReview: RequestHandler = async (req, res, next) => {
     const result = await ReviewService.rejectReview(req.params.id as string);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Review rejected",
       data: result,
@@ -129,7 +129,7 @@ const likeReview: RequestHandler = async (req, res, next) => {
     );
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Review liked",
       data: result,
@@ -147,7 +147,7 @@ const unlikeReview: RequestHandler = async (req, res, next) => {
     );
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Like removed",
       data: result,

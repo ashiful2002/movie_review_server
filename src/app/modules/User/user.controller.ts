@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import sendResponse from "../../shared/sendResponse";
+import { sendResponse } from "../../shared/sendResponse";
 import { UserService } from "./user.service";
 
 const getUser: RequestHandler = async (req, res, next) => {
@@ -7,7 +7,7 @@ const getUser: RequestHandler = async (req, res, next) => {
     const result = await UserService.getUser(req.params.id as string);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "User fetched",
       data: result,
@@ -25,7 +25,7 @@ const updateUser: RequestHandler = async (req, res, next) => {
     );
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "User updated",
       data: result,
@@ -40,7 +40,7 @@ const deleteUser: RequestHandler = async (req, res, next) => {
     await UserService.deleteUser(req.params.id as string);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "User deleted",
       data: null,
@@ -56,7 +56,7 @@ const getMyWatchlist: RequestHandler = async (req, res, next) => {
     const result = await UserService.getMyWatchlist(req.user?.id);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Watchlist fetched",
       data: result,
@@ -74,7 +74,7 @@ const addToWatchlist: RequestHandler = async (req, res, next) => {
     );
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Added to watchlist",
       data: result,
@@ -92,7 +92,7 @@ const removeFromWatchlist: RequestHandler = async (req, res, next) => {
     );
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Removed from watchlist",
       data: result,
@@ -111,7 +111,7 @@ const checkAccess: RequestHandler = async (req, res, next) => {
     );
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Access checked",
       data: result,
@@ -127,7 +127,7 @@ const getMyPurchases: RequestHandler = async (req, res, next) => {
     const result = await UserService.getMyPurchases(req.user?.id);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Purchases fetched",
       data: result,

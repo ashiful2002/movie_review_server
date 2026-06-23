@@ -1,23 +1,36 @@
 model Review {
-  id      String   @id @default(uuid())
-  rating  Int      @default(0)
-  content String
-  tags    String[]
-  spoiler Boolean  @default(false)
+  id              String           @id @default(uuid())
+  rating          Int              @default(0)
+  content         String
+  tags            String[]
+  spoiler         Boolean          @default(false)
+  status          ReviewStatus     @default(PENDING)
+  isEdited        Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  userId          String
+  movieId         String
+  comments        Comment[]
+  likes           Like[]
+  movie           Movie            @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  user            User             @relation(fields: [userId], references: [id])
+  reviewVotes     ReviewVote[]
+  activities      Activity[]
+  reviewAnalytics ReviewAnalytics?
+}
 
-  status   ReviewStatus @default(PENDING)
-  isEdited Boolean      @default(false)
-
+model ReviewVote {
+  id        String   @id @default(uuid())
+  userId    String
+  reviewId  String
+  helpful   Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Relations
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user      User     @relation("ReviewVotes", fields: [userId], references: [id])
 
-  movieId String
-  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
-
-  comments Comment[]
-  likes    Like[]
+  @@unique([userId, reviewId])
+  @@index([reviewId])
+  @@map("review_votes")
 }

@@ -1,20 +1,25 @@
 model Payment {
-  stripeEventId String?       @unique
-  id            String        @id @default(uuid())
-  amount        Float
-  status        PaymentStatus @default(PENDING)
-  provider      String
-  method        String? // "stripe"
-  transactionId String?       @unique
-
-  createdAt DateTime @default(now())
-
-  // relations
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
-
+  id             String        @id @default(uuid())
+  userId         String
+  
+  amount         Float
+  status         PaymentStatus @default(PENDING)
+  transactionId  String?       @unique
   subscriptionId String?
+  invoiceUrl     String?
+  provider       String?
+  createdAt      DateTime      @default(now())
+  stripeEventId  String?       @unique
+  method         String?
+  paymentGatewayData Json?
+  currency       String?
+  refundedAmount Float?
+  refundedAt     DateTime?
+  purchaseAt     DateTime @default(now())
+  expiresAt      DateTime @default(now())
+  
   subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
+  user           User          @relation(fields: [userId], references: [id])
 
   @@index([userId])
 }

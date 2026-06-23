@@ -3,7 +3,7 @@ export interface TErrorSource {
   message: string;
 }
 export interface TErrorResponse {
-  statusCode?: number;
+  httpStatusCode?: number;
   success: boolean;
   message: string;
   errorSources: TErrorSource[];

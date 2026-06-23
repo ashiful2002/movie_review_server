@@ -1,14 +1,14 @@
 // genre.controller.ts
 import { RequestHandler } from "express";
 import { GenreService } from "./genre.service";
-import sendResponse from "../../shared/sendResponse";
-
+import { sendResponse } from "../../shared/sendResponse";
+ 
 const getGenres: RequestHandler = async (req, res, next) => {
   try {
     const result = await GenreService.getAllGenres();
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Genres fetched successfully",
       data: result,
@@ -23,7 +23,7 @@ const getSingleGenre: RequestHandler = async (req, res, next) => {
     const result = await GenreService.getGenreById(req.params.id as string);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Genre fetched successfully",
       data: result,
@@ -38,7 +38,7 @@ const createGenre: RequestHandler = async (req, res, next) => {
     const result = await GenreService.createGenre(req.body);
 
     sendResponse(res, {
-      statusCode: 201,
+      httpStatusCode: 201,
       success: true,
       message: "Genre created successfully",
       data: result,
@@ -56,7 +56,7 @@ const updateGenre: RequestHandler = async (req, res, next) => {
     );
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Genre updated successfully",
       data: result,
@@ -71,7 +71,7 @@ const deleteGenre: RequestHandler = async (req, res, next) => {
     await GenreService.deleteGenre(req.params.id as string);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Genre deleted successfully",
       data: null,

@@ -11,6 +11,8 @@ app.use(
   cors({
     origin: ["http://localhost:3000", "https://mm-db.vercel.app"],
     credentials: true,
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 

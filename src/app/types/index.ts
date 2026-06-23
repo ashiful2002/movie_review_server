@@ -24,7 +24,7 @@ type TMeta = {
 };
 
 type TResponse<T> = {
-  statusCode: number;
+  httpStatusCode: number;
   success: boolean;
   message?: string;
   meta?: TMeta;

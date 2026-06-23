@@ -1,16 +1,15 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import { PaymentsService } from "./payments.service";
-import sendResponse from "../../shared/sendResponse";
+import { sendResponse } from "../../shared/sendResponse";
 import { stripe } from "../../config/stripe.config";
 import config from "../../config";
 
 const checkout: RequestHandler = async (req, res, next) => {
- 
   try {
     const result = await PaymentsService.checkout(req.body, req.user?.id);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Checkout session created",
       data: result,
@@ -45,7 +44,7 @@ const getPaymentHistory: RequestHandler = async (req, res, next) => {
     const result = await PaymentsService.getPaymentHistory(req.user?.id);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Payment history fetched",
       data: result,

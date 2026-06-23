@@ -1,13 +1,13 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
- import sendResponse from "../../shared/sendResponse";
 import { AuthService } from "../Auth/auth.service";
+import { sendResponse } from "../../shared/sendResponse";
 
 const createUser: RequestHandler = async (req, res, next) => {
   try {
     const result = await AuthService.createUser(req.body);
 
     sendResponse(res, {
-      statusCode: 201,
+      httpStatusCode: 201,
       success: true,
       message: "User registered successfully",
       data: result,
@@ -27,7 +27,7 @@ const loginUser: RequestHandler = async (req, res, next) => {
     });
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Login successful",
       data: result,
@@ -44,7 +44,7 @@ const logoutUser: RequestHandler = async (req, res, next) => {
     res.clearCookie("token");
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Logout successful",
       data: result,
@@ -59,7 +59,7 @@ const getMe: RequestHandler = async (req, res, next) => {
     const result = await AuthService.getMe(req.user?.id);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Current user fetched",
       data: result,
@@ -74,7 +74,7 @@ const updateProfile: RequestHandler = async (req, res, next) => {
     const result = await AuthService.updateProfile(req.user?.id, req.body);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Profile updated",
       data: result,

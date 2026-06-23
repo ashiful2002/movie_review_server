@@ -3,7 +3,7 @@ import z from "zod";
 import { TErrorResponse, TErrorSource } from "../interfaces/error.interface";
  
 export const handleZodError = (err: z.ZodError): TErrorResponse => {
-  let statusCode = status.BAD_REQUEST;
+  let httpStatusCode = status.BAD_REQUEST;
   let message = "Zod Validation Error";
   let errorSources: TErrorSource[] = [];
   err.issues.forEach((issue) => {
@@ -17,6 +17,6 @@ export const handleZodError = (err: z.ZodError): TErrorResponse => {
     success: false,
     message,
     errorSources,
-    statusCode,
+    httpStatusCode,
   };
 };

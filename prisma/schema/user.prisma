@@ -1,28 +1,30 @@
 model User {
-    id        String   @id @default(uuid())
-    name      String
-    email     String   @unique
-    password  String
-    role      UserRole @default(USER)
-    isPremium Boolean  @default(false)
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  password   String
+  role       UserRole @default(USER)
+  avatar     String?
+  isVerified Boolean  @default(false)
+  isDeleted  Boolean  @default(false)
+  provider   String?
+  providerId String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  isPremium  Boolean  @default(false)
 
-    avatar     String?
-    isVerified Boolean @default(false)
-    isDeleted  Boolean @default(false)
+  comments      Comment[]
+  likes         Like[]
+  payments      Payment[]
+  reviews       Review[]
+  subscriptions Subscription[]
+  watchlist     Watchlist[]
+  admin         Admin?
+  notifications Notification[]
+  activities    Activity[]
+  reviewVotes   ReviewVote[]   @relation("ReviewVotes") // ← ADD THIS
+  followers     Follow[]       @relation("Followers") // Users who follow me
+  following     Follow[]       @relation("Following") // Users I follow
 
-    provider   String? // google, github
-    providerId String? // oauth id
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    // Relations
-    reviews   Review[]
-    comments  Comment[]
-    likes     Like[]
-    watchlist Watchlist[]
-    payments  Payment[]
-    // purchases Purchase[]
-
-    subscriptions Subscription[]
+  @@map("users")
 }

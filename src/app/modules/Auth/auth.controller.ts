@@ -1,6 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { AuthService } from "./auth.service";
-import sendResponse from "../../shared/sendResponse";
+import { sendResponse } from "../../shared/sendResponse";
 
 const createUser: RequestHandler = async (
   req: Request,
@@ -11,7 +11,7 @@ const createUser: RequestHandler = async (
     const result = await AuthService.createUser(req.body);
 
     sendResponse(res, {
-      statusCode: 201,
+      httpStatusCode: 201,
       success: true,
       message: "User created successfully",
       data: result,
@@ -34,14 +34,11 @@ const loginUser: RequestHandler = async (
       httpOnly: true,
       sameSite: "strict",
 
-      //  ------ for production
-      //  secure: true,
-      //   httpsOnly: false,
-      //   sameSite: "lax",
+    
     });
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "User logged in successfull",
       data: result,
@@ -62,7 +59,7 @@ const getMe: RequestHandler = async (
     
     const result = await AuthService.getMe(req.user?.id);
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "get current user successfull",
       data: result,
@@ -75,7 +72,7 @@ const updateProfile: RequestHandler = async (req, res, next) => {
   try {
     const result = await AuthService.updateProfile(req.user?.id, req.body);
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Profile updated successfully",
       data: result,
@@ -92,7 +89,7 @@ const logoutUser: RequestHandler = async (req, res, next) => {
     res.clearCookie("token");
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Logout successful",
       data: null,

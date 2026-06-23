@@ -1,0 +1,13 @@
+ 
+model ReviewAnalytics {
+  id             String   @id @default(uuid())
+  reviewId       String   @unique
+  views          Int      @default(0)
+  helpfulCount   Int      @default(0)
+  unhelpfulCount Int      @default(0)
+  updatedAt      DateTime @updatedAt
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  @@map("review_analytics")
+}

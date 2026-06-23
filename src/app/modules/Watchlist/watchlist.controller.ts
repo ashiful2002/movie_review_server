@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import sendResponse from "../../shared/sendResponse";
+import { sendResponse } from "../../shared/sendResponse";
 import { WatchlistService } from "./watchlist.service";
 
 const addToWatchlist: RequestHandler = async (req, res, next) => {
@@ -10,7 +10,7 @@ const addToWatchlist: RequestHandler = async (req, res, next) => {
     );
 
     sendResponse(res, {
-      statusCode: 201,
+      httpStatusCode: 201,
       success: true,
       message: "Added to watchlist",
       data: result,
@@ -25,7 +25,7 @@ const getWatchlist: RequestHandler = async (req, res, next) => {
     const result = await WatchlistService.getWatchlist(req.user?.id);
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Watchlist fetched",
       data: result,
@@ -43,7 +43,7 @@ const removeFromWatchlist: RequestHandler = async (req, res, next) => {
     );
 
     sendResponse(res, {
-      statusCode: 200,
+      httpStatusCode: 200,
       success: true,
       message: "Removed from watchlist",
       data: result,
