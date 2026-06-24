@@ -2,21 +2,22 @@
 import { RequestHandler } from "express";
 import { GenreService } from "./genre.service";
 import { sendResponse } from "../../shared/sendResponse";
- 
-const getGenres: RequestHandler = async (req, res, next) => {
-  try {
-    const result = await GenreService.getAllGenres();
+import { IQueryParams } from "../../interfaces/query.interface";
+import { catchAsync } from "../../shared/catchAsync";
 
-    sendResponse(res, {
-      httpStatusCode: 200,
-      success: true,
-      message: "Genres fetched successfully",
-      data: result,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+const getGenres = catchAsync(async (req, res) => {
+  const query = req.query;
+  const result = await GenreService.getAllGenres(query as IQueryParams);
+  console.log(result);
+
+  sendResponse(res, {
+    httpStatusCode: 200,
+    success: true,
+    message: "Genres fetched successfully",
+    data: result.data,
+    meta: result.meta,
+  });
+});
 
 const getSingleGenre: RequestHandler = async (req, res, next) => {
   try {
@@ -27,7 +28,7 @@ const getSingleGenre: RequestHandler = async (req, res, next) => {
       success: true,
       message: "Genre fetched successfully",
       data: result,
-    });
+     });
   } catch (err) {
     next(err);
   }
@@ -36,6 +37,7 @@ const getSingleGenre: RequestHandler = async (req, res, next) => {
 const createGenre: RequestHandler = async (req, res, next) => {
   try {
     const result = await GenreService.createGenre(req.body);
+    console.log("genre from controller", result);
 
     sendResponse(res, {
       httpStatusCode: 201,

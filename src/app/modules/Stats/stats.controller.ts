@@ -3,7 +3,7 @@ import { catchAsync } from "../../shared/catchAsync";
 import status from "http-status";
 import { sendResponse } from "../../shared/sendResponse";
 import { StatsService } from "./stats.service";
- 
+
 const getStats = catchAsync(async (req: Request, res: Response) => {
   const user = req.user;
   const result = await StatsService.getDashboardStatsData(user as any);

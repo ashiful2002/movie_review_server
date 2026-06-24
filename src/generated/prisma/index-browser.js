@@ -322,13 +322,15 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   role: 'role',
   avatar: 'avatar',
-  isVerified: 'isVerified',
+  emailVerified: 'emailVerified',
   isDeleted: 'isDeleted',
   provider: 'provider',
   providerId: 'providerId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  isPremium: 'isPremium'
+  isPremium: 'isPremium',
+  needPasswordChange: 'needPasswordChange',
+  rememberMe: 'rememberMe'
 };
 
 exports.Prisma.WatchlistScalarFieldEnum = {

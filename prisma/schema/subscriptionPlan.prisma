@@ -9,4 +9,6 @@ model SubscriptionPlan {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   subscriptions Subscription[]
+
+  @@map("subscriptionPlans")
 }

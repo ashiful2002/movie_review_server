@@ -1,8 +1,12 @@
-import { RequestHandler } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { ReviewService } from "./review.service";
 import { sendResponse } from "../../shared/sendResponse";
 
-const createReview: RequestHandler = async (req, res, next) => {
+const createReview: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const userId = req.user?.id;
     if (!userId) {

@@ -48,6 +48,8 @@ model Comment {
   replies   Comment[] @relation("CommentToComment")
   review    Review    @relation(fields: [reviewId], references: [id], onDelete: Cascade)
   user      User      @relation(fields: [userId], references: [id])
+
+  @@map("comments")
 }
 
 enum UserRole {
@@ -121,6 +123,7 @@ model Like {
   user      User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, reviewId])
+  @@map("likes")
 }
 
 model Movie {
@@ -151,6 +154,10 @@ model Movie {
   genres        MovieGenre[]
   reviews       Review[]
   watchlist     Watchlist[]
+
+  @@index([id])
+  @@index([title])
+  @@map("movies")
 }
 
 // Feature: Real-time Notifications
@@ -197,6 +204,7 @@ model Payment {
   user         User          @relation(fields: [userId], references: [id])
 
   @@index([userId])
+  @@map("payments")
 }
 
 model DocumentEmbedding {
@@ -308,22 +316,26 @@ model SubscriptionPlan {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   subscriptions Subscription[]
+
+  @@map("subscriptionPlans")
 }
 
 model User {
-  id         String   @id @default(uuid())
-  name       String
-  email      String   @unique
-  password   String
-  role       UserRole @default(USER)
-  avatar     String?
-  isVerified Boolean  @default(false)
-  isDeleted  Boolean  @default(false)
-  provider   String?
-  providerId String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  isPremium  Boolean  @default(false)
+  id                 String   @id @default(uuid())
+  name               String
+  email              String   @unique
+  password           String
+  role               UserRole @default(USER)
+  avatar             String?
+  emailVerified      Boolean  @default(false)
+  isDeleted          Boolean  @default(false)
+  provider           String?
+  providerId         String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  isPremium          Boolean  @default(false)
+  needPasswordChange Boolean  @default(true)
+  rememberMe         Boolean  @default(false)
 
   comments      Comment[]
   likes         Like[]
@@ -334,9 +346,9 @@ model User {
   admin         Admin?
   notifications Notification[]
   activities    Activity[]
-  reviewVotes   ReviewVote[]   @relation("ReviewVotes") // ← ADD THIS
-  followers     Follow[]       @relation("Followers") // Users who follow me
-  following     Follow[]       @relation("Following") // Users I follow
+  reviewVotes   ReviewVote[]   @relation("ReviewVotes")
+  followers     Follow[]       @relation("Followers")
+  following     Follow[]       @relation("Following")
 
   @@map("users")
 }

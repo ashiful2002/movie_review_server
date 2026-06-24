@@ -16,7 +16,7 @@ model Genre {
   @@index([slug])
   @@map("genres")
 }
-
+ 
 model MovieGenre {
   movieId String
   genreId String

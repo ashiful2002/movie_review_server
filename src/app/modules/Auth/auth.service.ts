@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import config from "../../config";
 import { prisma } from "../../lib/prisma";
+import { envVars } from "../../config/env";
 
 const createUser = async (payload: any) => {
   console.log("Service: createUser", payload);
@@ -41,7 +41,7 @@ const loginUser = async (payload: any) => {
     role: user.role,
     isPremium: user.isPremium,
   };
-  const token = jwt.sign(userData, config.jwt_secret, {
+  const token = jwt.sign(userData, envVars.JWT_SECRET, {
     expiresIn: "1d",
   });
 

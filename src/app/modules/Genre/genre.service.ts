@@ -1,22 +1,50 @@
+import { Genre, Prisma } from "../../../generated/prisma";
+import { IQueryParams } from "../../interfaces/query.interface";
 import { prisma } from "../../lib/prisma";
+import { QueryBuilder } from "../../utils/QueryBuilder";
 import { IGenrePayload } from "./genre.interface";
 
+const getAllGenres = async (query: IQueryParams) => {
+  const queryBuilder = new QueryBuilder<
+    Genre,
+    Prisma.GenreWhereInput,
+    Prisma.GenreInclude
+  >(prisma.genre, query);
 
+  const result = await queryBuilder
+    .where({
+      isDeleted: false,
+    })
+    .include({
+      movies: true,
+    })
+    .paginate()
+    .sort()
+    .fields()
+    .execute();
 
-const getAllGenres = async () => {
-  return await prisma.genre.findMany();
+  return result;
 };
 
 const getGenreById = async (id: string) => {
   return await prisma.genre.findUnique({
     where: { id },
+    include: {
+      movies: true,
+      _count: {
+        select: {
+          movies: true,
+        },
+      },
+    },
   });
 };
 
 const createGenre = async (data: IGenrePayload) => {
-  return await prisma.genre.create({
+  const genre = await prisma.genre.create({
     data,
   });
+  return genre;
 };
 
 const updateGenre = async (id: string, data: Partial<IGenrePayload>) => {

@@ -1,9 +1,5 @@
+import { ReviewStatus } from "../../../generated/prisma";
 import { prisma } from "../../lib/prisma";
-import { ReviewStatus } from "@prisma/client";
-
-//////////////////////////////////////////////////////
-// CREATE REVIEW
-//////////////////////////////////////////////////////
 
 const createReview = async (userId: string, payload: any) => {
   const { movieId, rating, content, tags, spoiler } = payload;
@@ -29,10 +25,6 @@ const createReview = async (userId: string, payload: any) => {
   });
 };
 
-//////////////////////////////////////////////////////
-// GET SINGLE REVIEW
-//////////////////////////////////////////////////////
-
 const getSingleReview = async (id: string) => {
   const review = await prisma.review.findUnique({
     where: { id },
@@ -48,10 +40,6 @@ const getSingleReview = async (id: string) => {
 
   return review;
 };
-
-//////////////////////////////////////////////////////
-// UPDATE REVIEW
-//////////////////////////////////////////////////////
 
 const updateReview = async (id: string, userId: string, payload: any) => {
   const existingReview = await prisma.review.findUnique({
@@ -78,10 +66,6 @@ const updateReview = async (id: string, userId: string, payload: any) => {
   });
 };
 
-//////////////////////////////////////////////////////
-// DELETE REVIEW
-//////////////////////////////////////////////////////
-
 const deleteReview = async (id: string, userId: string) => {
   const existing = await prisma.review.findUnique({
     where: { id },
@@ -96,10 +80,6 @@ const deleteReview = async (id: string, userId: string) => {
 
   return { message: "Review deleted successfully" };
 };
-
-//////////////////////////////////////////////////////
-// ADMIN: MODERATION
-//////////////////////////////////////////////////////
 
 const getPendingReviews = async () => {
   return await prisma.review.findMany({
@@ -124,10 +104,6 @@ const rejectReview = async (id: string) => {
     data: { status: ReviewStatus.REJECTED },
   });
 };
-
-//////////////////////////////////////////////////////
-// LIKE SYSTEM (TOGGLE)
-//////////////////////////////////////////////////////
 
 const likeReview = async (reviewId: string, userId: string) => {
   const existing = await prisma.like.findUnique({
@@ -176,10 +152,6 @@ const unlikeReview = async (reviewId: string, userId: string) => {
 
   return { message: "Unliked successfully" };
 };
-
-//////////////////////////////////////////////////////
-// EXPORT
-//////////////////////////////////////////////////////
 
 export const ReviewService = {
   createReview,

@@ -33,8 +33,6 @@ const loginUser: RequestHandler = async (
       secure: false,
       httpOnly: true,
       sameSite: "strict",
-
-    
     });
 
     sendResponse(res, {
@@ -48,15 +46,8 @@ const loginUser: RequestHandler = async (
   }
 };
 
-const getMe: RequestHandler = async (
-  req,
-  res,
-  next: NextFunction
-) => {
+const getMe: RequestHandler = async (req, res, next: NextFunction) => {
   try {
-
-    console.log(req.user);
-    
     const result = await AuthService.getMe(req.user?.id);
     sendResponse(res, {
       httpStatusCode: 200,

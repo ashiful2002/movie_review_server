@@ -1,8 +1,12 @@
-import { RequestHandler } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { sendResponse } from "../../shared/sendResponse";
 import { WatchlistService } from "./watchlist.service";
 
-const addToWatchlist: RequestHandler = async (req, res, next) => {
+const addToWatchlist: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const result = await WatchlistService.addToWatchlist(
       req.user?.id,

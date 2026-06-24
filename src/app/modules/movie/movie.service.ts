@@ -1,5 +1,6 @@
 import { prisma } from "../../lib/prisma";
 
+ 
 const getMovies = async (query: any) => {
   console.log("Service: getMovies", query);
 

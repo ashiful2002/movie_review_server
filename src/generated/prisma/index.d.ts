@@ -21071,13 +21071,15 @@ export namespace Prisma {
     password: string | null
     role: $Enums.UserRole | null
     avatar: string | null
-    isVerified: boolean | null
+    emailVerified: boolean | null
     isDeleted: boolean | null
     provider: string | null
     providerId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     isPremium: boolean | null
+    needPasswordChange: boolean | null
+    rememberMe: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -21087,13 +21089,15 @@ export namespace Prisma {
     password: string | null
     role: $Enums.UserRole | null
     avatar: string | null
-    isVerified: boolean | null
+    emailVerified: boolean | null
     isDeleted: boolean | null
     provider: string | null
     providerId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     isPremium: boolean | null
+    needPasswordChange: boolean | null
+    rememberMe: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -21103,13 +21107,15 @@ export namespace Prisma {
     password: number
     role: number
     avatar: number
-    isVerified: number
+    emailVerified: number
     isDeleted: number
     provider: number
     providerId: number
     createdAt: number
     updatedAt: number
     isPremium: number
+    needPasswordChange: number
+    rememberMe: number
     _all: number
   }
 
@@ -21121,13 +21127,15 @@ export namespace Prisma {
     password?: true
     role?: true
     avatar?: true
-    isVerified?: true
+    emailVerified?: true
     isDeleted?: true
     provider?: true
     providerId?: true
     createdAt?: true
     updatedAt?: true
     isPremium?: true
+    needPasswordChange?: true
+    rememberMe?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -21137,13 +21145,15 @@ export namespace Prisma {
     password?: true
     role?: true
     avatar?: true
-    isVerified?: true
+    emailVerified?: true
     isDeleted?: true
     provider?: true
     providerId?: true
     createdAt?: true
     updatedAt?: true
     isPremium?: true
+    needPasswordChange?: true
+    rememberMe?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -21153,13 +21163,15 @@ export namespace Prisma {
     password?: true
     role?: true
     avatar?: true
-    isVerified?: true
+    emailVerified?: true
     isDeleted?: true
     provider?: true
     providerId?: true
     createdAt?: true
     updatedAt?: true
     isPremium?: true
+    needPasswordChange?: true
+    rememberMe?: true
     _all?: true
   }
 
@@ -21242,13 +21254,15 @@ export namespace Prisma {
     password: string
     role: $Enums.UserRole
     avatar: string | null
-    isVerified: boolean
+    emailVerified: boolean
     isDeleted: boolean
     provider: string | null
     providerId: string | null
     createdAt: Date
     updatedAt: Date
     isPremium: boolean
+    needPasswordChange: boolean
+    rememberMe: boolean
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -21275,13 +21289,15 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     avatar?: boolean
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: boolean
     providerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: boolean | User$commentsArgs<ExtArgs>
     likes?: boolean | User$likesArgs<ExtArgs>
     payments?: boolean | User$paymentsArgs<ExtArgs>
@@ -21304,13 +21320,15 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     avatar?: boolean
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: boolean
     providerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -21320,13 +21338,15 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     avatar?: boolean
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: boolean
     providerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -21336,16 +21356,18 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     avatar?: boolean
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: boolean
     providerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "avatar" | "isVerified" | "isDeleted" | "provider" | "providerId" | "createdAt" | "updatedAt" | "isPremium", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "avatar" | "emailVerified" | "isDeleted" | "provider" | "providerId" | "createdAt" | "updatedAt" | "isPremium" | "needPasswordChange" | "rememberMe", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     comments?: boolean | User$commentsArgs<ExtArgs>
     likes?: boolean | User$likesArgs<ExtArgs>
@@ -21387,13 +21409,15 @@ export namespace Prisma {
       password: string
       role: $Enums.UserRole
       avatar: string | null
-      isVerified: boolean
+      emailVerified: boolean
       isDeleted: boolean
       provider: string | null
       providerId: string | null
       createdAt: Date
       updatedAt: Date
       isPremium: boolean
+      needPasswordChange: boolean
+      rememberMe: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -21835,13 +21859,15 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'UserRole'>
     readonly avatar: FieldRef<"User", 'String'>
-    readonly isVerified: FieldRef<"User", 'Boolean'>
+    readonly emailVerified: FieldRef<"User", 'Boolean'>
     readonly isDeleted: FieldRef<"User", 'Boolean'>
     readonly provider: FieldRef<"User", 'String'>
     readonly providerId: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly isPremium: FieldRef<"User", 'Boolean'>
+    readonly needPasswordChange: FieldRef<"User", 'Boolean'>
+    readonly rememberMe: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -23871,13 +23897,15 @@ export namespace Prisma {
     password: 'password',
     role: 'role',
     avatar: 'avatar',
-    isVerified: 'isVerified',
+    emailVerified: 'emailVerified',
     isDeleted: 'isDeleted',
     provider: 'provider',
     providerId: 'providerId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    isPremium: 'isPremium'
+    isPremium: 'isPremium',
+    needPasswordChange: 'needPasswordChange',
+    rememberMe: 'rememberMe'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -25355,13 +25383,15 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     avatar?: StringNullableFilter<"User"> | string | null
-    isVerified?: BoolFilter<"User"> | boolean
+    emailVerified?: BoolFilter<"User"> | boolean
     isDeleted?: BoolFilter<"User"> | boolean
     provider?: StringNullableFilter<"User"> | string | null
     providerId?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     isPremium?: BoolFilter<"User"> | boolean
+    needPasswordChange?: BoolFilter<"User"> | boolean
+    rememberMe?: BoolFilter<"User"> | boolean
     comments?: CommentListRelationFilter
     likes?: LikeListRelationFilter
     payments?: PaymentListRelationFilter
@@ -25383,13 +25413,15 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     avatar?: SortOrderInput | SortOrder
-    isVerified?: SortOrder
+    emailVerified?: SortOrder
     isDeleted?: SortOrder
     provider?: SortOrderInput | SortOrder
     providerId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     isPremium?: SortOrder
+    needPasswordChange?: SortOrder
+    rememberMe?: SortOrder
     comments?: CommentOrderByRelationAggregateInput
     likes?: LikeOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
@@ -25414,13 +25446,15 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     avatar?: StringNullableFilter<"User"> | string | null
-    isVerified?: BoolFilter<"User"> | boolean
+    emailVerified?: BoolFilter<"User"> | boolean
     isDeleted?: BoolFilter<"User"> | boolean
     provider?: StringNullableFilter<"User"> | string | null
     providerId?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     isPremium?: BoolFilter<"User"> | boolean
+    needPasswordChange?: BoolFilter<"User"> | boolean
+    rememberMe?: BoolFilter<"User"> | boolean
     comments?: CommentListRelationFilter
     likes?: LikeListRelationFilter
     payments?: PaymentListRelationFilter
@@ -25442,13 +25476,15 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     avatar?: SortOrderInput | SortOrder
-    isVerified?: SortOrder
+    emailVerified?: SortOrder
     isDeleted?: SortOrder
     provider?: SortOrderInput | SortOrder
     providerId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     isPremium?: SortOrder
+    needPasswordChange?: SortOrder
+    rememberMe?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -25464,13 +25500,15 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"User"> | string
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
     avatar?: StringNullableWithAggregatesFilter<"User"> | string | null
-    isVerified?: BoolWithAggregatesFilter<"User"> | boolean
+    emailVerified?: BoolWithAggregatesFilter<"User"> | boolean
     isDeleted?: BoolWithAggregatesFilter<"User"> | boolean
     provider?: StringNullableWithAggregatesFilter<"User"> | string | null
     providerId?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     isPremium?: BoolWithAggregatesFilter<"User"> | boolean
+    needPasswordChange?: BoolWithAggregatesFilter<"User"> | boolean
+    rememberMe?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
   export type WatchlistWhereInput = {
@@ -26889,13 +26927,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -26917,13 +26957,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -26945,13 +26987,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -26973,13 +27017,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -27001,13 +27047,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -27017,13 +27065,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -27033,13 +27083,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type WatchlistCreateInput = {
@@ -28252,13 +28304,15 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     avatar?: SortOrder
-    isVerified?: SortOrder
+    emailVerified?: SortOrder
     isDeleted?: SortOrder
     provider?: SortOrder
     providerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     isPremium?: SortOrder
+    needPasswordChange?: SortOrder
+    rememberMe?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -28268,13 +28322,15 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     avatar?: SortOrder
-    isVerified?: SortOrder
+    emailVerified?: SortOrder
     isDeleted?: SortOrder
     provider?: SortOrder
     providerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     isPremium?: SortOrder
+    needPasswordChange?: SortOrder
+    rememberMe?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -28284,13 +28340,15 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     avatar?: SortOrder
-    isVerified?: SortOrder
+    emailVerified?: SortOrder
     isDeleted?: SortOrder
     provider?: SortOrder
     providerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     isPremium?: SortOrder
+    needPasswordChange?: SortOrder
+    rememberMe?: SortOrder
   }
 
   export type EnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -30076,13 +30134,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -30103,13 +30163,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -30187,13 +30249,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -30214,13 +30278,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -30288,13 +30354,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -30315,13 +30383,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -30358,13 +30428,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -30385,13 +30457,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -30516,13 +30590,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
@@ -30543,13 +30619,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
@@ -30699,13 +30777,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
@@ -30726,13 +30806,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
@@ -30753,13 +30835,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -30780,13 +30864,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -30812,13 +30898,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -30839,13 +30927,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -30882,13 +30972,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -30909,13 +31001,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -30947,13 +31041,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -30974,13 +31070,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -31280,13 +31378,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
@@ -31307,13 +31407,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
@@ -31397,13 +31499,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
@@ -31424,13 +31528,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
@@ -31615,13 +31721,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -31642,13 +31750,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -31685,13 +31795,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -31712,13 +31824,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -31764,13 +31878,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
@@ -31791,13 +31907,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
@@ -31865,13 +31983,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
@@ -31892,13 +32012,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
@@ -32040,13 +32162,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -32067,13 +32191,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -32297,13 +32423,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -32324,13 +32452,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -32476,13 +32606,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -32503,13 +32635,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -32593,13 +32727,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -32620,13 +32756,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -32812,13 +32950,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -32839,13 +32979,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -32956,13 +33098,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -32983,13 +33127,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -33738,13 +33884,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -33765,13 +33913,15 @@ export namespace Prisma {
     password: string
     role?: $Enums.UserRole
     avatar?: string | null
-    isVerified?: boolean
+    emailVerified?: boolean
     isDeleted?: boolean
     provider?: string | null
     providerId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -33877,13 +34027,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -33904,13 +34056,15 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput

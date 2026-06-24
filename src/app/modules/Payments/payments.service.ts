@@ -1,14 +1,14 @@
 import { stripe } from "../../config/stripe.config";
 import { prisma } from "../../lib/prisma";
-import { PaymentStatus } from "@prisma/client";
 import config from "../../config";
+import { PaymentStatus } from "../../../generated/prisma";
 
 const checkout = async (payload: any, userId: string) => {
   let dbAmount = payload.amount || 10;
   let productName = payload.productName || "Purchase";
   let metadata: any = { userId };
- console.log(userId);
- 
+  console.log(userId);
+
   // Fetch true price from DB if planId is provided
   if (payload.planId) {
     const plan = await prisma.subscriptionPlan.findUnique({

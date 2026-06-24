@@ -1,8 +1,12 @@
-import { RequestHandler } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { sendResponse } from "../../shared/sendResponse";
 import { UserService } from "./user.service";
 
-const getUser: RequestHandler = async (req, res, next) => {
+const getUser: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const result = await UserService.getUser(req.params.id as string);
 

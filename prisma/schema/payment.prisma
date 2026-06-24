@@ -1,25 +1,26 @@
 model Payment {
-  id             String        @id @default(uuid())
-  userId         String
-  
-  amount         Float
-  status         PaymentStatus @default(PENDING)
-  transactionId  String?       @unique
-  subscriptionId String?
-  invoiceUrl     String?
-  provider       String?
-  createdAt      DateTime      @default(now())
-  stripeEventId  String?       @unique
-  method         String?
+  id     String @id @default(uuid())
+  userId String
+
+  amount             Float
+  status             PaymentStatus @default(PENDING)
+  transactionId      String?       @unique
+  subscriptionId     String?
+  invoiceUrl         String?
+  provider           String?
+  createdAt          DateTime      @default(now())
+  stripeEventId      String?       @unique
+  method             String?
   paymentGatewayData Json?
-  currency       String?
-  refundedAmount Float?
-  refundedAt     DateTime?
-  purchaseAt     DateTime @default(now())
-  expiresAt      DateTime @default(now())
-  
-  subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
-  user           User          @relation(fields: [userId], references: [id])
+  currency           String?
+  refundedAmount     Float?
+  refundedAt         DateTime?
+  purchaseAt         DateTime      @default(now())
+  expiresAt          DateTime      @default(now())
+
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id])
+  user         User          @relation(fields: [userId], references: [id])
 
   @@index([userId])
+  @@map("payments")
 }

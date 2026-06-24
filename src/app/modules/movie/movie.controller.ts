@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { MovieService } from "./movie.service";
 import { sendResponse } from "../../shared/sendResponse";
+import { prisma } from "../../lib/prisma";
 
 const getMovies: RequestHandler = async (req, res, next) => {
   try {
@@ -49,8 +50,25 @@ const getReviews: RequestHandler = async (req, res, next) => {
 
 const createMovie: RequestHandler = async (req, res, next) => {
   try {
+    const { title, description, releaseYear, director, genres } = req.body;
     const result = await MovieService.createMovie(req.body);
+    // Validation
+    if (!title || !description || !releaseYear || !director) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
 
+    if (!Array.isArray(genres) || genres.length === 0) {
+      return res.status(400).json({ error: "At least one genre is required" });
+    }
+
+    // Verify all genres exist
+    const existingGenres = await prisma.genre.findMany({
+      where: { id: { in: genres } },
+    });
+
+    if (existingGenres.length !== genres.length) {
+      return res.status(400).json({ error: "One or more genres do not exist" });
+    }
     sendResponse(res, {
       httpStatusCode: 201,
       success: true,

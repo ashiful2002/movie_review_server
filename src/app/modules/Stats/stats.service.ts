@@ -1,8 +1,8 @@
 import status from "http-status";
 import AppError from "../../errorHelpers/AppError";
 import { IRequestUser } from "../../interfaces/requestUser.interface";
-import { UserRole } from "@prisma/client";
 import { prisma } from "../../lib/prisma";
+import { UserRole } from "../../../generated/prisma";
 
 const getDashboardStatsData = async (user: IRequestUser) => {
   let statsData;

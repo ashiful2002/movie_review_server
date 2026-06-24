@@ -12,4 +12,6 @@ model Comment {
   replies   Comment[] @relation("CommentToComment")
   review    Review    @relation(fields: [reviewId], references: [id], onDelete: Cascade)
   user      User      @relation(fields: [userId], references: [id])
+
+  @@map("comments")
 }

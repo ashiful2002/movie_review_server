@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { SubscriptionController } from "./subscription.controller";
 import auth from "../../middlewares/auth";
-import { UserRole } from "@prisma/client";
-
+import { UserRole } from "../../../generated/prisma";
+ 
 const router = Router();
 
 // Public route for the frontend to list plans on the pricing page

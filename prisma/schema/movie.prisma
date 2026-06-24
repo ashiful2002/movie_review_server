@@ -1,14 +1,14 @@
 model Movie {
-  id            String                 @id @default(uuid())
+  id            String       @id @default(uuid())
   title         String
   description   String
   releaseYear   Int
   director      String
   streamingLink String?
-  price         Float                  @default(0)
-  isPremium     Boolean                @default(false)
-  createdAt     DateTime               @default(now())
-  updatedAt     DateTime               @updatedAt
+  price         Float        @default(0)
+  isPremium     Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
   ageRating     String?
   awards        String[]
   banner        String?
@@ -26,4 +26,8 @@ model Movie {
   genres        MovieGenre[]
   reviews       Review[]
   watchlist     Watchlist[]
+ 
+  @@index([id])
+  @@index([title])
+  @@map("movies")
 }
