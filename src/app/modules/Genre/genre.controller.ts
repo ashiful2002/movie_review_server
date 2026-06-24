@@ -14,8 +14,8 @@ const getGenres = catchAsync(async (req, res) => {
     httpStatusCode: 200,
     success: true,
     message: "Genres fetched successfully",
-    data: result.data,
     meta: result.meta,
+    data: result.data,
   });
 });
 
@@ -28,7 +28,7 @@ const getSingleGenre: RequestHandler = async (req, res, next) => {
       success: true,
       message: "Genre fetched successfully",
       data: result,
-     });
+    });
   } catch (err) {
     next(err);
   }

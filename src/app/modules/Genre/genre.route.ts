@@ -12,7 +12,7 @@ router.post(
   auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
   GenreController.createGenre
 );
-router.put(
+router.patch(
   "/:id",
   auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
   GenreController.updateGenre

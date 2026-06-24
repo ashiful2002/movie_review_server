@@ -1,59 +1,22 @@
+import { Movie, Prisma } from "../../../generated/prisma";
+import { IQueryParams } from "../../interfaces/query.interface";
 import { prisma } from "../../lib/prisma";
+import { QueryBuilder } from "../../utils/QueryBuilder";
 
- 
-const getMovies = async (query: any) => {
-  console.log("Service: getMovies", query);
+const getMovies = async (query: IQueryParams) => {
+  const queryBuilder = new QueryBuilder<
+    Movie,
+    Prisma.MovieWhereInput,
+    Prisma.MovieInclude
+  >(prisma.movie, query);
 
-  const { search, genre, year, rating } = query;
-
-  const where: any = {};
-
-  if (search) {
-    where.title = {
-      contains: search,
-      mode: "insensitive",
-    };
-  }
-
-  if (genre) {
-    where.genres = {
-      some: {
-        genre: {
-          name: genre,
-        },
-      },
-    };
-  }
-
-  if (year) {
-    where.releaseYear = Number(year);
-  }
-
-  if (rating) {
-    where.reviews = {
-      some: {
-        rating: {
-          gte: Number(rating),
-        },
-      },
-    };
-  }
-  const data = await prisma.movie.findMany({
-    where,
-    include: {
-      reviews: true,
-      genres: {
-        include: {
-          genre: true,
-        },
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
-  return { data };
+  const result = await queryBuilder
+    .include({ genres: true, reviews: true })
+    .paginate()
+    .sort()
+    .fields()
+    .execute();
+  return result;
 };
 
 const getSingleMovie = async (id: string) => {
@@ -88,20 +51,27 @@ const getReviews = async (movieId: string) => {
 };
 
 const createMovie = async (payload: any) => {
-  const { genreIds, ...movieData } = payload;
-  console.log(payload);
+  const { genreIds = [], ...movieData } = payload;
 
   try {
+    const existingGenres = await prisma.genre.findMany({
+      where: { id: { in: genreIds } },
+    });
+
+    if (existingGenres.length !== genreIds.length) {
+      throw new Error("One or more genres do not exist");
+    }
+
     const movie = await prisma.movie.create({
       data: {
         ...movieData,
-        genres: genreIds?.length
-          ? {
-              create: genreIds.map((id: string) => ({
-                genreId: id,
-              })),
-            }
-          : undefined,
+        genres: {
+          create: genreIds.map((genreId: string) => ({
+            genre: {
+              connect: { id: genreId },
+            },
+          })),
+        },
       },
       include: {
         genres: {
@@ -112,9 +82,9 @@ const createMovie = async (payload: any) => {
       },
     });
 
-    return { movie };
+    return movie;
   } catch (error) {
-    console.error("PRISMA ERROR:", error); // 👈 IMPORTANT
+    console.error("Movie creation error:", error);
     throw error;
   }
 };
@@ -148,27 +118,6 @@ const deleteMovie = async (id: string) => {
   });
 };
 
-const purchaseMovie = async (movieId: string, userId: string) => {
-  console.log("Service: purchaseMovie", movieId, userId);
-
-  return {
-    movieId,
-    userId,
-    type: "purchase",
-  };
-};
-
-const rentMovie = async (movieId: string, userId: string) => {
-  console.log("Service: rentMovie", movieId, userId);
-
-  return {
-    movieId,
-    userId,
-    type: "rent",
-    expiresIn: "48h",
-  };
-};
-
 export const MovieService = {
   getMovies,
   getSingleMovie,
@@ -176,6 +125,4 @@ export const MovieService = {
   createMovie,
   updateMovie,
   deleteMovie,
-  purchaseMovie,
-  rentMovie,
 };

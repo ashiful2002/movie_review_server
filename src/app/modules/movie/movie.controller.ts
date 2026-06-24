@@ -1,153 +1,93 @@
-import { RequestHandler } from "express";
+import { Request, RequestHandler, Response } from "express";
 import { MovieService } from "./movie.service";
 import { sendResponse } from "../../shared/sendResponse";
-import { prisma } from "../../lib/prisma";
+import { IQueryParams } from "../../interfaces/query.interface";
+import { catchAsync } from "../../shared/catchAsync";
 
-const getMovies: RequestHandler = async (req, res, next) => {
-  try {
-    const result = await MovieService.getMovies(req.query);
+const getMovies = catchAsync(async (req: Request, res: Response) => {
+  const result = await MovieService.getMovies(req.query as IQueryParams);
 
-    sendResponse(res, {
-      httpStatusCode: 200,
-      success: true,
-      message: "Movies fetched successfully",
-      data: result,
-    });
-  } catch (err) {
-    next(err);
+  sendResponse(res, {
+    httpStatusCode: 200,
+    success: true,
+    message: "Movies fetched successfully",
+    meta: result.meta,
+    data: result.data,
+  });
+});
+
+const getSingleMovie = catchAsync(async (req: Request, res: Response) => {
+  const result = await MovieService.getSingleMovie(req.params.id as string);
+
+  sendResponse(res, {
+    httpStatusCode: 200,
+    success: true,
+    message: "Movie fetched successfully",
+    data: result,
+  });
+});
+
+const getReviews = catchAsync(async (req: Request, res: Response) => {
+  const result = await MovieService.getReviews(req.params.movieId as string);
+
+  sendResponse(res, {
+    httpStatusCode: 200,
+    success: true,
+    message: "Reviews fetched successfully",
+    data: result,
+  });
+});
+
+const createMovie = catchAsync(async (req: Request, res: Response) => {
+  const { title, description, releaseYear, director, genreIds } = req.body;
+
+  if (
+    !title?.trim() ||
+    !description?.trim() ||
+    !releaseYear ||
+    !director?.trim()
+  ) {
+    return res.status(400).json({ error: "Missing required fields" });
   }
-};
 
-const getSingleMovie: RequestHandler = async (req, res, next) => {
-  try {
-    const result = await MovieService.getSingleMovie(req.params.id as string);
-
-    sendResponse(res, {
-      httpStatusCode: 200,
-      success: true,
-      message: "Movie fetched successfully",
-      data: result,
-    });
-  } catch (err) {
-    next(err);
+  if (!Array.isArray(genreIds) || genreIds.length === 0) {
+    return res.status(400).json({ error: "At least one genre is required" });
   }
-};
 
-const getReviews: RequestHandler = async (req, res, next) => {
-  try {
-    const result = await MovieService.getReviews(req.params.movieId as string);
+  const result = await MovieService.createMovie(req.body);
 
-    sendResponse(res, {
-      httpStatusCode: 200,
-      success: true,
-      message: "Reviews fetched successfully",
-      data: result,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+  sendResponse(res, {
+    httpStatusCode: 201,
+    success: true,
+    message: "Movie created successfully",
+    data: result,
+  });
+});
 
-const createMovie: RequestHandler = async (req, res, next) => {
-  try {
-    const { title, description, releaseYear, director, genres } = req.body;
-    const result = await MovieService.createMovie(req.body);
-    // Validation
-    if (!title || !description || !releaseYear || !director) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
+const updateMovie = catchAsync(async (req: Request, res: Response) => {
+  const result = await MovieService.updateMovie(
+    req.params.id as string,
+    req.body
+  );
 
-    if (!Array.isArray(genres) || genres.length === 0) {
-      return res.status(400).json({ error: "At least one genre is required" });
-    }
+  sendResponse(res, {
+    httpStatusCode: 200,
+    success: true,
+    message: "Movie updated successfully",
+    data: result,
+  });
+});
 
-    // Verify all genres exist
-    const existingGenres = await prisma.genre.findMany({
-      where: { id: { in: genres } },
-    });
+const deleteMovie = catchAsync(async (req: Request, res: Response) => {
+  const result = await MovieService.deleteMovie(req.params.id as string);
 
-    if (existingGenres.length !== genres.length) {
-      return res.status(400).json({ error: "One or more genres do not exist" });
-    }
-    sendResponse(res, {
-      httpStatusCode: 201,
-      success: true,
-      message: "Movie created successfully",
-      data: result,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
-const updateMovie: RequestHandler = async (req, res, next) => {
-  try {
-    const result = await MovieService.updateMovie(
-      req.params.id as string,
-      req.body
-    );
-
-    sendResponse(res, {
-      httpStatusCode: 200,
-      success: true,
-      message: "Movie updated successfully",
-      data: result,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
-const deleteMovie: RequestHandler = async (req, res, next) => {
-  try {
-    const result = await MovieService.deleteMovie(req.params.id as string);
-
-    sendResponse(res, {
-      httpStatusCode: 200,
-      success: true,
-      message: "Movie deleted successfully",
-      data: result,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
-const purchaseMovie: RequestHandler = async (req, res, next) => {
-  try {
-    const result = await MovieService.purchaseMovie(
-      req.params.id as string,
-      req.user?.id
-    );
-
-    sendResponse(res, {
-      httpStatusCode: 200,
-      success: true,
-      message: "Movie purchased",
-      data: result,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
-const rentMovie: RequestHandler = async (req, res, next) => {
-  try {
-    const result = await MovieService.rentMovie(
-      req.params.id as string,
-      req.user?.id
-    );
-
-    sendResponse(res, {
-      httpStatusCode: 200,
-      success: true,
-      message: "Movie rented",
-      data: result,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+  sendResponse(res, {
+    httpStatusCode: 200,
+    success: true,
+    message: "Movie deleted successfully",
+    data: result,
+  });
+});
 
 export const MovieController = {
   getMovies,
@@ -156,6 +96,4 @@ export const MovieController = {
   createMovie,
   updateMovie,
   deleteMovie,
-  purchaseMovie,
-  rentMovie,
 };
