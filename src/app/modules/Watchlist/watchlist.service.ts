@@ -1,22 +1,34 @@
+import status from "http-status";
+import { Prisma, Watchlist } from "../../../generated/prisma";
+import AppError from "../../errorHelpers/AppError";
+import { IQueryParams } from "../../interfaces/query.interface";
 import { prisma } from "../../lib/prisma";
+import { QueryBuilder } from "../../utils/QueryBuilder";
 
-const getWatchlist = async (userId: string) => {
-  const watchlist = await prisma.watchlist.findMany({
-    where: { userId },
-    include: {
-      movie: true,
-    },
-  });
+const getWatchlist = async (query: IQueryParams) => {
+  const queryBuilder = new QueryBuilder<
+    Watchlist,
+    Prisma.WatchlistWhereInput,
+    Prisma.WatchlistInclude
+  >(prisma.watchlist, query);
 
-  return watchlist;
+  const result = await queryBuilder
+    .include({ movie: true, user: true })
+    .paginate()
+    .sort()
+    .fields()
+    .execute();
+
+  return result;
 };
 
 const addToWatchlist = async (userId: string, movieId: string) => {
   const existing = await prisma.watchlist.findUnique({
     where: { userId_movieId: { userId, movieId } },
   });
+
   if (existing) {
-    return { message: "Movie already in watchlist" };
+    throw new AppError(status.CONFLICT, "Movie already in watchlist");
   }
 
   const added = await prisma.watchlist.create({
@@ -38,10 +50,11 @@ const removeFromWatchlist = async (userId: string, movieId: string) => {
   });
 
   if (!deleted.count) {
-    throw new Error("Movie not found in watchlist");
+    throw new AppError(status.NOT_FOUND, "Movie not found in watchlist");
   }
-};
 
+  return deleted;
+};
 export const WatchlistService = {
   getWatchlist,
   addToWatchlist,

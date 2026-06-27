@@ -6,7 +6,7 @@ import { WatchlistRoutes } from "../modules/Watchlist/watchlist.route";
 import { PaymentsRoutes } from "../modules/Payments/payments.route";
 import { MoviesRoutes } from "../modules/movie/movie.route";
 import { GenreRoutes } from "../modules/Genre/genre.route";
-import { SubscriptionRoutes } from "../modules/Subscription/subscription.route";
+import { SubscriptionRoutes } from "../modules/Subscription_plans/subscription.route";
 import { StatsRoutes } from "../modules/Stats/stats.route";
  
 const router = Router();

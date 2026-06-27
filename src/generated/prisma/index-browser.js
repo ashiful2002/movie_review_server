@@ -202,6 +202,8 @@ exports.Prisma.MovieScalarFieldEnum = {
   ageRating: 'ageRating',
   awards: 'awards',
   banner: 'banner',
+  views: 'views',
+  isFeatured: 'isFeatured',
   boxOffice: 'boxOffice',
   budget: 'budget',
   cast: 'cast',

@@ -13,6 +13,7 @@ const getMovies = catchAsync(async (req: Request, res: Response) => {
     message: "Movies fetched successfully",
     meta: result.meta,
     data: result.data,
+ 
   });
 });
 

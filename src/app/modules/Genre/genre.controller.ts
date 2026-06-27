@@ -8,7 +8,6 @@ import { catchAsync } from "../../shared/catchAsync";
 const getGenres = catchAsync(async (req, res) => {
   const query = req.query;
   const result = await GenreService.getAllGenres(query as IQueryParams);
-  console.log(result);
 
   sendResponse(res, {
     httpStatusCode: 200,

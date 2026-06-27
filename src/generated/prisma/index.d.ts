@@ -10532,6 +10532,7 @@ export namespace Prisma {
   export type MovieAvgAggregateOutputType = {
     releaseYear: number | null
     price: number | null
+    views: number | null
     boxOffice: number | null
     budget: number | null
     duration: number | null
@@ -10541,6 +10542,7 @@ export namespace Prisma {
   export type MovieSumAggregateOutputType = {
     releaseYear: number | null
     price: number | null
+    views: number | null
     boxOffice: number | null
     budget: number | null
     duration: number | null
@@ -10560,6 +10562,8 @@ export namespace Prisma {
     updatedAt: Date | null
     ageRating: string | null
     banner: string | null
+    views: number | null
+    isFeatured: boolean | null
     boxOffice: number | null
     budget: number | null
     country: string | null
@@ -10584,6 +10588,8 @@ export namespace Prisma {
     updatedAt: Date | null
     ageRating: string | null
     banner: string | null
+    views: number | null
+    isFeatured: boolean | null
     boxOffice: number | null
     budget: number | null
     country: string | null
@@ -10609,6 +10615,8 @@ export namespace Prisma {
     ageRating: number
     awards: number
     banner: number
+    views: number
+    isFeatured: number
     boxOffice: number
     budget: number
     cast: number
@@ -10627,6 +10635,7 @@ export namespace Prisma {
   export type MovieAvgAggregateInputType = {
     releaseYear?: true
     price?: true
+    views?: true
     boxOffice?: true
     budget?: true
     duration?: true
@@ -10636,6 +10645,7 @@ export namespace Prisma {
   export type MovieSumAggregateInputType = {
     releaseYear?: true
     price?: true
+    views?: true
     boxOffice?: true
     budget?: true
     duration?: true
@@ -10655,6 +10665,8 @@ export namespace Prisma {
     updatedAt?: true
     ageRating?: true
     banner?: true
+    views?: true
+    isFeatured?: true
     boxOffice?: true
     budget?: true
     country?: true
@@ -10679,6 +10691,8 @@ export namespace Prisma {
     updatedAt?: true
     ageRating?: true
     banner?: true
+    views?: true
+    isFeatured?: true
     boxOffice?: true
     budget?: true
     country?: true
@@ -10704,6 +10718,8 @@ export namespace Prisma {
     ageRating?: true
     awards?: true
     banner?: true
+    views?: true
+    isFeatured?: true
     boxOffice?: true
     budget?: true
     cast?: true
@@ -10818,6 +10834,8 @@ export namespace Prisma {
     ageRating: string | null
     awards: string[]
     banner: string | null
+    views: number
+    isFeatured: boolean | null
     boxOffice: number | null
     budget: number | null
     cast: string[]
@@ -10864,6 +10882,8 @@ export namespace Prisma {
     ageRating?: boolean
     awards?: boolean
     banner?: boolean
+    views?: boolean
+    isFeatured?: boolean
     boxOffice?: boolean
     budget?: boolean
     cast?: boolean
@@ -10895,6 +10915,8 @@ export namespace Prisma {
     ageRating?: boolean
     awards?: boolean
     banner?: boolean
+    views?: boolean
+    isFeatured?: boolean
     boxOffice?: boolean
     budget?: boolean
     cast?: boolean
@@ -10922,6 +10944,8 @@ export namespace Prisma {
     ageRating?: boolean
     awards?: boolean
     banner?: boolean
+    views?: boolean
+    isFeatured?: boolean
     boxOffice?: boolean
     budget?: boolean
     cast?: boolean
@@ -10949,6 +10973,8 @@ export namespace Prisma {
     ageRating?: boolean
     awards?: boolean
     banner?: boolean
+    views?: boolean
+    isFeatured?: boolean
     boxOffice?: boolean
     budget?: boolean
     cast?: boolean
@@ -10962,7 +10988,7 @@ export namespace Prisma {
     trailerLink?: boolean
   }
 
-  export type MovieOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "releaseYear" | "director" | "streamingLink" | "price" | "isPremium" | "createdAt" | "updatedAt" | "ageRating" | "awards" | "banner" | "boxOffice" | "budget" | "cast" | "country" | "duration" | "language" | "rating" | "status" | "subtitles" | "thumbnail" | "trailerLink", ExtArgs["result"]["movie"]>
+  export type MovieOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "releaseYear" | "director" | "streamingLink" | "price" | "isPremium" | "createdAt" | "updatedAt" | "ageRating" | "awards" | "banner" | "views" | "isFeatured" | "boxOffice" | "budget" | "cast" | "country" | "duration" | "language" | "rating" | "status" | "subtitles" | "thumbnail" | "trailerLink", ExtArgs["result"]["movie"]>
   export type MovieInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     genres?: boolean | Movie$genresArgs<ExtArgs>
     reviews?: boolean | Movie$reviewsArgs<ExtArgs>
@@ -10993,6 +11019,8 @@ export namespace Prisma {
       ageRating: string | null
       awards: string[]
       banner: string | null
+      views: number
+      isFeatured: boolean | null
       boxOffice: number | null
       budget: number | null
       cast: string[]
@@ -11443,6 +11471,8 @@ export namespace Prisma {
     readonly ageRating: FieldRef<"Movie", 'String'>
     readonly awards: FieldRef<"Movie", 'String[]'>
     readonly banner: FieldRef<"Movie", 'String'>
+    readonly views: FieldRef<"Movie", 'Int'>
+    readonly isFeatured: FieldRef<"Movie", 'Boolean'>
     readonly boxOffice: FieldRef<"Movie", 'Float'>
     readonly budget: FieldRef<"Movie", 'Float'>
     readonly cast: FieldRef<"Movie", 'String[]'>
@@ -23750,6 +23780,8 @@ export namespace Prisma {
     ageRating: 'ageRating',
     awards: 'awards',
     banner: 'banner',
+    views: 'views',
+    isFeatured: 'isFeatured',
     boxOffice: 'boxOffice',
     budget: 'budget',
     cast: 'cast',
@@ -24576,6 +24608,8 @@ export namespace Prisma {
     ageRating?: StringNullableFilter<"Movie"> | string | null
     awards?: StringNullableListFilter<"Movie">
     banner?: StringNullableFilter<"Movie"> | string | null
+    views?: IntFilter<"Movie"> | number
+    isFeatured?: BoolNullableFilter<"Movie"> | boolean | null
     boxOffice?: FloatNullableFilter<"Movie"> | number | null
     budget?: FloatNullableFilter<"Movie"> | number | null
     cast?: StringNullableListFilter<"Movie">
@@ -24606,6 +24640,8 @@ export namespace Prisma {
     ageRating?: SortOrderInput | SortOrder
     awards?: SortOrder
     banner?: SortOrderInput | SortOrder
+    views?: SortOrder
+    isFeatured?: SortOrderInput | SortOrder
     boxOffice?: SortOrderInput | SortOrder
     budget?: SortOrderInput | SortOrder
     cast?: SortOrder
@@ -24639,6 +24675,8 @@ export namespace Prisma {
     ageRating?: StringNullableFilter<"Movie"> | string | null
     awards?: StringNullableListFilter<"Movie">
     banner?: StringNullableFilter<"Movie"> | string | null
+    views?: IntFilter<"Movie"> | number
+    isFeatured?: BoolNullableFilter<"Movie"> | boolean | null
     boxOffice?: FloatNullableFilter<"Movie"> | number | null
     budget?: FloatNullableFilter<"Movie"> | number | null
     cast?: StringNullableListFilter<"Movie">
@@ -24669,6 +24707,8 @@ export namespace Prisma {
     ageRating?: SortOrderInput | SortOrder
     awards?: SortOrder
     banner?: SortOrderInput | SortOrder
+    views?: SortOrder
+    isFeatured?: SortOrderInput | SortOrder
     boxOffice?: SortOrderInput | SortOrder
     budget?: SortOrderInput | SortOrder
     cast?: SortOrder
@@ -24704,6 +24744,8 @@ export namespace Prisma {
     ageRating?: StringNullableWithAggregatesFilter<"Movie"> | string | null
     awards?: StringNullableListFilter<"Movie">
     banner?: StringNullableWithAggregatesFilter<"Movie"> | string | null
+    views?: IntWithAggregatesFilter<"Movie"> | number
+    isFeatured?: BoolNullableWithAggregatesFilter<"Movie"> | boolean | null
     boxOffice?: FloatNullableWithAggregatesFilter<"Movie"> | number | null
     budget?: FloatNullableWithAggregatesFilter<"Movie"> | number | null
     cast?: StringNullableListFilter<"Movie">
@@ -26057,6 +26099,8 @@ export namespace Prisma {
     ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
+    views?: number
+    isFeatured?: boolean | null
     boxOffice?: number | null
     budget?: number | null
     cast?: MovieCreatecastInput | string[]
@@ -26087,6 +26131,8 @@ export namespace Prisma {
     ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
+    views?: number
+    isFeatured?: boolean | null
     boxOffice?: number | null
     budget?: number | null
     cast?: MovieCreatecastInput | string[]
@@ -26117,6 +26163,8 @@ export namespace Prisma {
     ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    isFeatured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     boxOffice?: NullableFloatFieldUpdateOperationsInput | number | null
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     cast?: MovieUpdatecastInput | string[]
@@ -26147,6 +26195,8 @@ export namespace Prisma {
     ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    isFeatured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     boxOffice?: NullableFloatFieldUpdateOperationsInput | number | null
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     cast?: MovieUpdatecastInput | string[]
@@ -26177,6 +26227,8 @@ export namespace Prisma {
     ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
+    views?: number
+    isFeatured?: boolean | null
     boxOffice?: number | null
     budget?: number | null
     cast?: MovieCreatecastInput | string[]
@@ -26204,6 +26256,8 @@ export namespace Prisma {
     ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    isFeatured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     boxOffice?: NullableFloatFieldUpdateOperationsInput | number | null
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     cast?: MovieUpdatecastInput | string[]
@@ -26231,6 +26285,8 @@ export namespace Prisma {
     ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    isFeatured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     boxOffice?: NullableFloatFieldUpdateOperationsInput | number | null
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     cast?: MovieUpdatecastInput | string[]
@@ -27581,6 +27637,11 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
   export type FloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -27637,6 +27698,8 @@ export namespace Prisma {
     ageRating?: SortOrder
     awards?: SortOrder
     banner?: SortOrder
+    views?: SortOrder
+    isFeatured?: SortOrder
     boxOffice?: SortOrder
     budget?: SortOrder
     cast?: SortOrder
@@ -27653,6 +27716,7 @@ export namespace Prisma {
   export type MovieAvgOrderByAggregateInput = {
     releaseYear?: SortOrder
     price?: SortOrder
+    views?: SortOrder
     boxOffice?: SortOrder
     budget?: SortOrder
     duration?: SortOrder
@@ -27672,6 +27736,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     ageRating?: SortOrder
     banner?: SortOrder
+    views?: SortOrder
+    isFeatured?: SortOrder
     boxOffice?: SortOrder
     budget?: SortOrder
     country?: SortOrder
@@ -27696,6 +27762,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     ageRating?: SortOrder
     banner?: SortOrder
+    views?: SortOrder
+    isFeatured?: SortOrder
     boxOffice?: SortOrder
     budget?: SortOrder
     country?: SortOrder
@@ -27710,6 +27778,7 @@ export namespace Prisma {
   export type MovieSumOrderByAggregateInput = {
     releaseYear?: SortOrder
     price?: SortOrder
+    views?: SortOrder
     boxOffice?: SortOrder
     budget?: SortOrder
     duration?: SortOrder
@@ -27746,6 +27815,14 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -28739,6 +28816,10 @@ export namespace Prisma {
   export type MovieUpdateawardsInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -29978,6 +30059,11 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -30019,6 +30105,14 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -31177,6 +31271,8 @@ export namespace Prisma {
     ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
+    views?: number
+    isFeatured?: boolean | null
     boxOffice?: number | null
     budget?: number | null
     cast?: MovieCreatecastInput | string[]
@@ -31206,6 +31302,8 @@ export namespace Prisma {
     ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
+    views?: number
+    isFeatured?: boolean | null
     boxOffice?: number | null
     budget?: number | null
     cast?: MovieCreatecastInput | string[]
@@ -31286,6 +31384,8 @@ export namespace Prisma {
     ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    isFeatured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     boxOffice?: NullableFloatFieldUpdateOperationsInput | number | null
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     cast?: MovieUpdatecastInput | string[]
@@ -31315,6 +31415,8 @@ export namespace Prisma {
     ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    isFeatured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     boxOffice?: NullableFloatFieldUpdateOperationsInput | number | null
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     cast?: MovieUpdatecastInput | string[]
@@ -32106,6 +32208,8 @@ export namespace Prisma {
     ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
+    views?: number
+    isFeatured?: boolean | null
     boxOffice?: number | null
     budget?: number | null
     cast?: MovieCreatecastInput | string[]
@@ -32135,6 +32239,8 @@ export namespace Prisma {
     ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
+    views?: number
+    isFeatured?: boolean | null
     boxOffice?: number | null
     budget?: number | null
     cast?: MovieCreatecastInput | string[]
@@ -32361,6 +32467,8 @@ export namespace Prisma {
     ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    isFeatured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     boxOffice?: NullableFloatFieldUpdateOperationsInput | number | null
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     cast?: MovieUpdatecastInput | string[]
@@ -32390,6 +32498,8 @@ export namespace Prisma {
     ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    isFeatured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     boxOffice?: NullableFloatFieldUpdateOperationsInput | number | null
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     cast?: MovieUpdatecastInput | string[]
@@ -33828,6 +33938,8 @@ export namespace Prisma {
     ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
+    views?: number
+    isFeatured?: boolean | null
     boxOffice?: number | null
     budget?: number | null
     cast?: MovieCreatecastInput | string[]
@@ -33857,6 +33969,8 @@ export namespace Prisma {
     ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
+    views?: number
+    isFeatured?: boolean | null
     boxOffice?: number | null
     budget?: number | null
     cast?: MovieCreatecastInput | string[]
@@ -33965,6 +34079,8 @@ export namespace Prisma {
     ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    isFeatured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     boxOffice?: NullableFloatFieldUpdateOperationsInput | number | null
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     cast?: MovieUpdatecastInput | string[]
@@ -33994,6 +34110,8 @@ export namespace Prisma {
     ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    isFeatured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     boxOffice?: NullableFloatFieldUpdateOperationsInput | number | null
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     cast?: MovieUpdatecastInput | string[]

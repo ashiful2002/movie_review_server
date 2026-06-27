@@ -8,21 +8,38 @@ const getMovies = async (query: IQueryParams) => {
     Movie,
     Prisma.MovieWhereInput,
     Prisma.MovieInclude
-  >(prisma.movie, query);
+  >(prisma.movie, query, {
+    searchableFields: ["title"],
+    filterableFields: ["genres.genreId", "isPremium", "rating"],
+  });
 
   const result = await queryBuilder
-    .include({ genres: true, reviews: true })
+    .include({
+      reviews: { orderBy: { createdAt: "asc" } },
+      genres: {
+        include: {
+          genre: true,
+        },
+
+      },
+    })
+    .search()
+    .filter()
     .paginate()
     .sort()
     .fields()
     .execute();
+
   return result;
 };
 
 const getSingleMovie = async (id: string) => {
-  const singleMovie = await prisma.movie.findUnique({
+  const singleMovie = await prisma.movie.update({
     where: {
       id,
+    },
+    data: {
+      views: { increment: 1 },
     },
     include: {
       reviews: {

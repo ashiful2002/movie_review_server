@@ -5,11 +5,19 @@ import { UserRole } from "../../../generated/prisma";
 
 const router = express.Router();
 
-router.post("/", auth(UserRole.USER), WatchlistController.addToWatchlist);
-router.get("/", auth(UserRole.USER), WatchlistController.getWatchlist);
+router.post(
+  "/",
+  auth(UserRole.USER, UserRole.SUPER_ADMIN),
+  WatchlistController.addToWatchlist
+);
+router.get(
+  "/",
+  auth(UserRole.USER, UserRole.SUPER_ADMIN),
+  WatchlistController.getWatchlist
+);
 router.delete(
   "/:movieId",
-  auth(UserRole.USER),
+  auth(UserRole.USER, UserRole.SUPER_ADMIN),
   WatchlistController.removeFromWatchlist
 );
 
