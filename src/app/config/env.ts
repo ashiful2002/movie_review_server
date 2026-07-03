@@ -4,6 +4,9 @@ import AppError from "../errorHelpers/AppError";
 
 dotenv.config();
 
+
+
+
 interface EnvConfig {
   NODE_ENV: string;
   PORT: string;
@@ -22,6 +25,11 @@ interface EnvConfig {
   GOOGLE_CLIENT_SECRET: string;
   GOOGLE_CLIENT_ID: string;
   GOOGLE_CALLBACK_URL: string;
+  RAG: {
+    OPEN_ROUTER_API_KEY: string;
+    OPENROUTER_EMBEDDING_MODEL: string;
+    OPENROUTER_LLM_MODEL: string;
+  };
 }
 
 const loadEnvVariables = (): EnvConfig => {
@@ -43,6 +51,9 @@ const loadEnvVariables = (): EnvConfig => {
     "GOOGLE_CLIENT_SECRET",
     "GOOGLE_CLIENT_ID",
     "GOOGLE_CALLBACK_URL",
+    "OPEN_ROUTER_API_KEY",
+    "OPENROUTER_EMBEDDING_MODEL",
+    "OPENROUTER_LLM_MODEL",
   ];
 
   requireEnvVariable.forEach((variable) => {
@@ -71,6 +82,12 @@ const loadEnvVariables = (): EnvConfig => {
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET as string,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID as string,
     GOOGLE_CALLBACK_URL: process.env.GOOGLE_CALLBACK_URL as string,
+    RAG: {
+      OPEN_ROUTER_API_KEY: process.env.OPEN_ROUTER_API_KEY as string,
+      OPENROUTER_EMBEDDING_MODEL: process.env
+        .OPENROUTER_EMBEDDING_MODEL as string,
+      OPENROUTER_LLM_MODEL: process.env.OPENROUTER_LLM_MODEL as string,
+    },
   };
 };
 

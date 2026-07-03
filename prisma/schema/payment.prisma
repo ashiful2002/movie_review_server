@@ -1,26 +1,31 @@
 model Payment {
-  id     String @id @default(uuid())
-  userId String
-
-  amount             Float
-  status             PaymentStatus @default(PENDING)
-  transactionId      String?       @unique
-  subscriptionId     String?
-  invoiceUrl         String?
-  provider           String?
-  createdAt          DateTime      @default(now())
-  stripeEventId      String?       @unique
-  method             String?
-  paymentGatewayData Json?
-  currency           String?
-  refundedAmount     Float?
-  refundedAt         DateTime?
-  purchaseAt         DateTime      @default(now())
-  expiresAt          DateTime      @default(now())
-
-  subscription Subscription? @relation(fields: [subscriptionId], references: [id])
-  user         User          @relation(fields: [userId], references: [id])
+  id              String       @id @default(uuid())
+  subscriptionId  String
+  userId          String
+  amount          Float
+  currency        String       @default("USD")
+  stripePaymentId String?      @unique
+  
+  // Payment status
+  status          PaymentStatus @default(PENDING) // PENDING, COMPLETED, FAILED, REFUNDED
+  
+  // Billing info
+  billingPeriodStart DateTime
+  billingPeriodEnd   DateTime
+  dueDate            DateTime
+  paidAt             DateTime?
+  failedReason       String?
+  retryCount         Int         @default(0)
+  
+  user            User         @relation(fields: [userId], references: [id])
+  subscription    Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
 
   @@index([userId])
+  @@index([subscriptionId])
+  @@index([status])
   @@map("payments")
 }
+

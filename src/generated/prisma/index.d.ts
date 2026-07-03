@@ -29,6 +29,11 @@ export type Admin = $Result.DefaultSelection<Prisma.$AdminPayload>
  */
 export type Comment = $Result.DefaultSelection<Prisma.$CommentPayload>
 /**
+ * Model Favourite
+ * 
+ */
+export type Favourite = $Result.DefaultSelection<Prisma.$FavouritePayload>
+/**
  * Model Follow
  * 
  */
@@ -119,8 +124,9 @@ export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 export const PaymentStatus: {
   PENDING: 'PENDING',
-  SUCCESS: 'SUCCESS',
-  FAILED: 'FAILED'
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED'
 };
 
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
@@ -133,6 +139,16 @@ export const ReviewStatus: {
 };
 
 export type ReviewStatus = (typeof ReviewStatus)[keyof typeof ReviewStatus]
+
+
+export const SubscriptionStatus: {
+  ACTIVE: 'ACTIVE',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED',
+  PAUSED: 'PAUSED'
+};
+
+export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]
 
 }
 
@@ -147,6 +163,10 @@ export const PaymentStatus: typeof $Enums.PaymentStatus
 export type ReviewStatus = $Enums.ReviewStatus
 
 export const ReviewStatus: typeof $Enums.ReviewStatus
+
+export type SubscriptionStatus = $Enums.SubscriptionStatus
+
+export const SubscriptionStatus: typeof $Enums.SubscriptionStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -298,6 +318,16 @@ export class PrismaClient<
     * ```
     */
   get comment(): Prisma.CommentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.favourite`: Exposes CRUD operations for the **Favourite** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Favourites
+    * const favourites = await prisma.favourite.findMany()
+    * ```
+    */
+  get favourite(): Prisma.FavouriteDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.follow`: Exposes CRUD operations for the **Follow** model.
@@ -885,6 +915,7 @@ export namespace Prisma {
     Activity: 'Activity',
     Admin: 'Admin',
     Comment: 'Comment',
+    Favourite: 'Favourite',
     Follow: 'Follow',
     Genre: 'Genre',
     MovieGenre: 'MovieGenre',
@@ -915,7 +946,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activity" | "admin" | "comment" | "follow" | "genre" | "movieGenre" | "like" | "movie" | "notification" | "payment" | "documentEmbedding" | "review" | "reviewVote" | "reviewAnalytics" | "subscription" | "subscriptionPlan" | "user" | "watchlist"
+      modelProps: "activity" | "admin" | "comment" | "favourite" | "follow" | "genre" | "movieGenre" | "like" | "movie" | "notification" | "payment" | "documentEmbedding" | "review" | "reviewVote" | "reviewAnalytics" | "subscription" | "subscriptionPlan" | "user" | "watchlist"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1138,6 +1169,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CommentCountArgs<ExtArgs>
             result: $Utils.Optional<CommentCountAggregateOutputType> | number
+          }
+        }
+      }
+      Favourite: {
+        payload: Prisma.$FavouritePayload<ExtArgs>
+        fields: Prisma.FavouriteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FavouriteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavouritePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FavouriteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavouritePayload>
+          }
+          findFirst: {
+            args: Prisma.FavouriteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavouritePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FavouriteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavouritePayload>
+          }
+          findMany: {
+            args: Prisma.FavouriteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavouritePayload>[]
+          }
+          create: {
+            args: Prisma.FavouriteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavouritePayload>
+          }
+          createMany: {
+            args: Prisma.FavouriteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FavouriteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavouritePayload>[]
+          }
+          delete: {
+            args: Prisma.FavouriteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavouritePayload>
+          }
+          update: {
+            args: Prisma.FavouriteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavouritePayload>
+          }
+          deleteMany: {
+            args: Prisma.FavouriteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FavouriteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FavouriteUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavouritePayload>[]
+          }
+          upsert: {
+            args: Prisma.FavouriteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavouritePayload>
+          }
+          aggregate: {
+            args: Prisma.FavouriteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFavourite>
+          }
+          groupBy: {
+            args: Prisma.FavouriteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FavouriteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FavouriteCountArgs<ExtArgs>
+            result: $Utils.Optional<FavouriteCountAggregateOutputType> | number
           }
         }
       }
@@ -2346,6 +2451,7 @@ export namespace Prisma {
     activity?: ActivityOmit
     admin?: AdminOmit
     comment?: CommentOmit
+    favourite?: FavouriteOmit
     follow?: FollowOmit
     genre?: GenreOmit
     movieGenre?: MovieGenreOmit
@@ -2506,12 +2612,14 @@ export namespace Prisma {
     genres: number
     reviews: number
     watchlist: number
+    favourites: number
   }
 
   export type MovieCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     genres?: boolean | MovieCountOutputTypeCountGenresArgs
     reviews?: boolean | MovieCountOutputTypeCountReviewsArgs
     watchlist?: boolean | MovieCountOutputTypeCountWatchlistArgs
+    favourites?: boolean | MovieCountOutputTypeCountFavouritesArgs
   }
 
   // Custom InputTypes
@@ -2544,6 +2652,13 @@ export namespace Prisma {
    */
   export type MovieCountOutputTypeCountWatchlistArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WatchlistWhereInput
+  }
+
+  /**
+   * MovieCountOutputType without action
+   */
+  export type MovieCountOutputTypeCountFavouritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FavouriteWhereInput
   }
 
 
@@ -2683,6 +2798,7 @@ export namespace Prisma {
     reviewVotes: number
     followers: number
     following: number
+    favourites: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2697,6 +2813,7 @@ export namespace Prisma {
     reviewVotes?: boolean | UserCountOutputTypeCountReviewVotesArgs
     followers?: boolean | UserCountOutputTypeCountFollowersArgs
     following?: boolean | UserCountOutputTypeCountFollowingArgs
+    favourites?: boolean | UserCountOutputTypeCountFavouritesArgs
   }
 
   // Custom InputTypes
@@ -2785,6 +2902,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountFollowingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FollowWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFavouritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FavouriteWhereInput
   }
 
 
@@ -6213,6 +6337,1077 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CommentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Favourite
+   */
+
+  export type AggregateFavourite = {
+    _count: FavouriteCountAggregateOutputType | null
+    _min: FavouriteMinAggregateOutputType | null
+    _max: FavouriteMaxAggregateOutputType | null
+  }
+
+  export type FavouriteMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    movieId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FavouriteMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    movieId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FavouriteCountAggregateOutputType = {
+    id: number
+    userId: number
+    movieId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type FavouriteMinAggregateInputType = {
+    id?: true
+    userId?: true
+    movieId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FavouriteMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    movieId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FavouriteCountAggregateInputType = {
+    id?: true
+    userId?: true
+    movieId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type FavouriteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Favourite to aggregate.
+     */
+    where?: FavouriteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Favourites to fetch.
+     */
+    orderBy?: FavouriteOrderByWithRelationInput | FavouriteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FavouriteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Favourites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Favourites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Favourites
+    **/
+    _count?: true | FavouriteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FavouriteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FavouriteMaxAggregateInputType
+  }
+
+  export type GetFavouriteAggregateType<T extends FavouriteAggregateArgs> = {
+        [P in keyof T & keyof AggregateFavourite]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFavourite[P]>
+      : GetScalarType<T[P], AggregateFavourite[P]>
+  }
+
+
+
+
+  export type FavouriteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FavouriteWhereInput
+    orderBy?: FavouriteOrderByWithAggregationInput | FavouriteOrderByWithAggregationInput[]
+    by: FavouriteScalarFieldEnum[] | FavouriteScalarFieldEnum
+    having?: FavouriteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FavouriteCountAggregateInputType | true
+    _min?: FavouriteMinAggregateInputType
+    _max?: FavouriteMaxAggregateInputType
+  }
+
+  export type FavouriteGroupByOutputType = {
+    id: string
+    userId: string
+    movieId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: FavouriteCountAggregateOutputType | null
+    _min: FavouriteMinAggregateOutputType | null
+    _max: FavouriteMaxAggregateOutputType | null
+  }
+
+  type GetFavouriteGroupByPayload<T extends FavouriteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FavouriteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FavouriteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FavouriteGroupByOutputType[P]>
+            : GetScalarType<T[P], FavouriteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FavouriteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    movieId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    movie?: boolean | MovieDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["favourite"]>
+
+  export type FavouriteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    movieId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    movie?: boolean | MovieDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["favourite"]>
+
+  export type FavouriteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    movieId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    movie?: boolean | MovieDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["favourite"]>
+
+  export type FavouriteSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    movieId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type FavouriteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "movieId" | "createdAt" | "updatedAt", ExtArgs["result"]["favourite"]>
+  export type FavouriteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    movie?: boolean | MovieDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type FavouriteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    movie?: boolean | MovieDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type FavouriteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    movie?: boolean | MovieDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $FavouritePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Favourite"
+    objects: {
+      movie: Prisma.$MoviePayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      movieId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["favourite"]>
+    composites: {}
+  }
+
+  type FavouriteGetPayload<S extends boolean | null | undefined | FavouriteDefaultArgs> = $Result.GetResult<Prisma.$FavouritePayload, S>
+
+  type FavouriteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FavouriteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FavouriteCountAggregateInputType | true
+    }
+
+  export interface FavouriteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Favourite'], meta: { name: 'Favourite' } }
+    /**
+     * Find zero or one Favourite that matches the filter.
+     * @param {FavouriteFindUniqueArgs} args - Arguments to find a Favourite
+     * @example
+     * // Get one Favourite
+     * const favourite = await prisma.favourite.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FavouriteFindUniqueArgs>(args: SelectSubset<T, FavouriteFindUniqueArgs<ExtArgs>>): Prisma__FavouriteClient<$Result.GetResult<Prisma.$FavouritePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Favourite that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FavouriteFindUniqueOrThrowArgs} args - Arguments to find a Favourite
+     * @example
+     * // Get one Favourite
+     * const favourite = await prisma.favourite.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FavouriteFindUniqueOrThrowArgs>(args: SelectSubset<T, FavouriteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FavouriteClient<$Result.GetResult<Prisma.$FavouritePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Favourite that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavouriteFindFirstArgs} args - Arguments to find a Favourite
+     * @example
+     * // Get one Favourite
+     * const favourite = await prisma.favourite.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FavouriteFindFirstArgs>(args?: SelectSubset<T, FavouriteFindFirstArgs<ExtArgs>>): Prisma__FavouriteClient<$Result.GetResult<Prisma.$FavouritePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Favourite that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavouriteFindFirstOrThrowArgs} args - Arguments to find a Favourite
+     * @example
+     * // Get one Favourite
+     * const favourite = await prisma.favourite.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FavouriteFindFirstOrThrowArgs>(args?: SelectSubset<T, FavouriteFindFirstOrThrowArgs<ExtArgs>>): Prisma__FavouriteClient<$Result.GetResult<Prisma.$FavouritePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Favourites that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavouriteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Favourites
+     * const favourites = await prisma.favourite.findMany()
+     * 
+     * // Get first 10 Favourites
+     * const favourites = await prisma.favourite.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const favouriteWithIdOnly = await prisma.favourite.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FavouriteFindManyArgs>(args?: SelectSubset<T, FavouriteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavouritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Favourite.
+     * @param {FavouriteCreateArgs} args - Arguments to create a Favourite.
+     * @example
+     * // Create one Favourite
+     * const Favourite = await prisma.favourite.create({
+     *   data: {
+     *     // ... data to create a Favourite
+     *   }
+     * })
+     * 
+     */
+    create<T extends FavouriteCreateArgs>(args: SelectSubset<T, FavouriteCreateArgs<ExtArgs>>): Prisma__FavouriteClient<$Result.GetResult<Prisma.$FavouritePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Favourites.
+     * @param {FavouriteCreateManyArgs} args - Arguments to create many Favourites.
+     * @example
+     * // Create many Favourites
+     * const favourite = await prisma.favourite.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FavouriteCreateManyArgs>(args?: SelectSubset<T, FavouriteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Favourites and returns the data saved in the database.
+     * @param {FavouriteCreateManyAndReturnArgs} args - Arguments to create many Favourites.
+     * @example
+     * // Create many Favourites
+     * const favourite = await prisma.favourite.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Favourites and only return the `id`
+     * const favouriteWithIdOnly = await prisma.favourite.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FavouriteCreateManyAndReturnArgs>(args?: SelectSubset<T, FavouriteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavouritePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Favourite.
+     * @param {FavouriteDeleteArgs} args - Arguments to delete one Favourite.
+     * @example
+     * // Delete one Favourite
+     * const Favourite = await prisma.favourite.delete({
+     *   where: {
+     *     // ... filter to delete one Favourite
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FavouriteDeleteArgs>(args: SelectSubset<T, FavouriteDeleteArgs<ExtArgs>>): Prisma__FavouriteClient<$Result.GetResult<Prisma.$FavouritePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Favourite.
+     * @param {FavouriteUpdateArgs} args - Arguments to update one Favourite.
+     * @example
+     * // Update one Favourite
+     * const favourite = await prisma.favourite.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FavouriteUpdateArgs>(args: SelectSubset<T, FavouriteUpdateArgs<ExtArgs>>): Prisma__FavouriteClient<$Result.GetResult<Prisma.$FavouritePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Favourites.
+     * @param {FavouriteDeleteManyArgs} args - Arguments to filter Favourites to delete.
+     * @example
+     * // Delete a few Favourites
+     * const { count } = await prisma.favourite.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FavouriteDeleteManyArgs>(args?: SelectSubset<T, FavouriteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Favourites.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavouriteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Favourites
+     * const favourite = await prisma.favourite.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FavouriteUpdateManyArgs>(args: SelectSubset<T, FavouriteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Favourites and returns the data updated in the database.
+     * @param {FavouriteUpdateManyAndReturnArgs} args - Arguments to update many Favourites.
+     * @example
+     * // Update many Favourites
+     * const favourite = await prisma.favourite.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Favourites and only return the `id`
+     * const favouriteWithIdOnly = await prisma.favourite.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FavouriteUpdateManyAndReturnArgs>(args: SelectSubset<T, FavouriteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavouritePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Favourite.
+     * @param {FavouriteUpsertArgs} args - Arguments to update or create a Favourite.
+     * @example
+     * // Update or create a Favourite
+     * const favourite = await prisma.favourite.upsert({
+     *   create: {
+     *     // ... data to create a Favourite
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Favourite we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FavouriteUpsertArgs>(args: SelectSubset<T, FavouriteUpsertArgs<ExtArgs>>): Prisma__FavouriteClient<$Result.GetResult<Prisma.$FavouritePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Favourites.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavouriteCountArgs} args - Arguments to filter Favourites to count.
+     * @example
+     * // Count the number of Favourites
+     * const count = await prisma.favourite.count({
+     *   where: {
+     *     // ... the filter for the Favourites we want to count
+     *   }
+     * })
+    **/
+    count<T extends FavouriteCountArgs>(
+      args?: Subset<T, FavouriteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FavouriteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Favourite.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavouriteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FavouriteAggregateArgs>(args: Subset<T, FavouriteAggregateArgs>): Prisma.PrismaPromise<GetFavouriteAggregateType<T>>
+
+    /**
+     * Group by Favourite.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavouriteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FavouriteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FavouriteGroupByArgs['orderBy'] }
+        : { orderBy?: FavouriteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FavouriteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFavouriteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Favourite model
+   */
+  readonly fields: FavouriteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Favourite.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FavouriteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    movie<T extends MovieDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MovieDefaultArgs<ExtArgs>>): Prisma__MovieClient<$Result.GetResult<Prisma.$MoviePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Favourite model
+   */
+  interface FavouriteFieldRefs {
+    readonly id: FieldRef<"Favourite", 'String'>
+    readonly userId: FieldRef<"Favourite", 'String'>
+    readonly movieId: FieldRef<"Favourite", 'String'>
+    readonly createdAt: FieldRef<"Favourite", 'DateTime'>
+    readonly updatedAt: FieldRef<"Favourite", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Favourite findUnique
+   */
+  export type FavouriteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favourite
+     */
+    select?: FavouriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favourite
+     */
+    omit?: FavouriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavouriteInclude<ExtArgs> | null
+    /**
+     * Filter, which Favourite to fetch.
+     */
+    where: FavouriteWhereUniqueInput
+  }
+
+  /**
+   * Favourite findUniqueOrThrow
+   */
+  export type FavouriteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favourite
+     */
+    select?: FavouriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favourite
+     */
+    omit?: FavouriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavouriteInclude<ExtArgs> | null
+    /**
+     * Filter, which Favourite to fetch.
+     */
+    where: FavouriteWhereUniqueInput
+  }
+
+  /**
+   * Favourite findFirst
+   */
+  export type FavouriteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favourite
+     */
+    select?: FavouriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favourite
+     */
+    omit?: FavouriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavouriteInclude<ExtArgs> | null
+    /**
+     * Filter, which Favourite to fetch.
+     */
+    where?: FavouriteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Favourites to fetch.
+     */
+    orderBy?: FavouriteOrderByWithRelationInput | FavouriteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Favourites.
+     */
+    cursor?: FavouriteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Favourites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Favourites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Favourites.
+     */
+    distinct?: FavouriteScalarFieldEnum | FavouriteScalarFieldEnum[]
+  }
+
+  /**
+   * Favourite findFirstOrThrow
+   */
+  export type FavouriteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favourite
+     */
+    select?: FavouriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favourite
+     */
+    omit?: FavouriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavouriteInclude<ExtArgs> | null
+    /**
+     * Filter, which Favourite to fetch.
+     */
+    where?: FavouriteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Favourites to fetch.
+     */
+    orderBy?: FavouriteOrderByWithRelationInput | FavouriteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Favourites.
+     */
+    cursor?: FavouriteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Favourites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Favourites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Favourites.
+     */
+    distinct?: FavouriteScalarFieldEnum | FavouriteScalarFieldEnum[]
+  }
+
+  /**
+   * Favourite findMany
+   */
+  export type FavouriteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favourite
+     */
+    select?: FavouriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favourite
+     */
+    omit?: FavouriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavouriteInclude<ExtArgs> | null
+    /**
+     * Filter, which Favourites to fetch.
+     */
+    where?: FavouriteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Favourites to fetch.
+     */
+    orderBy?: FavouriteOrderByWithRelationInput | FavouriteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Favourites.
+     */
+    cursor?: FavouriteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Favourites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Favourites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Favourites.
+     */
+    distinct?: FavouriteScalarFieldEnum | FavouriteScalarFieldEnum[]
+  }
+
+  /**
+   * Favourite create
+   */
+  export type FavouriteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favourite
+     */
+    select?: FavouriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favourite
+     */
+    omit?: FavouriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavouriteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Favourite.
+     */
+    data: XOR<FavouriteCreateInput, FavouriteUncheckedCreateInput>
+  }
+
+  /**
+   * Favourite createMany
+   */
+  export type FavouriteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Favourites.
+     */
+    data: FavouriteCreateManyInput | FavouriteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Favourite createManyAndReturn
+   */
+  export type FavouriteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favourite
+     */
+    select?: FavouriteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favourite
+     */
+    omit?: FavouriteOmit<ExtArgs> | null
+    /**
+     * The data used to create many Favourites.
+     */
+    data: FavouriteCreateManyInput | FavouriteCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavouriteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Favourite update
+   */
+  export type FavouriteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favourite
+     */
+    select?: FavouriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favourite
+     */
+    omit?: FavouriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavouriteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Favourite.
+     */
+    data: XOR<FavouriteUpdateInput, FavouriteUncheckedUpdateInput>
+    /**
+     * Choose, which Favourite to update.
+     */
+    where: FavouriteWhereUniqueInput
+  }
+
+  /**
+   * Favourite updateMany
+   */
+  export type FavouriteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Favourites.
+     */
+    data: XOR<FavouriteUpdateManyMutationInput, FavouriteUncheckedUpdateManyInput>
+    /**
+     * Filter which Favourites to update
+     */
+    where?: FavouriteWhereInput
+    /**
+     * Limit how many Favourites to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Favourite updateManyAndReturn
+   */
+  export type FavouriteUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favourite
+     */
+    select?: FavouriteSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favourite
+     */
+    omit?: FavouriteOmit<ExtArgs> | null
+    /**
+     * The data used to update Favourites.
+     */
+    data: XOR<FavouriteUpdateManyMutationInput, FavouriteUncheckedUpdateManyInput>
+    /**
+     * Filter which Favourites to update
+     */
+    where?: FavouriteWhereInput
+    /**
+     * Limit how many Favourites to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavouriteIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Favourite upsert
+   */
+  export type FavouriteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favourite
+     */
+    select?: FavouriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favourite
+     */
+    omit?: FavouriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavouriteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Favourite to update in case it exists.
+     */
+    where: FavouriteWhereUniqueInput
+    /**
+     * In case the Favourite found by the `where` argument doesn't exist, create a new Favourite with this data.
+     */
+    create: XOR<FavouriteCreateInput, FavouriteUncheckedCreateInput>
+    /**
+     * In case the Favourite was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FavouriteUpdateInput, FavouriteUncheckedUpdateInput>
+  }
+
+  /**
+   * Favourite delete
+   */
+  export type FavouriteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favourite
+     */
+    select?: FavouriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favourite
+     */
+    omit?: FavouriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavouriteInclude<ExtArgs> | null
+    /**
+     * Filter which Favourite to delete.
+     */
+    where: FavouriteWhereUniqueInput
+  }
+
+  /**
+   * Favourite deleteMany
+   */
+  export type FavouriteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Favourites to delete
+     */
+    where?: FavouriteWhereInput
+    /**
+     * Limit how many Favourites to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Favourite without action
+   */
+  export type FavouriteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favourite
+     */
+    select?: FavouriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favourite
+     */
+    omit?: FavouriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavouriteInclude<ExtArgs> | null
   }
 
 
@@ -10898,6 +12093,7 @@ export namespace Prisma {
     genres?: boolean | Movie$genresArgs<ExtArgs>
     reviews?: boolean | Movie$reviewsArgs<ExtArgs>
     watchlist?: boolean | Movie$watchlistArgs<ExtArgs>
+    favourites?: boolean | Movie$favouritesArgs<ExtArgs>
     _count?: boolean | MovieCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["movie"]>
 
@@ -10993,6 +12189,7 @@ export namespace Prisma {
     genres?: boolean | Movie$genresArgs<ExtArgs>
     reviews?: boolean | Movie$reviewsArgs<ExtArgs>
     watchlist?: boolean | Movie$watchlistArgs<ExtArgs>
+    favourites?: boolean | Movie$favouritesArgs<ExtArgs>
     _count?: boolean | MovieCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MovieIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -11004,6 +12201,7 @@ export namespace Prisma {
       genres: Prisma.$MovieGenrePayload<ExtArgs>[]
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
       watchlist: Prisma.$WatchlistPayload<ExtArgs>[]
+      favourites: Prisma.$FavouritePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11429,6 +12627,7 @@ export namespace Prisma {
     genres<T extends Movie$genresArgs<ExtArgs> = {}>(args?: Subset<T, Movie$genresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MovieGenrePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviews<T extends Movie$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, Movie$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     watchlist<T extends Movie$watchlistArgs<ExtArgs> = {}>(args?: Subset<T, Movie$watchlistArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WatchlistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    favourites<T extends Movie$favouritesArgs<ExtArgs> = {}>(args?: Subset<T, Movie$favouritesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavouritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11946,6 +13145,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WatchlistScalarFieldEnum | WatchlistScalarFieldEnum[]
+  }
+
+  /**
+   * Movie.favourites
+   */
+  export type Movie$favouritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favourite
+     */
+    select?: FavouriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favourite
+     */
+    omit?: FavouriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavouriteInclude<ExtArgs> | null
+    where?: FavouriteWhereInput
+    orderBy?: FavouriteOrderByWithRelationInput | FavouriteOrderByWithRelationInput[]
+    cursor?: FavouriteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FavouriteScalarFieldEnum | FavouriteScalarFieldEnum[]
   }
 
   /**
@@ -13092,140 +14315,132 @@ export namespace Prisma {
 
   export type PaymentAvgAggregateOutputType = {
     amount: number | null
-    refundedAmount: number | null
+    retryCount: number | null
   }
 
   export type PaymentSumAggregateOutputType = {
     amount: number | null
-    refundedAmount: number | null
+    retryCount: number | null
   }
 
   export type PaymentMinAggregateOutputType = {
     id: string | null
+    subscriptionId: string | null
     userId: string | null
     amount: number | null
-    status: $Enums.PaymentStatus | null
-    transactionId: string | null
-    subscriptionId: string | null
-    invoiceUrl: string | null
-    provider: string | null
-    createdAt: Date | null
-    stripeEventId: string | null
-    method: string | null
     currency: string | null
-    refundedAmount: number | null
-    refundedAt: Date | null
-    purchaseAt: Date | null
-    expiresAt: Date | null
+    stripePaymentId: string | null
+    status: $Enums.PaymentStatus | null
+    billingPeriodStart: Date | null
+    billingPeriodEnd: Date | null
+    dueDate: Date | null
+    paidAt: Date | null
+    failedReason: string | null
+    retryCount: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type PaymentMaxAggregateOutputType = {
     id: string | null
+    subscriptionId: string | null
     userId: string | null
     amount: number | null
-    status: $Enums.PaymentStatus | null
-    transactionId: string | null
-    subscriptionId: string | null
-    invoiceUrl: string | null
-    provider: string | null
-    createdAt: Date | null
-    stripeEventId: string | null
-    method: string | null
     currency: string | null
-    refundedAmount: number | null
-    refundedAt: Date | null
-    purchaseAt: Date | null
-    expiresAt: Date | null
+    stripePaymentId: string | null
+    status: $Enums.PaymentStatus | null
+    billingPeriodStart: Date | null
+    billingPeriodEnd: Date | null
+    dueDate: Date | null
+    paidAt: Date | null
+    failedReason: string | null
+    retryCount: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type PaymentCountAggregateOutputType = {
     id: number
+    subscriptionId: number
     userId: number
     amount: number
-    status: number
-    transactionId: number
-    subscriptionId: number
-    invoiceUrl: number
-    provider: number
-    createdAt: number
-    stripeEventId: number
-    method: number
-    paymentGatewayData: number
     currency: number
-    refundedAmount: number
-    refundedAt: number
-    purchaseAt: number
-    expiresAt: number
+    stripePaymentId: number
+    status: number
+    billingPeriodStart: number
+    billingPeriodEnd: number
+    dueDate: number
+    paidAt: number
+    failedReason: number
+    retryCount: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type PaymentAvgAggregateInputType = {
     amount?: true
-    refundedAmount?: true
+    retryCount?: true
   }
 
   export type PaymentSumAggregateInputType = {
     amount?: true
-    refundedAmount?: true
+    retryCount?: true
   }
 
   export type PaymentMinAggregateInputType = {
     id?: true
+    subscriptionId?: true
     userId?: true
     amount?: true
-    status?: true
-    transactionId?: true
-    subscriptionId?: true
-    invoiceUrl?: true
-    provider?: true
-    createdAt?: true
-    stripeEventId?: true
-    method?: true
     currency?: true
-    refundedAmount?: true
-    refundedAt?: true
-    purchaseAt?: true
-    expiresAt?: true
+    stripePaymentId?: true
+    status?: true
+    billingPeriodStart?: true
+    billingPeriodEnd?: true
+    dueDate?: true
+    paidAt?: true
+    failedReason?: true
+    retryCount?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type PaymentMaxAggregateInputType = {
     id?: true
+    subscriptionId?: true
     userId?: true
     amount?: true
-    status?: true
-    transactionId?: true
-    subscriptionId?: true
-    invoiceUrl?: true
-    provider?: true
-    createdAt?: true
-    stripeEventId?: true
-    method?: true
     currency?: true
-    refundedAmount?: true
-    refundedAt?: true
-    purchaseAt?: true
-    expiresAt?: true
+    stripePaymentId?: true
+    status?: true
+    billingPeriodStart?: true
+    billingPeriodEnd?: true
+    dueDate?: true
+    paidAt?: true
+    failedReason?: true
+    retryCount?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type PaymentCountAggregateInputType = {
     id?: true
+    subscriptionId?: true
     userId?: true
     amount?: true
-    status?: true
-    transactionId?: true
-    subscriptionId?: true
-    invoiceUrl?: true
-    provider?: true
-    createdAt?: true
-    stripeEventId?: true
-    method?: true
-    paymentGatewayData?: true
     currency?: true
-    refundedAmount?: true
-    refundedAt?: true
-    purchaseAt?: true
-    expiresAt?: true
+    stripePaymentId?: true
+    status?: true
+    billingPeriodStart?: true
+    billingPeriodEnd?: true
+    dueDate?: true
+    paidAt?: true
+    failedReason?: true
+    retryCount?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -13317,22 +14532,20 @@ export namespace Prisma {
 
   export type PaymentGroupByOutputType = {
     id: string
+    subscriptionId: string
     userId: string
     amount: number
+    currency: string
+    stripePaymentId: string | null
     status: $Enums.PaymentStatus
-    transactionId: string | null
-    subscriptionId: string | null
-    invoiceUrl: string | null
-    provider: string | null
+    billingPeriodStart: Date
+    billingPeriodEnd: Date
+    dueDate: Date
+    paidAt: Date | null
+    failedReason: string | null
+    retryCount: number
     createdAt: Date
-    stripeEventId: string | null
-    method: string | null
-    paymentGatewayData: JsonValue | null
-    currency: string | null
-    refundedAmount: number | null
-    refundedAt: Date | null
-    purchaseAt: Date
-    expiresAt: Date
+    updatedAt: Date
     _count: PaymentCountAggregateOutputType | null
     _avg: PaymentAvgAggregateOutputType | null
     _sum: PaymentSumAggregateOutputType | null
@@ -13356,128 +14569,118 @@ export namespace Prisma {
 
   export type PaymentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    subscriptionId?: boolean
     userId?: boolean
     amount?: boolean
-    status?: boolean
-    transactionId?: boolean
-    subscriptionId?: boolean
-    invoiceUrl?: boolean
-    provider?: boolean
-    createdAt?: boolean
-    stripeEventId?: boolean
-    method?: boolean
-    paymentGatewayData?: boolean
     currency?: boolean
-    refundedAmount?: boolean
-    refundedAt?: boolean
-    purchaseAt?: boolean
-    expiresAt?: boolean
-    subscription?: boolean | Payment$subscriptionArgs<ExtArgs>
+    stripePaymentId?: boolean
+    status?: boolean
+    billingPeriodStart?: boolean
+    billingPeriodEnd?: boolean
+    dueDate?: boolean
+    paidAt?: boolean
+    failedReason?: boolean
+    retryCount?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    subscription?: boolean | SubscriptionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["payment"]>
 
   export type PaymentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    subscriptionId?: boolean
     userId?: boolean
     amount?: boolean
-    status?: boolean
-    transactionId?: boolean
-    subscriptionId?: boolean
-    invoiceUrl?: boolean
-    provider?: boolean
-    createdAt?: boolean
-    stripeEventId?: boolean
-    method?: boolean
-    paymentGatewayData?: boolean
     currency?: boolean
-    refundedAmount?: boolean
-    refundedAt?: boolean
-    purchaseAt?: boolean
-    expiresAt?: boolean
-    subscription?: boolean | Payment$subscriptionArgs<ExtArgs>
+    stripePaymentId?: boolean
+    status?: boolean
+    billingPeriodStart?: boolean
+    billingPeriodEnd?: boolean
+    dueDate?: boolean
+    paidAt?: boolean
+    failedReason?: boolean
+    retryCount?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    subscription?: boolean | SubscriptionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["payment"]>
 
   export type PaymentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    subscriptionId?: boolean
     userId?: boolean
     amount?: boolean
-    status?: boolean
-    transactionId?: boolean
-    subscriptionId?: boolean
-    invoiceUrl?: boolean
-    provider?: boolean
-    createdAt?: boolean
-    stripeEventId?: boolean
-    method?: boolean
-    paymentGatewayData?: boolean
     currency?: boolean
-    refundedAmount?: boolean
-    refundedAt?: boolean
-    purchaseAt?: boolean
-    expiresAt?: boolean
-    subscription?: boolean | Payment$subscriptionArgs<ExtArgs>
+    stripePaymentId?: boolean
+    status?: boolean
+    billingPeriodStart?: boolean
+    billingPeriodEnd?: boolean
+    dueDate?: boolean
+    paidAt?: boolean
+    failedReason?: boolean
+    retryCount?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    subscription?: boolean | SubscriptionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["payment"]>
 
   export type PaymentSelectScalar = {
     id?: boolean
+    subscriptionId?: boolean
     userId?: boolean
     amount?: boolean
-    status?: boolean
-    transactionId?: boolean
-    subscriptionId?: boolean
-    invoiceUrl?: boolean
-    provider?: boolean
-    createdAt?: boolean
-    stripeEventId?: boolean
-    method?: boolean
-    paymentGatewayData?: boolean
     currency?: boolean
-    refundedAmount?: boolean
-    refundedAt?: boolean
-    purchaseAt?: boolean
-    expiresAt?: boolean
+    stripePaymentId?: boolean
+    status?: boolean
+    billingPeriodStart?: boolean
+    billingPeriodEnd?: boolean
+    dueDate?: boolean
+    paidAt?: boolean
+    failedReason?: boolean
+    retryCount?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "amount" | "status" | "transactionId" | "subscriptionId" | "invoiceUrl" | "provider" | "createdAt" | "stripeEventId" | "method" | "paymentGatewayData" | "currency" | "refundedAmount" | "refundedAt" | "purchaseAt" | "expiresAt", ExtArgs["result"]["payment"]>
+  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "subscriptionId" | "userId" | "amount" | "currency" | "stripePaymentId" | "status" | "billingPeriodStart" | "billingPeriodEnd" | "dueDate" | "paidAt" | "failedReason" | "retryCount" | "createdAt" | "updatedAt", ExtArgs["result"]["payment"]>
   export type PaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    subscription?: boolean | Payment$subscriptionArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    subscription?: boolean | SubscriptionDefaultArgs<ExtArgs>
   }
   export type PaymentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    subscription?: boolean | Payment$subscriptionArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    subscription?: boolean | SubscriptionDefaultArgs<ExtArgs>
   }
   export type PaymentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    subscription?: boolean | Payment$subscriptionArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    subscription?: boolean | SubscriptionDefaultArgs<ExtArgs>
   }
 
   export type $PaymentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Payment"
     objects: {
-      subscription: Prisma.$SubscriptionPayload<ExtArgs> | null
       user: Prisma.$UserPayload<ExtArgs>
+      subscription: Prisma.$SubscriptionPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      subscriptionId: string
       userId: string
       amount: number
+      currency: string
+      stripePaymentId: string | null
       status: $Enums.PaymentStatus
-      transactionId: string | null
-      subscriptionId: string | null
-      invoiceUrl: string | null
-      provider: string | null
+      billingPeriodStart: Date
+      billingPeriodEnd: Date
+      dueDate: Date
+      paidAt: Date | null
+      failedReason: string | null
+      retryCount: number
       createdAt: Date
-      stripeEventId: string | null
-      method: string | null
-      paymentGatewayData: Prisma.JsonValue | null
-      currency: string | null
-      refundedAmount: number | null
-      refundedAt: Date | null
-      purchaseAt: Date
-      expiresAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["payment"]>
     composites: {}
   }
@@ -13872,8 +15075,8 @@ export namespace Prisma {
    */
   export interface Prisma__PaymentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    subscription<T extends Payment$subscriptionArgs<ExtArgs> = {}>(args?: Subset<T, Payment$subscriptionArgs<ExtArgs>>): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    subscription<T extends SubscriptionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SubscriptionDefaultArgs<ExtArgs>>): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13904,22 +15107,20 @@ export namespace Prisma {
    */
   interface PaymentFieldRefs {
     readonly id: FieldRef<"Payment", 'String'>
+    readonly subscriptionId: FieldRef<"Payment", 'String'>
     readonly userId: FieldRef<"Payment", 'String'>
     readonly amount: FieldRef<"Payment", 'Float'>
-    readonly status: FieldRef<"Payment", 'PaymentStatus'>
-    readonly transactionId: FieldRef<"Payment", 'String'>
-    readonly subscriptionId: FieldRef<"Payment", 'String'>
-    readonly invoiceUrl: FieldRef<"Payment", 'String'>
-    readonly provider: FieldRef<"Payment", 'String'>
-    readonly createdAt: FieldRef<"Payment", 'DateTime'>
-    readonly stripeEventId: FieldRef<"Payment", 'String'>
-    readonly method: FieldRef<"Payment", 'String'>
-    readonly paymentGatewayData: FieldRef<"Payment", 'Json'>
     readonly currency: FieldRef<"Payment", 'String'>
-    readonly refundedAmount: FieldRef<"Payment", 'Float'>
-    readonly refundedAt: FieldRef<"Payment", 'DateTime'>
-    readonly purchaseAt: FieldRef<"Payment", 'DateTime'>
-    readonly expiresAt: FieldRef<"Payment", 'DateTime'>
+    readonly stripePaymentId: FieldRef<"Payment", 'String'>
+    readonly status: FieldRef<"Payment", 'PaymentStatus'>
+    readonly billingPeriodStart: FieldRef<"Payment", 'DateTime'>
+    readonly billingPeriodEnd: FieldRef<"Payment", 'DateTime'>
+    readonly dueDate: FieldRef<"Payment", 'DateTime'>
+    readonly paidAt: FieldRef<"Payment", 'DateTime'>
+    readonly failedReason: FieldRef<"Payment", 'String'>
+    readonly retryCount: FieldRef<"Payment", 'Int'>
+    readonly createdAt: FieldRef<"Payment", 'DateTime'>
+    readonly updatedAt: FieldRef<"Payment", 'DateTime'>
   }
     
 
@@ -14318,25 +15519,6 @@ export namespace Prisma {
      * Limit how many Payments to delete.
      */
     limit?: number
-  }
-
-  /**
-   * Payment.subscription
-   */
-  export type Payment$subscriptionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Subscription
-     */
-    select?: SubscriptionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Subscription
-     */
-    omit?: SubscriptionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SubscriptionInclude<ExtArgs> | null
-    where?: SubscriptionWhereInput
   }
 
   /**
@@ -18798,8 +19980,18 @@ export namespace Prisma {
 
   export type AggregateSubscription = {
     _count: SubscriptionCountAggregateOutputType | null
+    _avg: SubscriptionAvgAggregateOutputType | null
+    _sum: SubscriptionSumAggregateOutputType | null
     _min: SubscriptionMinAggregateOutputType | null
     _max: SubscriptionMaxAggregateOutputType | null
+  }
+
+  export type SubscriptionAvgAggregateOutputType = {
+    billingCycle: number | null
+  }
+
+  export type SubscriptionSumAggregateOutputType = {
+    billingCycle: number | null
   }
 
   export type SubscriptionMinAggregateOutputType = {
@@ -18808,6 +20000,12 @@ export namespace Prisma {
     planId: string | null
     startDate: Date | null
     expiresAt: Date | null
+    renewalDate: Date | null
+    status: $Enums.SubscriptionStatus | null
+    cancelledAt: Date | null
+    cancelReason: string | null
+    autoRenew: boolean | null
+    billingCycle: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -18818,6 +20016,12 @@ export namespace Prisma {
     planId: string | null
     startDate: Date | null
     expiresAt: Date | null
+    renewalDate: Date | null
+    status: $Enums.SubscriptionStatus | null
+    cancelledAt: Date | null
+    cancelReason: string | null
+    autoRenew: boolean | null
+    billingCycle: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -18828,11 +20032,25 @@ export namespace Prisma {
     planId: number
     startDate: number
     expiresAt: number
+    renewalDate: number
+    status: number
+    cancelledAt: number
+    cancelReason: number
+    autoRenew: number
+    billingCycle: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
+
+  export type SubscriptionAvgAggregateInputType = {
+    billingCycle?: true
+  }
+
+  export type SubscriptionSumAggregateInputType = {
+    billingCycle?: true
+  }
 
   export type SubscriptionMinAggregateInputType = {
     id?: true
@@ -18840,6 +20058,12 @@ export namespace Prisma {
     planId?: true
     startDate?: true
     expiresAt?: true
+    renewalDate?: true
+    status?: true
+    cancelledAt?: true
+    cancelReason?: true
+    autoRenew?: true
+    billingCycle?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -18850,6 +20074,12 @@ export namespace Prisma {
     planId?: true
     startDate?: true
     expiresAt?: true
+    renewalDate?: true
+    status?: true
+    cancelledAt?: true
+    cancelReason?: true
+    autoRenew?: true
+    billingCycle?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -18860,6 +20090,12 @@ export namespace Prisma {
     planId?: true
     startDate?: true
     expiresAt?: true
+    renewalDate?: true
+    status?: true
+    cancelledAt?: true
+    cancelReason?: true
+    autoRenew?: true
+    billingCycle?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -18903,6 +20139,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: SubscriptionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SubscriptionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: SubscriptionMinAggregateInputType
@@ -18933,6 +20181,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: SubscriptionCountAggregateInputType | true
+    _avg?: SubscriptionAvgAggregateInputType
+    _sum?: SubscriptionSumAggregateInputType
     _min?: SubscriptionMinAggregateInputType
     _max?: SubscriptionMaxAggregateInputType
   }
@@ -18943,9 +20193,17 @@ export namespace Prisma {
     planId: string
     startDate: Date
     expiresAt: Date
+    renewalDate: Date | null
+    status: $Enums.SubscriptionStatus
+    cancelledAt: Date | null
+    cancelReason: string | null
+    autoRenew: boolean
+    billingCycle: number
     createdAt: Date
     updatedAt: Date
     _count: SubscriptionCountAggregateOutputType | null
+    _avg: SubscriptionAvgAggregateOutputType | null
+    _sum: SubscriptionSumAggregateOutputType | null
     _min: SubscriptionMinAggregateOutputType | null
     _max: SubscriptionMaxAggregateOutputType | null
   }
@@ -18970,11 +20228,17 @@ export namespace Prisma {
     planId?: boolean
     startDate?: boolean
     expiresAt?: boolean
+    renewalDate?: boolean
+    status?: boolean
+    cancelledAt?: boolean
+    cancelReason?: boolean
+    autoRenew?: boolean
+    billingCycle?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    payments?: boolean | Subscription$paymentsArgs<ExtArgs>
     plan?: boolean | SubscriptionPlanDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    payments?: boolean | Subscription$paymentsArgs<ExtArgs>
     _count?: boolean | SubscriptionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["subscription"]>
 
@@ -18984,6 +20248,12 @@ export namespace Prisma {
     planId?: boolean
     startDate?: boolean
     expiresAt?: boolean
+    renewalDate?: boolean
+    status?: boolean
+    cancelledAt?: boolean
+    cancelReason?: boolean
+    autoRenew?: boolean
+    billingCycle?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     plan?: boolean | SubscriptionPlanDefaultArgs<ExtArgs>
@@ -18996,6 +20266,12 @@ export namespace Prisma {
     planId?: boolean
     startDate?: boolean
     expiresAt?: boolean
+    renewalDate?: boolean
+    status?: boolean
+    cancelledAt?: boolean
+    cancelReason?: boolean
+    autoRenew?: boolean
+    billingCycle?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     plan?: boolean | SubscriptionPlanDefaultArgs<ExtArgs>
@@ -19008,15 +20284,21 @@ export namespace Prisma {
     planId?: boolean
     startDate?: boolean
     expiresAt?: boolean
+    renewalDate?: boolean
+    status?: boolean
+    cancelledAt?: boolean
+    cancelReason?: boolean
+    autoRenew?: boolean
+    billingCycle?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SubscriptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "planId" | "startDate" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["subscription"]>
+  export type SubscriptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "planId" | "startDate" | "expiresAt" | "renewalDate" | "status" | "cancelledAt" | "cancelReason" | "autoRenew" | "billingCycle" | "createdAt" | "updatedAt", ExtArgs["result"]["subscription"]>
   export type SubscriptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    payments?: boolean | Subscription$paymentsArgs<ExtArgs>
     plan?: boolean | SubscriptionPlanDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    payments?: boolean | Subscription$paymentsArgs<ExtArgs>
     _count?: boolean | SubscriptionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SubscriptionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19031,9 +20313,9 @@ export namespace Prisma {
   export type $SubscriptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Subscription"
     objects: {
-      payments: Prisma.$PaymentPayload<ExtArgs>[]
       plan: Prisma.$SubscriptionPlanPayload<ExtArgs>
       user: Prisma.$UserPayload<ExtArgs>
+      payments: Prisma.$PaymentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -19041,6 +20323,12 @@ export namespace Prisma {
       planId: string
       startDate: Date
       expiresAt: Date
+      renewalDate: Date | null
+      status: $Enums.SubscriptionStatus
+      cancelledAt: Date | null
+      cancelReason: string | null
+      autoRenew: boolean
+      billingCycle: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["subscription"]>
@@ -19437,9 +20725,9 @@ export namespace Prisma {
    */
   export interface Prisma__SubscriptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    payments<T extends Subscription$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Subscription$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     plan<T extends SubscriptionPlanDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SubscriptionPlanDefaultArgs<ExtArgs>>): Prisma__SubscriptionPlanClient<$Result.GetResult<Prisma.$SubscriptionPlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    payments<T extends Subscription$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Subscription$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -19474,6 +20762,12 @@ export namespace Prisma {
     readonly planId: FieldRef<"Subscription", 'String'>
     readonly startDate: FieldRef<"Subscription", 'DateTime'>
     readonly expiresAt: FieldRef<"Subscription", 'DateTime'>
+    readonly renewalDate: FieldRef<"Subscription", 'DateTime'>
+    readonly status: FieldRef<"Subscription", 'SubscriptionStatus'>
+    readonly cancelledAt: FieldRef<"Subscription", 'DateTime'>
+    readonly cancelReason: FieldRef<"Subscription", 'String'>
+    readonly autoRenew: FieldRef<"Subscription", 'Boolean'>
+    readonly billingCycle: FieldRef<"Subscription", 'Int'>
     readonly createdAt: FieldRef<"Subscription", 'DateTime'>
     readonly updatedAt: FieldRef<"Subscription", 'DateTime'>
   }
@@ -19932,20 +21226,20 @@ export namespace Prisma {
   }
 
   export type SubscriptionPlanAvgAggregateOutputType = {
+    durationMonths: number | null
     price: number | null
-    duration: number | null
   }
 
   export type SubscriptionPlanSumAggregateOutputType = {
+    durationMonths: number | null
     price: number | null
-    duration: number | null
   }
 
   export type SubscriptionPlanMinAggregateOutputType = {
     id: string | null
     name: string | null
+    durationMonths: number | null
     price: number | null
-    duration: number | null
     stripePriceId: string | null
     description: string | null
     isActive: boolean | null
@@ -19956,8 +21250,8 @@ export namespace Prisma {
   export type SubscriptionPlanMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    durationMonths: number | null
     price: number | null
-    duration: number | null
     stripePriceId: string | null
     description: string | null
     isActive: boolean | null
@@ -19968,10 +21262,11 @@ export namespace Prisma {
   export type SubscriptionPlanCountAggregateOutputType = {
     id: number
     name: number
+    durationMonths: number
     price: number
-    duration: number
     stripePriceId: number
     description: number
+    features: number
     isActive: number
     createdAt: number
     updatedAt: number
@@ -19980,20 +21275,20 @@ export namespace Prisma {
 
 
   export type SubscriptionPlanAvgAggregateInputType = {
+    durationMonths?: true
     price?: true
-    duration?: true
   }
 
   export type SubscriptionPlanSumAggregateInputType = {
+    durationMonths?: true
     price?: true
-    duration?: true
   }
 
   export type SubscriptionPlanMinAggregateInputType = {
     id?: true
     name?: true
+    durationMonths?: true
     price?: true
-    duration?: true
     stripePriceId?: true
     description?: true
     isActive?: true
@@ -20004,8 +21299,8 @@ export namespace Prisma {
   export type SubscriptionPlanMaxAggregateInputType = {
     id?: true
     name?: true
+    durationMonths?: true
     price?: true
-    duration?: true
     stripePriceId?: true
     description?: true
     isActive?: true
@@ -20016,10 +21311,11 @@ export namespace Prisma {
   export type SubscriptionPlanCountAggregateInputType = {
     id?: true
     name?: true
+    durationMonths?: true
     price?: true
-    duration?: true
     stripePriceId?: true
     description?: true
+    features?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -20115,10 +21411,11 @@ export namespace Prisma {
   export type SubscriptionPlanGroupByOutputType = {
     id: string
     name: string
+    durationMonths: number
     price: number
-    duration: number
     stripePriceId: string | null
     description: string | null
+    features: string[]
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -20146,10 +21443,11 @@ export namespace Prisma {
   export type SubscriptionPlanSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    durationMonths?: boolean
     price?: boolean
-    duration?: boolean
     stripePriceId?: boolean
     description?: boolean
+    features?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -20160,10 +21458,11 @@ export namespace Prisma {
   export type SubscriptionPlanSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    durationMonths?: boolean
     price?: boolean
-    duration?: boolean
     stripePriceId?: boolean
     description?: boolean
+    features?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -20172,10 +21471,11 @@ export namespace Prisma {
   export type SubscriptionPlanSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    durationMonths?: boolean
     price?: boolean
-    duration?: boolean
     stripePriceId?: boolean
     description?: boolean
+    features?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -20184,16 +21484,17 @@ export namespace Prisma {
   export type SubscriptionPlanSelectScalar = {
     id?: boolean
     name?: boolean
+    durationMonths?: boolean
     price?: boolean
-    duration?: boolean
     stripePriceId?: boolean
     description?: boolean
+    features?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SubscriptionPlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "duration" | "stripePriceId" | "description" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["subscriptionPlan"]>
+  export type SubscriptionPlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "durationMonths" | "price" | "stripePriceId" | "description" | "features" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["subscriptionPlan"]>
   export type SubscriptionPlanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subscriptions?: boolean | SubscriptionPlan$subscriptionsArgs<ExtArgs>
     _count?: boolean | SubscriptionPlanCountOutputTypeDefaultArgs<ExtArgs>
@@ -20209,10 +21510,11 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      durationMonths: number
       price: number
-      duration: number
       stripePriceId: string | null
       description: string | null
+      features: string[]
       isActive: boolean
       createdAt: Date
       updatedAt: Date
@@ -20642,10 +21944,11 @@ export namespace Prisma {
   interface SubscriptionPlanFieldRefs {
     readonly id: FieldRef<"SubscriptionPlan", 'String'>
     readonly name: FieldRef<"SubscriptionPlan", 'String'>
+    readonly durationMonths: FieldRef<"SubscriptionPlan", 'Int'>
     readonly price: FieldRef<"SubscriptionPlan", 'Float'>
-    readonly duration: FieldRef<"SubscriptionPlan", 'Int'>
     readonly stripePriceId: FieldRef<"SubscriptionPlan", 'String'>
     readonly description: FieldRef<"SubscriptionPlan", 'String'>
+    readonly features: FieldRef<"SubscriptionPlan", 'String[]'>
     readonly isActive: FieldRef<"SubscriptionPlan", 'Boolean'>
     readonly createdAt: FieldRef<"SubscriptionPlan", 'DateTime'>
     readonly updatedAt: FieldRef<"SubscriptionPlan", 'DateTime'>
@@ -21110,6 +22413,7 @@ export namespace Prisma {
     isPremium: boolean | null
     needPasswordChange: boolean | null
     rememberMe: boolean | null
+    currentSubscriptionId: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -21128,6 +22432,7 @@ export namespace Prisma {
     isPremium: boolean | null
     needPasswordChange: boolean | null
     rememberMe: boolean | null
+    currentSubscriptionId: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -21146,6 +22451,7 @@ export namespace Prisma {
     isPremium: number
     needPasswordChange: number
     rememberMe: number
+    currentSubscriptionId: number
     _all: number
   }
 
@@ -21166,6 +22472,7 @@ export namespace Prisma {
     isPremium?: true
     needPasswordChange?: true
     rememberMe?: true
+    currentSubscriptionId?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -21184,6 +22491,7 @@ export namespace Prisma {
     isPremium?: true
     needPasswordChange?: true
     rememberMe?: true
+    currentSubscriptionId?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -21202,6 +22510,7 @@ export namespace Prisma {
     isPremium?: true
     needPasswordChange?: true
     rememberMe?: true
+    currentSubscriptionId?: true
     _all?: true
   }
 
@@ -21293,6 +22602,7 @@ export namespace Prisma {
     isPremium: boolean
     needPasswordChange: boolean
     rememberMe: boolean
+    currentSubscriptionId: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -21328,6 +22638,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: boolean
     comments?: boolean | User$commentsArgs<ExtArgs>
     likes?: boolean | User$likesArgs<ExtArgs>
     payments?: boolean | User$paymentsArgs<ExtArgs>
@@ -21340,6 +22651,7 @@ export namespace Prisma {
     reviewVotes?: boolean | User$reviewVotesArgs<ExtArgs>
     followers?: boolean | User$followersArgs<ExtArgs>
     following?: boolean | User$followingArgs<ExtArgs>
+    favourites?: boolean | User$favouritesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -21359,6 +22671,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -21377,6 +22690,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -21395,9 +22709,10 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "avatar" | "emailVerified" | "isDeleted" | "provider" | "providerId" | "createdAt" | "updatedAt" | "isPremium" | "needPasswordChange" | "rememberMe", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "avatar" | "emailVerified" | "isDeleted" | "provider" | "providerId" | "createdAt" | "updatedAt" | "isPremium" | "needPasswordChange" | "rememberMe" | "currentSubscriptionId", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     comments?: boolean | User$commentsArgs<ExtArgs>
     likes?: boolean | User$likesArgs<ExtArgs>
@@ -21411,6 +22726,7 @@ export namespace Prisma {
     reviewVotes?: boolean | User$reviewVotesArgs<ExtArgs>
     followers?: boolean | User$followersArgs<ExtArgs>
     following?: boolean | User$followingArgs<ExtArgs>
+    favourites?: boolean | User$favouritesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -21431,6 +22747,7 @@ export namespace Prisma {
       reviewVotes: Prisma.$ReviewVotePayload<ExtArgs>[]
       followers: Prisma.$FollowPayload<ExtArgs>[]
       following: Prisma.$FollowPayload<ExtArgs>[]
+      favourites: Prisma.$FavouritePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -21448,6 +22765,7 @@ export namespace Prisma {
       isPremium: boolean
       needPasswordChange: boolean
       rememberMe: boolean
+      currentSubscriptionId: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -21854,6 +23172,7 @@ export namespace Prisma {
     reviewVotes<T extends User$reviewVotesArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewVotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewVotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     followers<T extends User$followersArgs<ExtArgs> = {}>(args?: Subset<T, User$followersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     following<T extends User$followingArgs<ExtArgs> = {}>(args?: Subset<T, User$followingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    favourites<T extends User$favouritesArgs<ExtArgs> = {}>(args?: Subset<T, User$favouritesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavouritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -21898,6 +23217,7 @@ export namespace Prisma {
     readonly isPremium: FieldRef<"User", 'Boolean'>
     readonly needPasswordChange: FieldRef<"User", 'Boolean'>
     readonly rememberMe: FieldRef<"User", 'Boolean'>
+    readonly currentSubscriptionId: FieldRef<"User", 'String'>
   }
     
 
@@ -22571,6 +23891,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
+  }
+
+  /**
+   * User.favourites
+   */
+  export type User$favouritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favourite
+     */
+    select?: FavouriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favourite
+     */
+    omit?: FavouriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavouriteInclude<ExtArgs> | null
+    where?: FavouriteWhereInput
+    orderBy?: FavouriteOrderByWithRelationInput | FavouriteOrderByWithRelationInput[]
+    cursor?: FavouriteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FavouriteScalarFieldEnum | FavouriteScalarFieldEnum[]
   }
 
   /**
@@ -23721,6 +25065,17 @@ export namespace Prisma {
   export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
+  export const FavouriteScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    movieId: 'movieId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type FavouriteScalarFieldEnum = (typeof FavouriteScalarFieldEnum)[keyof typeof FavouriteScalarFieldEnum]
+
+
   export const FollowScalarFieldEnum: {
     id: 'id',
     followerId: 'followerId',
@@ -23815,22 +25170,20 @@ export namespace Prisma {
 
   export const PaymentScalarFieldEnum: {
     id: 'id',
+    subscriptionId: 'subscriptionId',
     userId: 'userId',
     amount: 'amount',
-    status: 'status',
-    transactionId: 'transactionId',
-    subscriptionId: 'subscriptionId',
-    invoiceUrl: 'invoiceUrl',
-    provider: 'provider',
-    createdAt: 'createdAt',
-    stripeEventId: 'stripeEventId',
-    method: 'method',
-    paymentGatewayData: 'paymentGatewayData',
     currency: 'currency',
-    refundedAmount: 'refundedAmount',
-    refundedAt: 'refundedAt',
-    purchaseAt: 'purchaseAt',
-    expiresAt: 'expiresAt'
+    stripePaymentId: 'stripePaymentId',
+    status: 'status',
+    billingPeriodStart: 'billingPeriodStart',
+    billingPeriodEnd: 'billingPeriodEnd',
+    dueDate: 'dueDate',
+    paidAt: 'paidAt',
+    failedReason: 'failedReason',
+    retryCount: 'retryCount',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
@@ -23900,6 +25253,12 @@ export namespace Prisma {
     planId: 'planId',
     startDate: 'startDate',
     expiresAt: 'expiresAt',
+    renewalDate: 'renewalDate',
+    status: 'status',
+    cancelledAt: 'cancelledAt',
+    cancelReason: 'cancelReason',
+    autoRenew: 'autoRenew',
+    billingCycle: 'billingCycle',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -23910,10 +25269,11 @@ export namespace Prisma {
   export const SubscriptionPlanScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    durationMonths: 'durationMonths',
     price: 'price',
-    duration: 'duration',
     stripePriceId: 'stripePriceId',
     description: 'description',
+    features: 'features',
     isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -23937,7 +25297,8 @@ export namespace Prisma {
     updatedAt: 'updatedAt',
     isPremium: 'isPremium',
     needPasswordChange: 'needPasswordChange',
-    rememberMe: 'rememberMe'
+    rememberMe: 'rememberMe',
+    currentSubscriptionId: 'currentSubscriptionId'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -24102,6 +25463,20 @@ export namespace Prisma {
    * Reference to a field of type 'ReviewStatus[]'
    */
   export type ListEnumReviewStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'SubscriptionStatus'
+   */
+  export type EnumSubscriptionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'SubscriptionStatus[]'
+   */
+  export type ListEnumSubscriptionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionStatus[]'>
     
 
 
@@ -24352,6 +25727,65 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"Comment"> | string
     reviewId?: StringWithAggregatesFilter<"Comment"> | string
     parentId?: StringNullableWithAggregatesFilter<"Comment"> | string | null
+  }
+
+  export type FavouriteWhereInput = {
+    AND?: FavouriteWhereInput | FavouriteWhereInput[]
+    OR?: FavouriteWhereInput[]
+    NOT?: FavouriteWhereInput | FavouriteWhereInput[]
+    id?: StringFilter<"Favourite"> | string
+    userId?: StringFilter<"Favourite"> | string
+    movieId?: StringFilter<"Favourite"> | string
+    createdAt?: DateTimeFilter<"Favourite"> | Date | string
+    updatedAt?: DateTimeFilter<"Favourite"> | Date | string
+    movie?: XOR<MovieScalarRelationFilter, MovieWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type FavouriteOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    movieId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    movie?: MovieOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type FavouriteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_movieId?: FavouriteUserIdMovieIdCompoundUniqueInput
+    AND?: FavouriteWhereInput | FavouriteWhereInput[]
+    OR?: FavouriteWhereInput[]
+    NOT?: FavouriteWhereInput | FavouriteWhereInput[]
+    userId?: StringFilter<"Favourite"> | string
+    movieId?: StringFilter<"Favourite"> | string
+    createdAt?: DateTimeFilter<"Favourite"> | Date | string
+    updatedAt?: DateTimeFilter<"Favourite"> | Date | string
+    movie?: XOR<MovieScalarRelationFilter, MovieWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId_movieId">
+
+  export type FavouriteOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    movieId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: FavouriteCountOrderByAggregateInput
+    _max?: FavouriteMaxOrderByAggregateInput
+    _min?: FavouriteMinOrderByAggregateInput
+  }
+
+  export type FavouriteScalarWhereWithAggregatesInput = {
+    AND?: FavouriteScalarWhereWithAggregatesInput | FavouriteScalarWhereWithAggregatesInput[]
+    OR?: FavouriteScalarWhereWithAggregatesInput[]
+    NOT?: FavouriteScalarWhereWithAggregatesInput | FavouriteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Favourite"> | string
+    userId?: StringWithAggregatesFilter<"Favourite"> | string
+    movieId?: StringWithAggregatesFilter<"Favourite"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Favourite"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Favourite"> | Date | string
   }
 
   export type FollowWhereInput = {
@@ -24624,6 +26058,7 @@ export namespace Prisma {
     genres?: MovieGenreListRelationFilter
     reviews?: ReviewListRelationFilter
     watchlist?: WatchlistListRelationFilter
+    favourites?: FavouriteListRelationFilter
   }
 
   export type MovieOrderByWithRelationInput = {
@@ -24656,6 +26091,7 @@ export namespace Prisma {
     genres?: MovieGenreOrderByRelationAggregateInput
     reviews?: ReviewOrderByRelationAggregateInput
     watchlist?: WatchlistOrderByRelationAggregateInput
+    favourites?: FavouriteOrderByRelationAggregateInput
   }
 
   export type MovieWhereUniqueInput = Prisma.AtLeast<{
@@ -24691,6 +26127,7 @@ export namespace Prisma {
     genres?: MovieGenreListRelationFilter
     reviews?: ReviewListRelationFilter
     watchlist?: WatchlistListRelationFilter
+    favourites?: FavouriteListRelationFilter
   }, "id">
 
   export type MovieOrderByWithAggregationInput = {
@@ -24839,91 +26276,83 @@ export namespace Prisma {
     OR?: PaymentWhereInput[]
     NOT?: PaymentWhereInput | PaymentWhereInput[]
     id?: StringFilter<"Payment"> | string
+    subscriptionId?: StringFilter<"Payment"> | string
     userId?: StringFilter<"Payment"> | string
     amount?: FloatFilter<"Payment"> | number
+    currency?: StringFilter<"Payment"> | string
+    stripePaymentId?: StringNullableFilter<"Payment"> | string | null
     status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
-    transactionId?: StringNullableFilter<"Payment"> | string | null
-    subscriptionId?: StringNullableFilter<"Payment"> | string | null
-    invoiceUrl?: StringNullableFilter<"Payment"> | string | null
-    provider?: StringNullableFilter<"Payment"> | string | null
+    billingPeriodStart?: DateTimeFilter<"Payment"> | Date | string
+    billingPeriodEnd?: DateTimeFilter<"Payment"> | Date | string
+    dueDate?: DateTimeFilter<"Payment"> | Date | string
+    paidAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
+    failedReason?: StringNullableFilter<"Payment"> | string | null
+    retryCount?: IntFilter<"Payment"> | number
     createdAt?: DateTimeFilter<"Payment"> | Date | string
-    stripeEventId?: StringNullableFilter<"Payment"> | string | null
-    method?: StringNullableFilter<"Payment"> | string | null
-    paymentGatewayData?: JsonNullableFilter<"Payment">
-    currency?: StringNullableFilter<"Payment"> | string | null
-    refundedAmount?: FloatNullableFilter<"Payment"> | number | null
-    refundedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
-    purchaseAt?: DateTimeFilter<"Payment"> | Date | string
-    expiresAt?: DateTimeFilter<"Payment"> | Date | string
-    subscription?: XOR<SubscriptionNullableScalarRelationFilter, SubscriptionWhereInput> | null
+    updatedAt?: DateTimeFilter<"Payment"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    subscription?: XOR<SubscriptionScalarRelationFilter, SubscriptionWhereInput>
   }
 
   export type PaymentOrderByWithRelationInput = {
     id?: SortOrder
+    subscriptionId?: SortOrder
     userId?: SortOrder
     amount?: SortOrder
+    currency?: SortOrder
+    stripePaymentId?: SortOrderInput | SortOrder
     status?: SortOrder
-    transactionId?: SortOrderInput | SortOrder
-    subscriptionId?: SortOrderInput | SortOrder
-    invoiceUrl?: SortOrderInput | SortOrder
-    provider?: SortOrderInput | SortOrder
+    billingPeriodStart?: SortOrder
+    billingPeriodEnd?: SortOrder
+    dueDate?: SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    failedReason?: SortOrderInput | SortOrder
+    retryCount?: SortOrder
     createdAt?: SortOrder
-    stripeEventId?: SortOrderInput | SortOrder
-    method?: SortOrderInput | SortOrder
-    paymentGatewayData?: SortOrderInput | SortOrder
-    currency?: SortOrderInput | SortOrder
-    refundedAmount?: SortOrderInput | SortOrder
-    refundedAt?: SortOrderInput | SortOrder
-    purchaseAt?: SortOrder
-    expiresAt?: SortOrder
-    subscription?: SubscriptionOrderByWithRelationInput
+    updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
+    subscription?: SubscriptionOrderByWithRelationInput
   }
 
   export type PaymentWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    transactionId?: string
-    stripeEventId?: string
+    stripePaymentId?: string
     AND?: PaymentWhereInput | PaymentWhereInput[]
     OR?: PaymentWhereInput[]
     NOT?: PaymentWhereInput | PaymentWhereInput[]
+    subscriptionId?: StringFilter<"Payment"> | string
     userId?: StringFilter<"Payment"> | string
     amount?: FloatFilter<"Payment"> | number
+    currency?: StringFilter<"Payment"> | string
     status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
-    subscriptionId?: StringNullableFilter<"Payment"> | string | null
-    invoiceUrl?: StringNullableFilter<"Payment"> | string | null
-    provider?: StringNullableFilter<"Payment"> | string | null
+    billingPeriodStart?: DateTimeFilter<"Payment"> | Date | string
+    billingPeriodEnd?: DateTimeFilter<"Payment"> | Date | string
+    dueDate?: DateTimeFilter<"Payment"> | Date | string
+    paidAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
+    failedReason?: StringNullableFilter<"Payment"> | string | null
+    retryCount?: IntFilter<"Payment"> | number
     createdAt?: DateTimeFilter<"Payment"> | Date | string
-    method?: StringNullableFilter<"Payment"> | string | null
-    paymentGatewayData?: JsonNullableFilter<"Payment">
-    currency?: StringNullableFilter<"Payment"> | string | null
-    refundedAmount?: FloatNullableFilter<"Payment"> | number | null
-    refundedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
-    purchaseAt?: DateTimeFilter<"Payment"> | Date | string
-    expiresAt?: DateTimeFilter<"Payment"> | Date | string
-    subscription?: XOR<SubscriptionNullableScalarRelationFilter, SubscriptionWhereInput> | null
+    updatedAt?: DateTimeFilter<"Payment"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "transactionId" | "stripeEventId">
+    subscription?: XOR<SubscriptionScalarRelationFilter, SubscriptionWhereInput>
+  }, "id" | "stripePaymentId">
 
   export type PaymentOrderByWithAggregationInput = {
     id?: SortOrder
+    subscriptionId?: SortOrder
     userId?: SortOrder
     amount?: SortOrder
+    currency?: SortOrder
+    stripePaymentId?: SortOrderInput | SortOrder
     status?: SortOrder
-    transactionId?: SortOrderInput | SortOrder
-    subscriptionId?: SortOrderInput | SortOrder
-    invoiceUrl?: SortOrderInput | SortOrder
-    provider?: SortOrderInput | SortOrder
+    billingPeriodStart?: SortOrder
+    billingPeriodEnd?: SortOrder
+    dueDate?: SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    failedReason?: SortOrderInput | SortOrder
+    retryCount?: SortOrder
     createdAt?: SortOrder
-    stripeEventId?: SortOrderInput | SortOrder
-    method?: SortOrderInput | SortOrder
-    paymentGatewayData?: SortOrderInput | SortOrder
-    currency?: SortOrderInput | SortOrder
-    refundedAmount?: SortOrderInput | SortOrder
-    refundedAt?: SortOrderInput | SortOrder
-    purchaseAt?: SortOrder
-    expiresAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: PaymentCountOrderByAggregateInput
     _avg?: PaymentAvgOrderByAggregateInput
     _max?: PaymentMaxOrderByAggregateInput
@@ -24936,22 +26365,20 @@ export namespace Prisma {
     OR?: PaymentScalarWhereWithAggregatesInput[]
     NOT?: PaymentScalarWhereWithAggregatesInput | PaymentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Payment"> | string
+    subscriptionId?: StringWithAggregatesFilter<"Payment"> | string
     userId?: StringWithAggregatesFilter<"Payment"> | string
     amount?: FloatWithAggregatesFilter<"Payment"> | number
+    currency?: StringWithAggregatesFilter<"Payment"> | string
+    stripePaymentId?: StringNullableWithAggregatesFilter<"Payment"> | string | null
     status?: EnumPaymentStatusWithAggregatesFilter<"Payment"> | $Enums.PaymentStatus
-    transactionId?: StringNullableWithAggregatesFilter<"Payment"> | string | null
-    subscriptionId?: StringNullableWithAggregatesFilter<"Payment"> | string | null
-    invoiceUrl?: StringNullableWithAggregatesFilter<"Payment"> | string | null
-    provider?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    billingPeriodStart?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
+    billingPeriodEnd?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
+    dueDate?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
+    paidAt?: DateTimeNullableWithAggregatesFilter<"Payment"> | Date | string | null
+    failedReason?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    retryCount?: IntWithAggregatesFilter<"Payment"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
-    stripeEventId?: StringNullableWithAggregatesFilter<"Payment"> | string | null
-    method?: StringNullableWithAggregatesFilter<"Payment"> | string | null
-    paymentGatewayData?: JsonNullableWithAggregatesFilter<"Payment">
-    currency?: StringNullableWithAggregatesFilter<"Payment"> | string | null
-    refundedAmount?: FloatNullableWithAggregatesFilter<"Payment"> | number | null
-    refundedAt?: DateTimeNullableWithAggregatesFilter<"Payment"> | Date | string | null
-    purchaseAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
-    expiresAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
   }
 
   export type DocumentEmbeddingWhereInput = {
@@ -25276,11 +26703,17 @@ export namespace Prisma {
     planId?: StringFilter<"Subscription"> | string
     startDate?: DateTimeFilter<"Subscription"> | Date | string
     expiresAt?: DateTimeFilter<"Subscription"> | Date | string
+    renewalDate?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    status?: EnumSubscriptionStatusFilter<"Subscription"> | $Enums.SubscriptionStatus
+    cancelledAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    cancelReason?: StringNullableFilter<"Subscription"> | string | null
+    autoRenew?: BoolFilter<"Subscription"> | boolean
+    billingCycle?: IntFilter<"Subscription"> | number
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeFilter<"Subscription"> | Date | string
-    payments?: PaymentListRelationFilter
     plan?: XOR<SubscriptionPlanScalarRelationFilter, SubscriptionPlanWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    payments?: PaymentListRelationFilter
   }
 
   export type SubscriptionOrderByWithRelationInput = {
@@ -25289,11 +26722,17 @@ export namespace Prisma {
     planId?: SortOrder
     startDate?: SortOrder
     expiresAt?: SortOrder
+    renewalDate?: SortOrderInput | SortOrder
+    status?: SortOrder
+    cancelledAt?: SortOrderInput | SortOrder
+    cancelReason?: SortOrderInput | SortOrder
+    autoRenew?: SortOrder
+    billingCycle?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    payments?: PaymentOrderByRelationAggregateInput
     plan?: SubscriptionPlanOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
+    payments?: PaymentOrderByRelationAggregateInput
   }
 
   export type SubscriptionWhereUniqueInput = Prisma.AtLeast<{
@@ -25305,11 +26744,17 @@ export namespace Prisma {
     planId?: StringFilter<"Subscription"> | string
     startDate?: DateTimeFilter<"Subscription"> | Date | string
     expiresAt?: DateTimeFilter<"Subscription"> | Date | string
+    renewalDate?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    status?: EnumSubscriptionStatusFilter<"Subscription"> | $Enums.SubscriptionStatus
+    cancelledAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    cancelReason?: StringNullableFilter<"Subscription"> | string | null
+    autoRenew?: BoolFilter<"Subscription"> | boolean
+    billingCycle?: IntFilter<"Subscription"> | number
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeFilter<"Subscription"> | Date | string
-    payments?: PaymentListRelationFilter
     plan?: XOR<SubscriptionPlanScalarRelationFilter, SubscriptionPlanWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    payments?: PaymentListRelationFilter
   }, "id">
 
   export type SubscriptionOrderByWithAggregationInput = {
@@ -25318,11 +26763,19 @@ export namespace Prisma {
     planId?: SortOrder
     startDate?: SortOrder
     expiresAt?: SortOrder
+    renewalDate?: SortOrderInput | SortOrder
+    status?: SortOrder
+    cancelledAt?: SortOrderInput | SortOrder
+    cancelReason?: SortOrderInput | SortOrder
+    autoRenew?: SortOrder
+    billingCycle?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SubscriptionCountOrderByAggregateInput
+    _avg?: SubscriptionAvgOrderByAggregateInput
     _max?: SubscriptionMaxOrderByAggregateInput
     _min?: SubscriptionMinOrderByAggregateInput
+    _sum?: SubscriptionSumOrderByAggregateInput
   }
 
   export type SubscriptionScalarWhereWithAggregatesInput = {
@@ -25334,6 +26787,12 @@ export namespace Prisma {
     planId?: StringWithAggregatesFilter<"Subscription"> | string
     startDate?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
     expiresAt?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
+    renewalDate?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
+    status?: EnumSubscriptionStatusWithAggregatesFilter<"Subscription"> | $Enums.SubscriptionStatus
+    cancelledAt?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
+    cancelReason?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    autoRenew?: BoolWithAggregatesFilter<"Subscription"> | boolean
+    billingCycle?: IntWithAggregatesFilter<"Subscription"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
   }
@@ -25344,10 +26803,11 @@ export namespace Prisma {
     NOT?: SubscriptionPlanWhereInput | SubscriptionPlanWhereInput[]
     id?: StringFilter<"SubscriptionPlan"> | string
     name?: StringFilter<"SubscriptionPlan"> | string
+    durationMonths?: IntFilter<"SubscriptionPlan"> | number
     price?: FloatFilter<"SubscriptionPlan"> | number
-    duration?: IntFilter<"SubscriptionPlan"> | number
     stripePriceId?: StringNullableFilter<"SubscriptionPlan"> | string | null
     description?: StringNullableFilter<"SubscriptionPlan"> | string | null
+    features?: StringNullableListFilter<"SubscriptionPlan">
     isActive?: BoolFilter<"SubscriptionPlan"> | boolean
     createdAt?: DateTimeFilter<"SubscriptionPlan"> | Date | string
     updatedAt?: DateTimeFilter<"SubscriptionPlan"> | Date | string
@@ -25357,10 +26817,11 @@ export namespace Prisma {
   export type SubscriptionPlanOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    durationMonths?: SortOrder
     price?: SortOrder
-    duration?: SortOrder
     stripePriceId?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
+    features?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -25374,9 +26835,10 @@ export namespace Prisma {
     OR?: SubscriptionPlanWhereInput[]
     NOT?: SubscriptionPlanWhereInput | SubscriptionPlanWhereInput[]
     name?: StringFilter<"SubscriptionPlan"> | string
+    durationMonths?: IntFilter<"SubscriptionPlan"> | number
     price?: FloatFilter<"SubscriptionPlan"> | number
-    duration?: IntFilter<"SubscriptionPlan"> | number
     description?: StringNullableFilter<"SubscriptionPlan"> | string | null
+    features?: StringNullableListFilter<"SubscriptionPlan">
     isActive?: BoolFilter<"SubscriptionPlan"> | boolean
     createdAt?: DateTimeFilter<"SubscriptionPlan"> | Date | string
     updatedAt?: DateTimeFilter<"SubscriptionPlan"> | Date | string
@@ -25386,10 +26848,11 @@ export namespace Prisma {
   export type SubscriptionPlanOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    durationMonths?: SortOrder
     price?: SortOrder
-    duration?: SortOrder
     stripePriceId?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
+    features?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -25406,10 +26869,11 @@ export namespace Prisma {
     NOT?: SubscriptionPlanScalarWhereWithAggregatesInput | SubscriptionPlanScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"SubscriptionPlan"> | string
     name?: StringWithAggregatesFilter<"SubscriptionPlan"> | string
+    durationMonths?: IntWithAggregatesFilter<"SubscriptionPlan"> | number
     price?: FloatWithAggregatesFilter<"SubscriptionPlan"> | number
-    duration?: IntWithAggregatesFilter<"SubscriptionPlan"> | number
     stripePriceId?: StringNullableWithAggregatesFilter<"SubscriptionPlan"> | string | null
     description?: StringNullableWithAggregatesFilter<"SubscriptionPlan"> | string | null
+    features?: StringNullableListFilter<"SubscriptionPlan">
     isActive?: BoolWithAggregatesFilter<"SubscriptionPlan"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"SubscriptionPlan"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SubscriptionPlan"> | Date | string
@@ -25434,6 +26898,7 @@ export namespace Prisma {
     isPremium?: BoolFilter<"User"> | boolean
     needPasswordChange?: BoolFilter<"User"> | boolean
     rememberMe?: BoolFilter<"User"> | boolean
+    currentSubscriptionId?: StringNullableFilter<"User"> | string | null
     comments?: CommentListRelationFilter
     likes?: LikeListRelationFilter
     payments?: PaymentListRelationFilter
@@ -25446,6 +26911,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteListRelationFilter
     followers?: FollowListRelationFilter
     following?: FollowListRelationFilter
+    favourites?: FavouriteListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -25464,6 +26930,7 @@ export namespace Prisma {
     isPremium?: SortOrder
     needPasswordChange?: SortOrder
     rememberMe?: SortOrder
+    currentSubscriptionId?: SortOrderInput | SortOrder
     comments?: CommentOrderByRelationAggregateInput
     likes?: LikeOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
@@ -25476,6 +26943,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteOrderByRelationAggregateInput
     followers?: FollowOrderByRelationAggregateInput
     following?: FollowOrderByRelationAggregateInput
+    favourites?: FavouriteOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -25497,6 +26965,7 @@ export namespace Prisma {
     isPremium?: BoolFilter<"User"> | boolean
     needPasswordChange?: BoolFilter<"User"> | boolean
     rememberMe?: BoolFilter<"User"> | boolean
+    currentSubscriptionId?: StringNullableFilter<"User"> | string | null
     comments?: CommentListRelationFilter
     likes?: LikeListRelationFilter
     payments?: PaymentListRelationFilter
@@ -25509,6 +26978,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteListRelationFilter
     followers?: FollowListRelationFilter
     following?: FollowListRelationFilter
+    favourites?: FavouriteListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -25527,6 +26997,7 @@ export namespace Prisma {
     isPremium?: SortOrder
     needPasswordChange?: SortOrder
     rememberMe?: SortOrder
+    currentSubscriptionId?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -25551,6 +27022,7 @@ export namespace Prisma {
     isPremium?: BoolWithAggregatesFilter<"User"> | boolean
     needPasswordChange?: BoolWithAggregatesFilter<"User"> | boolean
     rememberMe?: BoolWithAggregatesFilter<"User"> | boolean
+    currentSubscriptionId?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type WatchlistWhereInput = {
@@ -25855,6 +27327,60 @@ export namespace Prisma {
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type FavouriteCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    movie: MovieCreateNestedOneWithoutFavouritesInput
+    user: UserCreateNestedOneWithoutFavouritesInput
+  }
+
+  export type FavouriteUncheckedCreateInput = {
+    id?: string
+    userId: string
+    movieId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FavouriteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    movie?: MovieUpdateOneRequiredWithoutFavouritesNestedInput
+    user?: UserUpdateOneRequiredWithoutFavouritesNestedInput
+  }
+
+  export type FavouriteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    movieId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavouriteCreateManyInput = {
+    id?: string
+    userId: string
+    movieId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FavouriteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavouriteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    movieId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type FollowCreateInput = {
     id?: string
     createdAt?: Date | string
@@ -26115,6 +27641,7 @@ export namespace Prisma {
     genres?: MovieGenreCreateNestedManyWithoutMovieInput
     reviews?: ReviewCreateNestedManyWithoutMovieInput
     watchlist?: WatchlistCreateNestedManyWithoutMovieInput
+    favourites?: FavouriteCreateNestedManyWithoutMovieInput
   }
 
   export type MovieUncheckedCreateInput = {
@@ -26147,6 +27674,7 @@ export namespace Prisma {
     genres?: MovieGenreUncheckedCreateNestedManyWithoutMovieInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutMovieInput
     watchlist?: WatchlistUncheckedCreateNestedManyWithoutMovieInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutMovieInput
   }
 
   export type MovieUpdateInput = {
@@ -26179,6 +27707,7 @@ export namespace Prisma {
     genres?: MovieGenreUpdateManyWithoutMovieNestedInput
     reviews?: ReviewUpdateManyWithoutMovieNestedInput
     watchlist?: WatchlistUpdateManyWithoutMovieNestedInput
+    favourites?: FavouriteUpdateManyWithoutMovieNestedInput
   }
 
   export type MovieUncheckedUpdateInput = {
@@ -26211,6 +27740,7 @@ export namespace Prisma {
     genres?: MovieGenreUncheckedUpdateManyWithoutMovieNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutMovieNestedInput
     watchlist?: WatchlistUncheckedUpdateManyWithoutMovieNestedInput
+    favourites?: FavouriteUncheckedUpdateManyWithoutMovieNestedInput
   }
 
   export type MovieCreateManyInput = {
@@ -26386,139 +27916,125 @@ export namespace Prisma {
   export type PaymentCreateInput = {
     id?: string
     amount: number
+    currency?: string
+    stripePaymentId?: string | null
     status?: $Enums.PaymentStatus
-    transactionId?: string | null
-    invoiceUrl?: string | null
-    provider?: string | null
+    billingPeriodStart: Date | string
+    billingPeriodEnd: Date | string
+    dueDate: Date | string
+    paidAt?: Date | string | null
+    failedReason?: string | null
+    retryCount?: number
     createdAt?: Date | string
-    stripeEventId?: string | null
-    method?: string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: string | null
-    refundedAmount?: number | null
-    refundedAt?: Date | string | null
-    purchaseAt?: Date | string
-    expiresAt?: Date | string
-    subscription?: SubscriptionCreateNestedOneWithoutPaymentsInput
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutPaymentsInput
+    subscription: SubscriptionCreateNestedOneWithoutPaymentsInput
   }
 
   export type PaymentUncheckedCreateInput = {
     id?: string
+    subscriptionId: string
     userId: string
     amount: number
+    currency?: string
+    stripePaymentId?: string | null
     status?: $Enums.PaymentStatus
-    transactionId?: string | null
-    subscriptionId?: string | null
-    invoiceUrl?: string | null
-    provider?: string | null
+    billingPeriodStart: Date | string
+    billingPeriodEnd: Date | string
+    dueDate: Date | string
+    paidAt?: Date | string | null
+    failedReason?: string | null
+    retryCount?: number
     createdAt?: Date | string
-    stripeEventId?: string | null
-    method?: string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: string | null
-    refundedAmount?: number | null
-    refundedAt?: Date | string | null
-    purchaseAt?: Date | string
-    expiresAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PaymentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
-    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    retryCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    stripeEventId?: NullableStringFieldUpdateOperationsInput | string | null
-    method?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    refundedAmount?: NullableFloatFieldUpdateOperationsInput | number | null
-    refundedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    purchaseAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subscription?: SubscriptionUpdateOneWithoutPaymentsNestedInput
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPaymentsNestedInput
+    subscription?: SubscriptionUpdateOneRequiredWithoutPaymentsNestedInput
   }
 
   export type PaymentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subscriptionId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
-    subscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    retryCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    stripeEventId?: NullableStringFieldUpdateOperationsInput | string | null
-    method?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    refundedAmount?: NullableFloatFieldUpdateOperationsInput | number | null
-    refundedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    purchaseAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PaymentCreateManyInput = {
     id?: string
+    subscriptionId: string
     userId: string
     amount: number
+    currency?: string
+    stripePaymentId?: string | null
     status?: $Enums.PaymentStatus
-    transactionId?: string | null
-    subscriptionId?: string | null
-    invoiceUrl?: string | null
-    provider?: string | null
+    billingPeriodStart: Date | string
+    billingPeriodEnd: Date | string
+    dueDate: Date | string
+    paidAt?: Date | string | null
+    failedReason?: string | null
+    retryCount?: number
     createdAt?: Date | string
-    stripeEventId?: string | null
-    method?: string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: string | null
-    refundedAmount?: number | null
-    refundedAt?: Date | string | null
-    purchaseAt?: Date | string
-    expiresAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PaymentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
-    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    retryCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    stripeEventId?: NullableStringFieldUpdateOperationsInput | string | null
-    method?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    refundedAmount?: NullableFloatFieldUpdateOperationsInput | number | null
-    refundedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    purchaseAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PaymentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subscriptionId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
-    subscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    retryCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    stripeEventId?: NullableStringFieldUpdateOperationsInput | string | null
-    method?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    refundedAmount?: NullableFloatFieldUpdateOperationsInput | number | null
-    refundedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    purchaseAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DocumentEmbeddingUpdateInput = {
@@ -26820,11 +28336,17 @@ export namespace Prisma {
     id?: string
     startDate?: Date | string
     expiresAt: Date | string
+    renewalDate?: Date | string | null
+    status?: $Enums.SubscriptionStatus
+    cancelledAt?: Date | string | null
+    cancelReason?: string | null
+    autoRenew?: boolean
+    billingCycle?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    payments?: PaymentCreateNestedManyWithoutSubscriptionInput
     plan: SubscriptionPlanCreateNestedOneWithoutSubscriptionsInput
     user: UserCreateNestedOneWithoutSubscriptionsInput
+    payments?: PaymentCreateNestedManyWithoutSubscriptionInput
   }
 
   export type SubscriptionUncheckedCreateInput = {
@@ -26833,6 +28355,12 @@ export namespace Prisma {
     planId: string
     startDate?: Date | string
     expiresAt: Date | string
+    renewalDate?: Date | string | null
+    status?: $Enums.SubscriptionStatus
+    cancelledAt?: Date | string | null
+    cancelReason?: string | null
+    autoRenew?: boolean
+    billingCycle?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     payments?: PaymentUncheckedCreateNestedManyWithoutSubscriptionInput
@@ -26842,11 +28370,17 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    renewalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    autoRenew?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    payments?: PaymentUpdateManyWithoutSubscriptionNestedInput
     plan?: SubscriptionPlanUpdateOneRequiredWithoutSubscriptionsNestedInput
     user?: UserUpdateOneRequiredWithoutSubscriptionsNestedInput
+    payments?: PaymentUpdateManyWithoutSubscriptionNestedInput
   }
 
   export type SubscriptionUncheckedUpdateInput = {
@@ -26855,6 +28389,12 @@ export namespace Prisma {
     planId?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    renewalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    autoRenew?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUncheckedUpdateManyWithoutSubscriptionNestedInput
@@ -26866,6 +28406,12 @@ export namespace Prisma {
     planId: string
     startDate?: Date | string
     expiresAt: Date | string
+    renewalDate?: Date | string | null
+    status?: $Enums.SubscriptionStatus
+    cancelledAt?: Date | string | null
+    cancelReason?: string | null
+    autoRenew?: boolean
+    billingCycle?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -26874,6 +28420,12 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    renewalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    autoRenew?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -26884,6 +28436,12 @@ export namespace Prisma {
     planId?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    renewalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    autoRenew?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -26891,10 +28449,11 @@ export namespace Prisma {
   export type SubscriptionPlanCreateInput = {
     id?: string
     name: string
+    durationMonths: number
     price: number
-    duration: number
     stripePriceId?: string | null
     description?: string | null
+    features?: SubscriptionPlanCreatefeaturesInput | string[]
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26904,10 +28463,11 @@ export namespace Prisma {
   export type SubscriptionPlanUncheckedCreateInput = {
     id?: string
     name: string
+    durationMonths: number
     price: number
-    duration: number
     stripePriceId?: string | null
     description?: string | null
+    features?: SubscriptionPlanCreatefeaturesInput | string[]
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26917,10 +28477,11 @@ export namespace Prisma {
   export type SubscriptionPlanUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    durationMonths?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
-    duration?: IntFieldUpdateOperationsInput | number
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    features?: SubscriptionPlanUpdatefeaturesInput | string[]
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26930,10 +28491,11 @@ export namespace Prisma {
   export type SubscriptionPlanUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    durationMonths?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
-    duration?: IntFieldUpdateOperationsInput | number
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    features?: SubscriptionPlanUpdatefeaturesInput | string[]
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26943,10 +28505,11 @@ export namespace Prisma {
   export type SubscriptionPlanCreateManyInput = {
     id?: string
     name: string
+    durationMonths: number
     price: number
-    duration: number
     stripePriceId?: string | null
     description?: string | null
+    features?: SubscriptionPlanCreatefeaturesInput | string[]
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26955,10 +28518,11 @@ export namespace Prisma {
   export type SubscriptionPlanUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    durationMonths?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
-    duration?: IntFieldUpdateOperationsInput | number
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    features?: SubscriptionPlanUpdatefeaturesInput | string[]
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26967,10 +28531,11 @@ export namespace Prisma {
   export type SubscriptionPlanUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    durationMonths?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
-    duration?: IntFieldUpdateOperationsInput | number
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    features?: SubscriptionPlanUpdatefeaturesInput | string[]
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26992,6 +28557,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -27004,6 +28570,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
     following?: FollowCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -27022,6 +28589,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -27034,6 +28602,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -27052,6 +28621,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -27064,6 +28634,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
     following?: FollowUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -27082,6 +28653,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -27094,6 +28666,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -27112,6 +28685,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -27130,6 +28704,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -27148,6 +28723,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type WatchlistCreateInput = {
@@ -27473,6 +29049,40 @@ export namespace Prisma {
     parentId?: SortOrder
   }
 
+  export type MovieScalarRelationFilter = {
+    is?: MovieWhereInput
+    isNot?: MovieWhereInput
+  }
+
+  export type FavouriteUserIdMovieIdCompoundUniqueInput = {
+    userId: string
+    movieId: string
+  }
+
+  export type FavouriteCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    movieId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FavouriteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    movieId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FavouriteMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    movieId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type FollowFollowerIdFollowingIdCompoundUniqueInput = {
     followerId: string
     followingId: string
@@ -27551,11 +29161,6 @@ export namespace Prisma {
   export type GenreScalarRelationFilter = {
     is?: GenreWhereInput
     isNot?: GenreWhereInput
-  }
-
-  export type MovieScalarRelationFilter = {
-    is?: MovieWhereInput
-    isNot?: MovieWhereInput
   }
 
   export type MovieGenreMovieIdGenreIdCompoundUniqueInput = {
@@ -27676,11 +29281,21 @@ export namespace Prisma {
     none?: WatchlistWhereInput
   }
 
+  export type FavouriteListRelationFilter = {
+    every?: FavouriteWhereInput
+    some?: FavouriteWhereInput
+    none?: FavouriteWhereInput
+  }
+
   export type ReviewOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type WatchlistOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FavouriteOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -27947,77 +29562,73 @@ export namespace Prisma {
     not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
   }
 
-  export type SubscriptionNullableScalarRelationFilter = {
-    is?: SubscriptionWhereInput | null
-    isNot?: SubscriptionWhereInput | null
+  export type SubscriptionScalarRelationFilter = {
+    is?: SubscriptionWhereInput
+    isNot?: SubscriptionWhereInput
   }
 
   export type PaymentCountOrderByAggregateInput = {
     id?: SortOrder
+    subscriptionId?: SortOrder
     userId?: SortOrder
     amount?: SortOrder
-    status?: SortOrder
-    transactionId?: SortOrder
-    subscriptionId?: SortOrder
-    invoiceUrl?: SortOrder
-    provider?: SortOrder
-    createdAt?: SortOrder
-    stripeEventId?: SortOrder
-    method?: SortOrder
-    paymentGatewayData?: SortOrder
     currency?: SortOrder
-    refundedAmount?: SortOrder
-    refundedAt?: SortOrder
-    purchaseAt?: SortOrder
-    expiresAt?: SortOrder
+    stripePaymentId?: SortOrder
+    status?: SortOrder
+    billingPeriodStart?: SortOrder
+    billingPeriodEnd?: SortOrder
+    dueDate?: SortOrder
+    paidAt?: SortOrder
+    failedReason?: SortOrder
+    retryCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type PaymentAvgOrderByAggregateInput = {
     amount?: SortOrder
-    refundedAmount?: SortOrder
+    retryCount?: SortOrder
   }
 
   export type PaymentMaxOrderByAggregateInput = {
     id?: SortOrder
+    subscriptionId?: SortOrder
     userId?: SortOrder
     amount?: SortOrder
-    status?: SortOrder
-    transactionId?: SortOrder
-    subscriptionId?: SortOrder
-    invoiceUrl?: SortOrder
-    provider?: SortOrder
-    createdAt?: SortOrder
-    stripeEventId?: SortOrder
-    method?: SortOrder
     currency?: SortOrder
-    refundedAmount?: SortOrder
-    refundedAt?: SortOrder
-    purchaseAt?: SortOrder
-    expiresAt?: SortOrder
+    stripePaymentId?: SortOrder
+    status?: SortOrder
+    billingPeriodStart?: SortOrder
+    billingPeriodEnd?: SortOrder
+    dueDate?: SortOrder
+    paidAt?: SortOrder
+    failedReason?: SortOrder
+    retryCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type PaymentMinOrderByAggregateInput = {
     id?: SortOrder
+    subscriptionId?: SortOrder
     userId?: SortOrder
     amount?: SortOrder
-    status?: SortOrder
-    transactionId?: SortOrder
-    subscriptionId?: SortOrder
-    invoiceUrl?: SortOrder
-    provider?: SortOrder
-    createdAt?: SortOrder
-    stripeEventId?: SortOrder
-    method?: SortOrder
     currency?: SortOrder
-    refundedAmount?: SortOrder
-    refundedAt?: SortOrder
-    purchaseAt?: SortOrder
-    expiresAt?: SortOrder
+    stripePaymentId?: SortOrder
+    status?: SortOrder
+    billingPeriodStart?: SortOrder
+    billingPeriodEnd?: SortOrder
+    dueDate?: SortOrder
+    paidAt?: SortOrder
+    failedReason?: SortOrder
+    retryCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type PaymentSumOrderByAggregateInput = {
     amount?: SortOrder
-    refundedAmount?: SortOrder
+    retryCount?: SortOrder
   }
 
   export type EnumPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -28241,15 +29852,22 @@ export namespace Prisma {
     unhelpfulCount?: SortOrder
   }
 
-  export type PaymentListRelationFilter = {
-    every?: PaymentWhereInput
-    some?: PaymentWhereInput
-    none?: PaymentWhereInput
+  export type EnumSubscriptionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubscriptionStatusFilter<$PrismaModel> | $Enums.SubscriptionStatus
   }
 
   export type SubscriptionPlanScalarRelationFilter = {
     is?: SubscriptionPlanWhereInput
     isNot?: SubscriptionPlanWhereInput
+  }
+
+  export type PaymentListRelationFilter = {
+    every?: PaymentWhereInput
+    some?: PaymentWhereInput
+    none?: PaymentWhereInput
   }
 
   export type PaymentOrderByRelationAggregateInput = {
@@ -28262,8 +29880,18 @@ export namespace Prisma {
     planId?: SortOrder
     startDate?: SortOrder
     expiresAt?: SortOrder
+    renewalDate?: SortOrder
+    status?: SortOrder
+    cancelledAt?: SortOrder
+    cancelReason?: SortOrder
+    autoRenew?: SortOrder
+    billingCycle?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type SubscriptionAvgOrderByAggregateInput = {
+    billingCycle?: SortOrder
   }
 
   export type SubscriptionMaxOrderByAggregateInput = {
@@ -28272,6 +29900,12 @@ export namespace Prisma {
     planId?: SortOrder
     startDate?: SortOrder
     expiresAt?: SortOrder
+    renewalDate?: SortOrder
+    status?: SortOrder
+    cancelledAt?: SortOrder
+    cancelReason?: SortOrder
+    autoRenew?: SortOrder
+    billingCycle?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -28282,8 +29916,28 @@ export namespace Prisma {
     planId?: SortOrder
     startDate?: SortOrder
     expiresAt?: SortOrder
+    renewalDate?: SortOrder
+    status?: SortOrder
+    cancelledAt?: SortOrder
+    cancelReason?: SortOrder
+    autoRenew?: SortOrder
+    billingCycle?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type SubscriptionSumOrderByAggregateInput = {
+    billingCycle?: SortOrder
+  }
+
+  export type EnumSubscriptionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubscriptionStatusWithAggregatesFilter<$PrismaModel> | $Enums.SubscriptionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
+    _max?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
   }
 
   export type SubscriptionListRelationFilter = {
@@ -28299,25 +29953,26 @@ export namespace Prisma {
   export type SubscriptionPlanCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    durationMonths?: SortOrder
     price?: SortOrder
-    duration?: SortOrder
     stripePriceId?: SortOrder
     description?: SortOrder
+    features?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type SubscriptionPlanAvgOrderByAggregateInput = {
+    durationMonths?: SortOrder
     price?: SortOrder
-    duration?: SortOrder
   }
 
   export type SubscriptionPlanMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    durationMonths?: SortOrder
     price?: SortOrder
-    duration?: SortOrder
     stripePriceId?: SortOrder
     description?: SortOrder
     isActive?: SortOrder
@@ -28328,8 +29983,8 @@ export namespace Prisma {
   export type SubscriptionPlanMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    durationMonths?: SortOrder
     price?: SortOrder
-    duration?: SortOrder
     stripePriceId?: SortOrder
     description?: SortOrder
     isActive?: SortOrder
@@ -28338,8 +29993,8 @@ export namespace Prisma {
   }
 
   export type SubscriptionPlanSumOrderByAggregateInput = {
+    durationMonths?: SortOrder
     price?: SortOrder
-    duration?: SortOrder
   }
 
   export type EnumUserRoleFilter<$PrismaModel = never> = {
@@ -28390,6 +30045,7 @@ export namespace Prisma {
     isPremium?: SortOrder
     needPasswordChange?: SortOrder
     rememberMe?: SortOrder
+    currentSubscriptionId?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -28408,6 +30064,7 @@ export namespace Prisma {
     isPremium?: SortOrder
     needPasswordChange?: SortOrder
     rememberMe?: SortOrder
+    currentSubscriptionId?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -28426,6 +30083,7 @@ export namespace Prisma {
     isPremium?: SortOrder
     needPasswordChange?: SortOrder
     rememberMe?: SortOrder
+    currentSubscriptionId?: SortOrder
   }
 
   export type EnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -28617,6 +30275,34 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
+  export type MovieCreateNestedOneWithoutFavouritesInput = {
+    create?: XOR<MovieCreateWithoutFavouritesInput, MovieUncheckedCreateWithoutFavouritesInput>
+    connectOrCreate?: MovieCreateOrConnectWithoutFavouritesInput
+    connect?: MovieWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutFavouritesInput = {
+    create?: XOR<UserCreateWithoutFavouritesInput, UserUncheckedCreateWithoutFavouritesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFavouritesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type MovieUpdateOneRequiredWithoutFavouritesNestedInput = {
+    create?: XOR<MovieCreateWithoutFavouritesInput, MovieUncheckedCreateWithoutFavouritesInput>
+    connectOrCreate?: MovieCreateOrConnectWithoutFavouritesInput
+    upsert?: MovieUpsertWithoutFavouritesInput
+    connect?: MovieWhereUniqueInput
+    update?: XOR<XOR<MovieUpdateToOneWithWhereWithoutFavouritesInput, MovieUpdateWithoutFavouritesInput>, MovieUncheckedUpdateWithoutFavouritesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutFavouritesNestedInput = {
+    create?: XOR<UserCreateWithoutFavouritesInput, UserUncheckedCreateWithoutFavouritesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFavouritesInput
+    upsert?: UserUpsertWithoutFavouritesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFavouritesInput, UserUpdateWithoutFavouritesInput>, UserUncheckedUpdateWithoutFavouritesInput>
+  }
+
   export type UserCreateNestedOneWithoutFollowersInput = {
     create?: XOR<UserCreateWithoutFollowersInput, UserUncheckedCreateWithoutFollowersInput>
     connectOrCreate?: UserCreateOrConnectWithoutFollowersInput
@@ -28776,6 +30462,13 @@ export namespace Prisma {
     connect?: WatchlistWhereUniqueInput | WatchlistWhereUniqueInput[]
   }
 
+  export type FavouriteCreateNestedManyWithoutMovieInput = {
+    create?: XOR<FavouriteCreateWithoutMovieInput, FavouriteUncheckedCreateWithoutMovieInput> | FavouriteCreateWithoutMovieInput[] | FavouriteUncheckedCreateWithoutMovieInput[]
+    connectOrCreate?: FavouriteCreateOrConnectWithoutMovieInput | FavouriteCreateOrConnectWithoutMovieInput[]
+    createMany?: FavouriteCreateManyMovieInputEnvelope
+    connect?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+  }
+
   export type MovieGenreUncheckedCreateNestedManyWithoutMovieInput = {
     create?: XOR<MovieGenreCreateWithoutMovieInput, MovieGenreUncheckedCreateWithoutMovieInput> | MovieGenreCreateWithoutMovieInput[] | MovieGenreUncheckedCreateWithoutMovieInput[]
     connectOrCreate?: MovieGenreCreateOrConnectWithoutMovieInput | MovieGenreCreateOrConnectWithoutMovieInput[]
@@ -28795,6 +30488,13 @@ export namespace Prisma {
     connectOrCreate?: WatchlistCreateOrConnectWithoutMovieInput | WatchlistCreateOrConnectWithoutMovieInput[]
     createMany?: WatchlistCreateManyMovieInputEnvelope
     connect?: WatchlistWhereUniqueInput | WatchlistWhereUniqueInput[]
+  }
+
+  export type FavouriteUncheckedCreateNestedManyWithoutMovieInput = {
+    create?: XOR<FavouriteCreateWithoutMovieInput, FavouriteUncheckedCreateWithoutMovieInput> | FavouriteCreateWithoutMovieInput[] | FavouriteUncheckedCreateWithoutMovieInput[]
+    connectOrCreate?: FavouriteCreateOrConnectWithoutMovieInput | FavouriteCreateOrConnectWithoutMovieInput[]
+    createMany?: FavouriteCreateManyMovieInputEnvelope
+    connect?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -28890,6 +30590,20 @@ export namespace Prisma {
     deleteMany?: WatchlistScalarWhereInput | WatchlistScalarWhereInput[]
   }
 
+  export type FavouriteUpdateManyWithoutMovieNestedInput = {
+    create?: XOR<FavouriteCreateWithoutMovieInput, FavouriteUncheckedCreateWithoutMovieInput> | FavouriteCreateWithoutMovieInput[] | FavouriteUncheckedCreateWithoutMovieInput[]
+    connectOrCreate?: FavouriteCreateOrConnectWithoutMovieInput | FavouriteCreateOrConnectWithoutMovieInput[]
+    upsert?: FavouriteUpsertWithWhereUniqueWithoutMovieInput | FavouriteUpsertWithWhereUniqueWithoutMovieInput[]
+    createMany?: FavouriteCreateManyMovieInputEnvelope
+    set?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+    disconnect?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+    delete?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+    connect?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+    update?: FavouriteUpdateWithWhereUniqueWithoutMovieInput | FavouriteUpdateWithWhereUniqueWithoutMovieInput[]
+    updateMany?: FavouriteUpdateManyWithWhereWithoutMovieInput | FavouriteUpdateManyWithWhereWithoutMovieInput[]
+    deleteMany?: FavouriteScalarWhereInput | FavouriteScalarWhereInput[]
+  }
+
   export type MovieGenreUncheckedUpdateManyWithoutMovieNestedInput = {
     create?: XOR<MovieGenreCreateWithoutMovieInput, MovieGenreUncheckedCreateWithoutMovieInput> | MovieGenreCreateWithoutMovieInput[] | MovieGenreUncheckedCreateWithoutMovieInput[]
     connectOrCreate?: MovieGenreCreateOrConnectWithoutMovieInput | MovieGenreCreateOrConnectWithoutMovieInput[]
@@ -28932,6 +30646,20 @@ export namespace Prisma {
     deleteMany?: WatchlistScalarWhereInput | WatchlistScalarWhereInput[]
   }
 
+  export type FavouriteUncheckedUpdateManyWithoutMovieNestedInput = {
+    create?: XOR<FavouriteCreateWithoutMovieInput, FavouriteUncheckedCreateWithoutMovieInput> | FavouriteCreateWithoutMovieInput[] | FavouriteUncheckedCreateWithoutMovieInput[]
+    connectOrCreate?: FavouriteCreateOrConnectWithoutMovieInput | FavouriteCreateOrConnectWithoutMovieInput[]
+    upsert?: FavouriteUpsertWithWhereUniqueWithoutMovieInput | FavouriteUpsertWithWhereUniqueWithoutMovieInput[]
+    createMany?: FavouriteCreateManyMovieInputEnvelope
+    set?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+    disconnect?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+    delete?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+    connect?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+    update?: FavouriteUpdateWithWhereUniqueWithoutMovieInput | FavouriteUpdateWithWhereUniqueWithoutMovieInput[]
+    updateMany?: FavouriteUpdateManyWithWhereWithoutMovieInput | FavouriteUpdateManyWithWhereWithoutMovieInput[]
+    deleteMany?: FavouriteScalarWhereInput | FavouriteScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutNotificationsInput = {
     create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
     connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
@@ -28946,30 +30674,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
   }
 
-  export type SubscriptionCreateNestedOneWithoutPaymentsInput = {
-    create?: XOR<SubscriptionCreateWithoutPaymentsInput, SubscriptionUncheckedCreateWithoutPaymentsInput>
-    connectOrCreate?: SubscriptionCreateOrConnectWithoutPaymentsInput
-    connect?: SubscriptionWhereUniqueInput
-  }
-
   export type UserCreateNestedOneWithoutPaymentsInput = {
     create?: XOR<UserCreateWithoutPaymentsInput, UserUncheckedCreateWithoutPaymentsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPaymentsInput
     connect?: UserWhereUniqueInput
   }
 
-  export type EnumPaymentStatusFieldUpdateOperationsInput = {
-    set?: $Enums.PaymentStatus
-  }
-
-  export type SubscriptionUpdateOneWithoutPaymentsNestedInput = {
+  export type SubscriptionCreateNestedOneWithoutPaymentsInput = {
     create?: XOR<SubscriptionCreateWithoutPaymentsInput, SubscriptionUncheckedCreateWithoutPaymentsInput>
     connectOrCreate?: SubscriptionCreateOrConnectWithoutPaymentsInput
-    upsert?: SubscriptionUpsertWithoutPaymentsInput
-    disconnect?: SubscriptionWhereInput | boolean
-    delete?: SubscriptionWhereInput | boolean
     connect?: SubscriptionWhereUniqueInput
-    update?: XOR<XOR<SubscriptionUpdateToOneWithWhereWithoutPaymentsInput, SubscriptionUpdateWithoutPaymentsInput>, SubscriptionUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type EnumPaymentStatusFieldUpdateOperationsInput = {
+    set?: $Enums.PaymentStatus
   }
 
   export type UserUpdateOneRequiredWithoutPaymentsNestedInput = {
@@ -28978,6 +30696,14 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutPaymentsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPaymentsInput, UserUpdateWithoutPaymentsInput>, UserUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type SubscriptionUpdateOneRequiredWithoutPaymentsNestedInput = {
+    create?: XOR<SubscriptionCreateWithoutPaymentsInput, SubscriptionUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutPaymentsInput
+    upsert?: SubscriptionUpsertWithoutPaymentsInput
+    connect?: SubscriptionWhereUniqueInput
+    update?: XOR<XOR<SubscriptionUpdateToOneWithWhereWithoutPaymentsInput, SubscriptionUpdateWithoutPaymentsInput>, SubscriptionUncheckedUpdateWithoutPaymentsInput>
   }
 
   export type ReviewCreatetagsInput = {
@@ -29263,13 +30989,6 @@ export namespace Prisma {
     update?: XOR<XOR<ReviewUpdateToOneWithWhereWithoutReviewAnalyticsInput, ReviewUpdateWithoutReviewAnalyticsInput>, ReviewUncheckedUpdateWithoutReviewAnalyticsInput>
   }
 
-  export type PaymentCreateNestedManyWithoutSubscriptionInput = {
-    create?: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput> | PaymentCreateWithoutSubscriptionInput[] | PaymentUncheckedCreateWithoutSubscriptionInput[]
-    connectOrCreate?: PaymentCreateOrConnectWithoutSubscriptionInput | PaymentCreateOrConnectWithoutSubscriptionInput[]
-    createMany?: PaymentCreateManySubscriptionInputEnvelope
-    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
-  }
-
   export type SubscriptionPlanCreateNestedOneWithoutSubscriptionsInput = {
     create?: XOR<SubscriptionPlanCreateWithoutSubscriptionsInput, SubscriptionPlanUncheckedCreateWithoutSubscriptionsInput>
     connectOrCreate?: SubscriptionPlanCreateOrConnectWithoutSubscriptionsInput
@@ -29282,6 +31001,13 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type PaymentCreateNestedManyWithoutSubscriptionInput = {
+    create?: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput> | PaymentCreateWithoutSubscriptionInput[] | PaymentUncheckedCreateWithoutSubscriptionInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutSubscriptionInput | PaymentCreateOrConnectWithoutSubscriptionInput[]
+    createMany?: PaymentCreateManySubscriptionInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
   export type PaymentUncheckedCreateNestedManyWithoutSubscriptionInput = {
     create?: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput> | PaymentCreateWithoutSubscriptionInput[] | PaymentUncheckedCreateWithoutSubscriptionInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutSubscriptionInput | PaymentCreateOrConnectWithoutSubscriptionInput[]
@@ -29289,18 +31015,8 @@ export namespace Prisma {
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
   }
 
-  export type PaymentUpdateManyWithoutSubscriptionNestedInput = {
-    create?: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput> | PaymentCreateWithoutSubscriptionInput[] | PaymentUncheckedCreateWithoutSubscriptionInput[]
-    connectOrCreate?: PaymentCreateOrConnectWithoutSubscriptionInput | PaymentCreateOrConnectWithoutSubscriptionInput[]
-    upsert?: PaymentUpsertWithWhereUniqueWithoutSubscriptionInput | PaymentUpsertWithWhereUniqueWithoutSubscriptionInput[]
-    createMany?: PaymentCreateManySubscriptionInputEnvelope
-    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
-    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
-    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
-    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
-    update?: PaymentUpdateWithWhereUniqueWithoutSubscriptionInput | PaymentUpdateWithWhereUniqueWithoutSubscriptionInput[]
-    updateMany?: PaymentUpdateManyWithWhereWithoutSubscriptionInput | PaymentUpdateManyWithWhereWithoutSubscriptionInput[]
-    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  export type EnumSubscriptionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.SubscriptionStatus
   }
 
   export type SubscriptionPlanUpdateOneRequiredWithoutSubscriptionsNestedInput = {
@@ -29319,6 +31035,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSubscriptionsInput, UserUpdateWithoutSubscriptionsInput>, UserUncheckedUpdateWithoutSubscriptionsInput>
   }
 
+  export type PaymentUpdateManyWithoutSubscriptionNestedInput = {
+    create?: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput> | PaymentCreateWithoutSubscriptionInput[] | PaymentUncheckedCreateWithoutSubscriptionInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutSubscriptionInput | PaymentCreateOrConnectWithoutSubscriptionInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutSubscriptionInput | PaymentUpsertWithWhereUniqueWithoutSubscriptionInput[]
+    createMany?: PaymentCreateManySubscriptionInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutSubscriptionInput | PaymentUpdateWithWhereUniqueWithoutSubscriptionInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutSubscriptionInput | PaymentUpdateManyWithWhereWithoutSubscriptionInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
   export type PaymentUncheckedUpdateManyWithoutSubscriptionNestedInput = {
     create?: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput> | PaymentCreateWithoutSubscriptionInput[] | PaymentUncheckedCreateWithoutSubscriptionInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutSubscriptionInput | PaymentCreateOrConnectWithoutSubscriptionInput[]
@@ -29333,6 +31063,10 @@ export namespace Prisma {
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
+  export type SubscriptionPlanCreatefeaturesInput = {
+    set: string[]
+  }
+
   export type SubscriptionCreateNestedManyWithoutPlanInput = {
     create?: XOR<SubscriptionCreateWithoutPlanInput, SubscriptionUncheckedCreateWithoutPlanInput> | SubscriptionCreateWithoutPlanInput[] | SubscriptionUncheckedCreateWithoutPlanInput[]
     connectOrCreate?: SubscriptionCreateOrConnectWithoutPlanInput | SubscriptionCreateOrConnectWithoutPlanInput[]
@@ -29345,6 +31079,11 @@ export namespace Prisma {
     connectOrCreate?: SubscriptionCreateOrConnectWithoutPlanInput | SubscriptionCreateOrConnectWithoutPlanInput[]
     createMany?: SubscriptionCreateManyPlanInputEnvelope
     connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+  }
+
+  export type SubscriptionPlanUpdatefeaturesInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type SubscriptionUpdateManyWithoutPlanNestedInput = {
@@ -29458,6 +31197,13 @@ export namespace Prisma {
     connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
   }
 
+  export type FavouriteCreateNestedManyWithoutUserInput = {
+    create?: XOR<FavouriteCreateWithoutUserInput, FavouriteUncheckedCreateWithoutUserInput> | FavouriteCreateWithoutUserInput[] | FavouriteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FavouriteCreateOrConnectWithoutUserInput | FavouriteCreateOrConnectWithoutUserInput[]
+    createMany?: FavouriteCreateManyUserInputEnvelope
+    connect?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+  }
+
   export type CommentUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<CommentCreateWithoutUserInput, CommentUncheckedCreateWithoutUserInput> | CommentCreateWithoutUserInput[] | CommentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: CommentCreateOrConnectWithoutUserInput | CommentCreateOrConnectWithoutUserInput[]
@@ -29539,6 +31285,13 @@ export namespace Prisma {
     connectOrCreate?: FollowCreateOrConnectWithoutFollowingInput | FollowCreateOrConnectWithoutFollowingInput[]
     createMany?: FollowCreateManyFollowingInputEnvelope
     connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+  }
+
+  export type FavouriteUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<FavouriteCreateWithoutUserInput, FavouriteUncheckedCreateWithoutUserInput> | FavouriteCreateWithoutUserInput[] | FavouriteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FavouriteCreateOrConnectWithoutUserInput | FavouriteCreateOrConnectWithoutUserInput[]
+    createMany?: FavouriteCreateManyUserInputEnvelope
+    connect?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
   }
 
   export type EnumUserRoleFieldUpdateOperationsInput = {
@@ -29709,6 +31462,20 @@ export namespace Prisma {
     deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[]
   }
 
+  export type FavouriteUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FavouriteCreateWithoutUserInput, FavouriteUncheckedCreateWithoutUserInput> | FavouriteCreateWithoutUserInput[] | FavouriteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FavouriteCreateOrConnectWithoutUserInput | FavouriteCreateOrConnectWithoutUserInput[]
+    upsert?: FavouriteUpsertWithWhereUniqueWithoutUserInput | FavouriteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FavouriteCreateManyUserInputEnvelope
+    set?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+    disconnect?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+    delete?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+    connect?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+    update?: FavouriteUpdateWithWhereUniqueWithoutUserInput | FavouriteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FavouriteUpdateManyWithWhereWithoutUserInput | FavouriteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FavouriteScalarWhereInput | FavouriteScalarWhereInput[]
+  }
+
   export type CommentUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<CommentCreateWithoutUserInput, CommentUncheckedCreateWithoutUserInput> | CommentCreateWithoutUserInput[] | CommentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: CommentCreateOrConnectWithoutUserInput | CommentCreateOrConnectWithoutUserInput[]
@@ -29871,6 +31638,20 @@ export namespace Prisma {
     update?: FollowUpdateWithWhereUniqueWithoutFollowingInput | FollowUpdateWithWhereUniqueWithoutFollowingInput[]
     updateMany?: FollowUpdateManyWithWhereWithoutFollowingInput | FollowUpdateManyWithWhereWithoutFollowingInput[]
     deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[]
+  }
+
+  export type FavouriteUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FavouriteCreateWithoutUserInput, FavouriteUncheckedCreateWithoutUserInput> | FavouriteCreateWithoutUserInput[] | FavouriteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FavouriteCreateOrConnectWithoutUserInput | FavouriteCreateOrConnectWithoutUserInput[]
+    upsert?: FavouriteUpsertWithWhereUniqueWithoutUserInput | FavouriteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FavouriteCreateManyUserInputEnvelope
+    set?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+    disconnect?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+    delete?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+    connect?: FavouriteWhereUniqueInput | FavouriteWhereUniqueInput[]
+    update?: FavouriteUpdateWithWhereUniqueWithoutUserInput | FavouriteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FavouriteUpdateManyWithWhereWithoutUserInput | FavouriteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FavouriteScalarWhereInput | FavouriteScalarWhereInput[]
   }
 
   export type MovieCreateNestedOneWithoutWatchlistInput = {
@@ -30204,6 +31985,23 @@ export namespace Prisma {
     _max?: NestedEnumReviewStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumSubscriptionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubscriptionStatusFilter<$PrismaModel> | $Enums.SubscriptionStatus
+  }
+
+  export type NestedEnumSubscriptionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubscriptionStatusWithAggregatesFilter<$PrismaModel> | $Enums.SubscriptionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
+    _max?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumUserRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
     in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
@@ -30237,6 +32035,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -30248,6 +32047,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
     following?: FollowCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutActivitiesInput = {
@@ -30266,6 +32066,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -30277,6 +32078,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutActivitiesInput = {
@@ -30352,6 +32154,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -30363,6 +32166,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
     following?: FollowUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutActivitiesInput = {
@@ -30381,6 +32185,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -30392,6 +32197,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ReviewUpsertWithoutActivitiesInput = {
@@ -30457,6 +32263,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -30468,6 +32275,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
     following?: FollowCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAdminInput = {
@@ -30486,6 +32294,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -30497,6 +32306,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAdminInput = {
@@ -30531,6 +32341,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -30542,6 +32353,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
     following?: FollowUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAdminInput = {
@@ -30560,6 +32372,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -30571,6 +32384,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommentCreateWithoutRepliesInput = {
@@ -30693,6 +32507,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
@@ -30704,6 +32519,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
     following?: FollowCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -30722,6 +32538,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
@@ -30733,6 +32550,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -30880,6 +32698,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
@@ -30891,6 +32710,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
     following?: FollowUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -30909,6 +32729,292 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    watchlist?: WatchlistUncheckedUpdateManyWithoutUserNestedInput
+    admin?: AdminUncheckedUpdateOneWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
+    reviewVotes?: ReviewVoteUncheckedUpdateManyWithoutUserNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type MovieCreateWithoutFavouritesInput = {
+    id?: string
+    title: string
+    description: string
+    releaseYear: number
+    director: string
+    streamingLink?: string | null
+    price?: number
+    isPremium?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ageRating?: string | null
+    awards?: MovieCreateawardsInput | string[]
+    banner?: string | null
+    views?: number
+    isFeatured?: boolean | null
+    boxOffice?: number | null
+    budget?: number | null
+    cast?: MovieCreatecastInput | string[]
+    country?: string | null
+    duration?: number | null
+    language?: string | null
+    rating?: number | null
+    status?: string | null
+    subtitles?: MovieCreatesubtitlesInput | string[]
+    thumbnail?: string | null
+    trailerLink?: string | null
+    genres?: MovieGenreCreateNestedManyWithoutMovieInput
+    reviews?: ReviewCreateNestedManyWithoutMovieInput
+    watchlist?: WatchlistCreateNestedManyWithoutMovieInput
+  }
+
+  export type MovieUncheckedCreateWithoutFavouritesInput = {
+    id?: string
+    title: string
+    description: string
+    releaseYear: number
+    director: string
+    streamingLink?: string | null
+    price?: number
+    isPremium?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ageRating?: string | null
+    awards?: MovieCreateawardsInput | string[]
+    banner?: string | null
+    views?: number
+    isFeatured?: boolean | null
+    boxOffice?: number | null
+    budget?: number | null
+    cast?: MovieCreatecastInput | string[]
+    country?: string | null
+    duration?: number | null
+    language?: string | null
+    rating?: number | null
+    status?: string | null
+    subtitles?: MovieCreatesubtitlesInput | string[]
+    thumbnail?: string | null
+    trailerLink?: string | null
+    genres?: MovieGenreUncheckedCreateNestedManyWithoutMovieInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutMovieInput
+    watchlist?: WatchlistUncheckedCreateNestedManyWithoutMovieInput
+  }
+
+  export type MovieCreateOrConnectWithoutFavouritesInput = {
+    where: MovieWhereUniqueInput
+    create: XOR<MovieCreateWithoutFavouritesInput, MovieUncheckedCreateWithoutFavouritesInput>
+  }
+
+  export type UserCreateWithoutFavouritesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    avatar?: string | null
+    emailVerified?: boolean
+    isDeleted?: boolean
+    provider?: string | null
+    providerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
+    currentSubscriptionId?: string | null
+    comments?: CommentCreateNestedManyWithoutUserInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    watchlist?: WatchlistCreateNestedManyWithoutUserInput
+    admin?: AdminCreateNestedOneWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    activities?: ActivityCreateNestedManyWithoutUserInput
+    reviewVotes?: ReviewVoteCreateNestedManyWithoutUserInput
+    followers?: FollowCreateNestedManyWithoutFollowerInput
+    following?: FollowCreateNestedManyWithoutFollowingInput
+  }
+
+  export type UserUncheckedCreateWithoutFavouritesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    avatar?: string | null
+    emailVerified?: boolean
+    isDeleted?: boolean
+    provider?: string | null
+    providerId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isPremium?: boolean
+    needPasswordChange?: boolean
+    rememberMe?: boolean
+    currentSubscriptionId?: string | null
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    watchlist?: WatchlistUncheckedCreateNestedManyWithoutUserInput
+    admin?: AdminUncheckedCreateNestedOneWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
+    reviewVotes?: ReviewVoteUncheckedCreateNestedManyWithoutUserInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+  }
+
+  export type UserCreateOrConnectWithoutFavouritesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFavouritesInput, UserUncheckedCreateWithoutFavouritesInput>
+  }
+
+  export type MovieUpsertWithoutFavouritesInput = {
+    update: XOR<MovieUpdateWithoutFavouritesInput, MovieUncheckedUpdateWithoutFavouritesInput>
+    create: XOR<MovieCreateWithoutFavouritesInput, MovieUncheckedCreateWithoutFavouritesInput>
+    where?: MovieWhereInput
+  }
+
+  export type MovieUpdateToOneWithWhereWithoutFavouritesInput = {
+    where?: MovieWhereInput
+    data: XOR<MovieUpdateWithoutFavouritesInput, MovieUncheckedUpdateWithoutFavouritesInput>
+  }
+
+  export type MovieUpdateWithoutFavouritesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    releaseYear?: IntFieldUpdateOperationsInput | number
+    director?: StringFieldUpdateOperationsInput | string
+    streamingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ageRating?: NullableStringFieldUpdateOperationsInput | string | null
+    awards?: MovieUpdateawardsInput | string[]
+    banner?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    isFeatured?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    boxOffice?: NullableFloatFieldUpdateOperationsInput | number | null
+    budget?: NullableFloatFieldUpdateOperationsInput | number | null
+    cast?: MovieUpdatecastInput | string[]
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    subtitles?: MovieUpdatesubtitlesInput | string[]
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
+    genres?: MovieGenreUpdateManyWithoutMovieNestedInput
+    reviews?: ReviewUpdateManyWithoutMovieNestedInput
+    watchlist?: WatchlistUpdateManyWithoutMovieNestedInput
+  }
+
+  export type MovieUncheckedUpdateWithoutFavouritesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    releaseYear?: IntFieldUpdateOperationsInput | number
+    director?: StringFieldUpdateOperationsInput | string
+    streamingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ageRating?: NullableStringFieldUpdateOperationsInput | string | null
+    awards?: MovieUpdateawardsInput | string[]
+    banner?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    isFeatured?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    boxOffice?: NullableFloatFieldUpdateOperationsInput | number | null
+    budget?: NullableFloatFieldUpdateOperationsInput | number | null
+    cast?: MovieUpdatecastInput | string[]
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    subtitles?: MovieUpdatesubtitlesInput | string[]
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
+    genres?: MovieGenreUncheckedUpdateManyWithoutMovieNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutMovieNestedInput
+    watchlist?: WatchlistUncheckedUpdateManyWithoutMovieNestedInput
+  }
+
+  export type UserUpsertWithoutFavouritesInput = {
+    update: XOR<UserUpdateWithoutFavouritesInput, UserUncheckedUpdateWithoutFavouritesInput>
+    create: XOR<UserCreateWithoutFavouritesInput, UserUncheckedCreateWithoutFavouritesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFavouritesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFavouritesInput, UserUncheckedUpdateWithoutFavouritesInput>
+  }
+
+  export type UserUpdateWithoutFavouritesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    comments?: CommentUpdateManyWithoutUserNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    watchlist?: WatchlistUpdateManyWithoutUserNestedInput
+    admin?: AdminUpdateOneWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    activities?: ActivityUpdateManyWithoutUserNestedInput
+    reviewVotes?: ReviewVoteUpdateManyWithoutUserNestedInput
+    followers?: FollowUpdateManyWithoutFollowerNestedInput
+    following?: FollowUpdateManyWithoutFollowingNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFavouritesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
@@ -30938,6 +33044,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -30949,6 +33056,7 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutUserInput
     reviewVotes?: ReviewVoteCreateNestedManyWithoutUserInput
     following?: FollowCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFollowersInput = {
@@ -30967,6 +33075,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -30978,6 +33087,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     reviewVotes?: ReviewVoteUncheckedCreateNestedManyWithoutUserInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFollowersInput = {
@@ -31001,6 +33111,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -31012,6 +33123,7 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutUserInput
     reviewVotes?: ReviewVoteCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
+    favourites?: FavouriteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFollowingInput = {
@@ -31030,6 +33142,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -31041,6 +33154,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     reviewVotes?: ReviewVoteUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFollowingInput = {
@@ -31075,6 +33189,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -31086,6 +33201,7 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutUserNestedInput
     reviewVotes?: ReviewVoteUpdateManyWithoutUserNestedInput
     following?: FollowUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFollowersInput = {
@@ -31104,6 +33220,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -31115,6 +33232,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     reviewVotes?: ReviewVoteUncheckedUpdateManyWithoutUserNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutFollowingInput = {
@@ -31144,6 +33262,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -31155,6 +33274,7 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutUserNestedInput
     reviewVotes?: ReviewVoteUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
+    favourites?: FavouriteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFollowingInput = {
@@ -31173,6 +33293,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -31184,6 +33305,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     reviewVotes?: ReviewVoteUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    favourites?: FavouriteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MovieGenreCreateWithoutGenreInput = {
@@ -31286,6 +33408,7 @@ export namespace Prisma {
     trailerLink?: string | null
     reviews?: ReviewCreateNestedManyWithoutMovieInput
     watchlist?: WatchlistCreateNestedManyWithoutMovieInput
+    favourites?: FavouriteCreateNestedManyWithoutMovieInput
   }
 
   export type MovieUncheckedCreateWithoutGenresInput = {
@@ -31317,6 +33440,7 @@ export namespace Prisma {
     trailerLink?: string | null
     reviews?: ReviewUncheckedCreateNestedManyWithoutMovieInput
     watchlist?: WatchlistUncheckedCreateNestedManyWithoutMovieInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutMovieInput
   }
 
   export type MovieCreateOrConnectWithoutGenresInput = {
@@ -31399,6 +33523,7 @@ export namespace Prisma {
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
     reviews?: ReviewUpdateManyWithoutMovieNestedInput
     watchlist?: WatchlistUpdateManyWithoutMovieNestedInput
+    favourites?: FavouriteUpdateManyWithoutMovieNestedInput
   }
 
   export type MovieUncheckedUpdateWithoutGenresInput = {
@@ -31430,6 +33555,7 @@ export namespace Prisma {
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
     reviews?: ReviewUncheckedUpdateManyWithoutMovieNestedInput
     watchlist?: WatchlistUncheckedUpdateManyWithoutMovieNestedInput
+    favourites?: FavouriteUncheckedUpdateManyWithoutMovieNestedInput
   }
 
   export type ReviewCreateWithoutLikesInput = {
@@ -31489,6 +33615,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
@@ -31500,6 +33627,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
     following?: FollowCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLikesInput = {
@@ -31518,6 +33646,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
@@ -31529,6 +33658,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLikesInput = {
@@ -31610,6 +33740,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
@@ -31621,6 +33752,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
     following?: FollowUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLikesInput = {
@@ -31639,6 +33771,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
@@ -31650,6 +33783,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MovieGenreCreateWithoutMovieInput = {
@@ -31740,6 +33874,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type FavouriteCreateWithoutMovieInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutFavouritesInput
+  }
+
+  export type FavouriteUncheckedCreateWithoutMovieInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FavouriteCreateOrConnectWithoutMovieInput = {
+    where: FavouriteWhereUniqueInput
+    create: XOR<FavouriteCreateWithoutMovieInput, FavouriteUncheckedCreateWithoutMovieInput>
+  }
+
+  export type FavouriteCreateManyMovieInputEnvelope = {
+    data: FavouriteCreateManyMovieInput | FavouriteCreateManyMovieInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MovieGenreUpsertWithWhereUniqueWithoutMovieInput = {
     where: MovieGenreWhereUniqueInput
     update: XOR<MovieGenreUpdateWithoutMovieInput, MovieGenreUncheckedUpdateWithoutMovieInput>
@@ -31816,6 +33974,33 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Watchlist"> | Date | string
   }
 
+  export type FavouriteUpsertWithWhereUniqueWithoutMovieInput = {
+    where: FavouriteWhereUniqueInput
+    update: XOR<FavouriteUpdateWithoutMovieInput, FavouriteUncheckedUpdateWithoutMovieInput>
+    create: XOR<FavouriteCreateWithoutMovieInput, FavouriteUncheckedCreateWithoutMovieInput>
+  }
+
+  export type FavouriteUpdateWithWhereUniqueWithoutMovieInput = {
+    where: FavouriteWhereUniqueInput
+    data: XOR<FavouriteUpdateWithoutMovieInput, FavouriteUncheckedUpdateWithoutMovieInput>
+  }
+
+  export type FavouriteUpdateManyWithWhereWithoutMovieInput = {
+    where: FavouriteScalarWhereInput
+    data: XOR<FavouriteUpdateManyMutationInput, FavouriteUncheckedUpdateManyWithoutMovieInput>
+  }
+
+  export type FavouriteScalarWhereInput = {
+    AND?: FavouriteScalarWhereInput | FavouriteScalarWhereInput[]
+    OR?: FavouriteScalarWhereInput[]
+    NOT?: FavouriteScalarWhereInput | FavouriteScalarWhereInput[]
+    id?: StringFilter<"Favourite"> | string
+    userId?: StringFilter<"Favourite"> | string
+    movieId?: StringFilter<"Favourite"> | string
+    createdAt?: DateTimeFilter<"Favourite"> | Date | string
+    updatedAt?: DateTimeFilter<"Favourite"> | Date | string
+  }
+
   export type UserCreateWithoutNotificationsInput = {
     id?: string
     name: string
@@ -31832,6 +34017,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -31843,6 +34029,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
     following?: FollowCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -31861,6 +34048,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -31872,6 +34060,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -31906,6 +34095,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -31917,6 +34107,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
     following?: FollowUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -31935,6 +34126,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -31946,31 +34138,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-  }
-
-  export type SubscriptionCreateWithoutPaymentsInput = {
-    id?: string
-    startDate?: Date | string
-    expiresAt: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    plan: SubscriptionPlanCreateNestedOneWithoutSubscriptionsInput
-    user: UserCreateNestedOneWithoutSubscriptionsInput
-  }
-
-  export type SubscriptionUncheckedCreateWithoutPaymentsInput = {
-    id?: string
-    userId: string
-    planId: string
-    startDate?: Date | string
-    expiresAt: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type SubscriptionCreateOrConnectWithoutPaymentsInput = {
-    where: SubscriptionWhereUniqueInput
-    create: XOR<SubscriptionCreateWithoutPaymentsInput, SubscriptionUncheckedCreateWithoutPaymentsInput>
+    favourites?: FavouriteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPaymentsInput = {
@@ -31989,6 +34157,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
@@ -32000,6 +34169,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
     following?: FollowCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -32018,6 +34188,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
@@ -32029,6 +34200,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -32036,35 +34208,41 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutPaymentsInput, UserUncheckedCreateWithoutPaymentsInput>
   }
 
-  export type SubscriptionUpsertWithoutPaymentsInput = {
-    update: XOR<SubscriptionUpdateWithoutPaymentsInput, SubscriptionUncheckedUpdateWithoutPaymentsInput>
+  export type SubscriptionCreateWithoutPaymentsInput = {
+    id?: string
+    startDate?: Date | string
+    expiresAt: Date | string
+    renewalDate?: Date | string | null
+    status?: $Enums.SubscriptionStatus
+    cancelledAt?: Date | string | null
+    cancelReason?: string | null
+    autoRenew?: boolean
+    billingCycle?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    plan: SubscriptionPlanCreateNestedOneWithoutSubscriptionsInput
+    user: UserCreateNestedOneWithoutSubscriptionsInput
+  }
+
+  export type SubscriptionUncheckedCreateWithoutPaymentsInput = {
+    id?: string
+    userId: string
+    planId: string
+    startDate?: Date | string
+    expiresAt: Date | string
+    renewalDate?: Date | string | null
+    status?: $Enums.SubscriptionStatus
+    cancelledAt?: Date | string | null
+    cancelReason?: string | null
+    autoRenew?: boolean
+    billingCycle?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubscriptionCreateOrConnectWithoutPaymentsInput = {
+    where: SubscriptionWhereUniqueInput
     create: XOR<SubscriptionCreateWithoutPaymentsInput, SubscriptionUncheckedCreateWithoutPaymentsInput>
-    where?: SubscriptionWhereInput
-  }
-
-  export type SubscriptionUpdateToOneWithWhereWithoutPaymentsInput = {
-    where?: SubscriptionWhereInput
-    data: XOR<SubscriptionUpdateWithoutPaymentsInput, SubscriptionUncheckedUpdateWithoutPaymentsInput>
-  }
-
-  export type SubscriptionUpdateWithoutPaymentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    plan?: SubscriptionPlanUpdateOneRequiredWithoutSubscriptionsNestedInput
-    user?: UserUpdateOneRequiredWithoutSubscriptionsNestedInput
-  }
-
-  export type SubscriptionUncheckedUpdateWithoutPaymentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    planId?: StringFieldUpdateOperationsInput | string
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUpsertWithoutPaymentsInput = {
@@ -32094,6 +34272,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
@@ -32105,6 +34284,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
     following?: FollowUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -32123,6 +34303,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
@@ -32134,6 +34315,50 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type SubscriptionUpsertWithoutPaymentsInput = {
+    update: XOR<SubscriptionUpdateWithoutPaymentsInput, SubscriptionUncheckedUpdateWithoutPaymentsInput>
+    create: XOR<SubscriptionCreateWithoutPaymentsInput, SubscriptionUncheckedCreateWithoutPaymentsInput>
+    where?: SubscriptionWhereInput
+  }
+
+  export type SubscriptionUpdateToOneWithWhereWithoutPaymentsInput = {
+    where?: SubscriptionWhereInput
+    data: XOR<SubscriptionUpdateWithoutPaymentsInput, SubscriptionUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type SubscriptionUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    renewalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    autoRenew?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    plan?: SubscriptionPlanUpdateOneRequiredWithoutSubscriptionsNestedInput
+    user?: UserUpdateOneRequiredWithoutSubscriptionsNestedInput
+  }
+
+  export type SubscriptionUncheckedUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    renewalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    autoRenew?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CommentCreateWithoutReviewInput = {
@@ -32223,6 +34448,7 @@ export namespace Prisma {
     trailerLink?: string | null
     genres?: MovieGenreCreateNestedManyWithoutMovieInput
     watchlist?: WatchlistCreateNestedManyWithoutMovieInput
+    favourites?: FavouriteCreateNestedManyWithoutMovieInput
   }
 
   export type MovieUncheckedCreateWithoutReviewsInput = {
@@ -32254,6 +34480,7 @@ export namespace Prisma {
     trailerLink?: string | null
     genres?: MovieGenreUncheckedCreateNestedManyWithoutMovieInput
     watchlist?: WatchlistUncheckedCreateNestedManyWithoutMovieInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutMovieInput
   }
 
   export type MovieCreateOrConnectWithoutReviewsInput = {
@@ -32277,6 +34504,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -32288,6 +34516,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
     following?: FollowCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReviewsInput = {
@@ -32306,6 +34535,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -32317,6 +34547,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReviewsInput = {
@@ -32482,6 +34713,7 @@ export namespace Prisma {
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
     genres?: MovieGenreUpdateManyWithoutMovieNestedInput
     watchlist?: WatchlistUpdateManyWithoutMovieNestedInput
+    favourites?: FavouriteUpdateManyWithoutMovieNestedInput
   }
 
   export type MovieUncheckedUpdateWithoutReviewsInput = {
@@ -32513,6 +34745,7 @@ export namespace Prisma {
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
     genres?: MovieGenreUncheckedUpdateManyWithoutMovieNestedInput
     watchlist?: WatchlistUncheckedUpdateManyWithoutMovieNestedInput
+    favourites?: FavouriteUncheckedUpdateManyWithoutMovieNestedInput
   }
 
   export type UserUpsertWithoutReviewsInput = {
@@ -32542,6 +34775,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -32553,6 +34787,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
     following?: FollowUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -32571,6 +34806,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -32582,6 +34818,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ReviewVoteUpsertWithWhereUniqueWithoutReviewInput = {
@@ -32725,6 +34962,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -32736,6 +34974,7 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
     following?: FollowCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReviewVotesInput = {
@@ -32754,6 +34993,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -32765,6 +35005,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReviewVotesInput = {
@@ -32846,6 +35087,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -32857,6 +35099,7 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
     following?: FollowUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewVotesInput = {
@@ -32875,6 +35118,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -32886,6 +35130,7 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ReviewCreateWithoutReviewAnalyticsInput = {
@@ -32976,61 +35221,14 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutReviewNestedInput
   }
 
-  export type PaymentCreateWithoutSubscriptionInput = {
-    id?: string
-    amount: number
-    status?: $Enums.PaymentStatus
-    transactionId?: string | null
-    invoiceUrl?: string | null
-    provider?: string | null
-    createdAt?: Date | string
-    stripeEventId?: string | null
-    method?: string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: string | null
-    refundedAmount?: number | null
-    refundedAt?: Date | string | null
-    purchaseAt?: Date | string
-    expiresAt?: Date | string
-    user: UserCreateNestedOneWithoutPaymentsInput
-  }
-
-  export type PaymentUncheckedCreateWithoutSubscriptionInput = {
-    id?: string
-    userId: string
-    amount: number
-    status?: $Enums.PaymentStatus
-    transactionId?: string | null
-    invoiceUrl?: string | null
-    provider?: string | null
-    createdAt?: Date | string
-    stripeEventId?: string | null
-    method?: string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: string | null
-    refundedAmount?: number | null
-    refundedAt?: Date | string | null
-    purchaseAt?: Date | string
-    expiresAt?: Date | string
-  }
-
-  export type PaymentCreateOrConnectWithoutSubscriptionInput = {
-    where: PaymentWhereUniqueInput
-    create: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput>
-  }
-
-  export type PaymentCreateManySubscriptionInputEnvelope = {
-    data: PaymentCreateManySubscriptionInput | PaymentCreateManySubscriptionInput[]
-    skipDuplicates?: boolean
-  }
-
   export type SubscriptionPlanCreateWithoutSubscriptionsInput = {
     id?: string
     name: string
+    durationMonths: number
     price: number
-    duration: number
     stripePriceId?: string | null
     description?: string | null
+    features?: SubscriptionPlanCreatefeaturesInput | string[]
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33039,10 +35237,11 @@ export namespace Prisma {
   export type SubscriptionPlanUncheckedCreateWithoutSubscriptionsInput = {
     id?: string
     name: string
+    durationMonths: number
     price: number
-    duration: number
     stripePriceId?: string | null
     description?: string | null
+    features?: SubscriptionPlanCreatefeaturesInput | string[]
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33069,6 +35268,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -33080,6 +35280,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
     following?: FollowCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -33098,6 +35299,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -33109,6 +35311,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -33116,43 +35319,48 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutSubscriptionsInput, UserUncheckedCreateWithoutSubscriptionsInput>
   }
 
-  export type PaymentUpsertWithWhereUniqueWithoutSubscriptionInput = {
+  export type PaymentCreateWithoutSubscriptionInput = {
+    id?: string
+    amount: number
+    currency?: string
+    stripePaymentId?: string | null
+    status?: $Enums.PaymentStatus
+    billingPeriodStart: Date | string
+    billingPeriodEnd: Date | string
+    dueDate: Date | string
+    paidAt?: Date | string | null
+    failedReason?: string | null
+    retryCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPaymentsInput
+  }
+
+  export type PaymentUncheckedCreateWithoutSubscriptionInput = {
+    id?: string
+    userId: string
+    amount: number
+    currency?: string
+    stripePaymentId?: string | null
+    status?: $Enums.PaymentStatus
+    billingPeriodStart: Date | string
+    billingPeriodEnd: Date | string
+    dueDate: Date | string
+    paidAt?: Date | string | null
+    failedReason?: string | null
+    retryCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentCreateOrConnectWithoutSubscriptionInput = {
     where: PaymentWhereUniqueInput
-    update: XOR<PaymentUpdateWithoutSubscriptionInput, PaymentUncheckedUpdateWithoutSubscriptionInput>
     create: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput>
   }
 
-  export type PaymentUpdateWithWhereUniqueWithoutSubscriptionInput = {
-    where: PaymentWhereUniqueInput
-    data: XOR<PaymentUpdateWithoutSubscriptionInput, PaymentUncheckedUpdateWithoutSubscriptionInput>
-  }
-
-  export type PaymentUpdateManyWithWhereWithoutSubscriptionInput = {
-    where: PaymentScalarWhereInput
-    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutSubscriptionInput>
-  }
-
-  export type PaymentScalarWhereInput = {
-    AND?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
-    OR?: PaymentScalarWhereInput[]
-    NOT?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
-    id?: StringFilter<"Payment"> | string
-    userId?: StringFilter<"Payment"> | string
-    amount?: FloatFilter<"Payment"> | number
-    status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
-    transactionId?: StringNullableFilter<"Payment"> | string | null
-    subscriptionId?: StringNullableFilter<"Payment"> | string | null
-    invoiceUrl?: StringNullableFilter<"Payment"> | string | null
-    provider?: StringNullableFilter<"Payment"> | string | null
-    createdAt?: DateTimeFilter<"Payment"> | Date | string
-    stripeEventId?: StringNullableFilter<"Payment"> | string | null
-    method?: StringNullableFilter<"Payment"> | string | null
-    paymentGatewayData?: JsonNullableFilter<"Payment">
-    currency?: StringNullableFilter<"Payment"> | string | null
-    refundedAmount?: FloatNullableFilter<"Payment"> | number | null
-    refundedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
-    purchaseAt?: DateTimeFilter<"Payment"> | Date | string
-    expiresAt?: DateTimeFilter<"Payment"> | Date | string
+  export type PaymentCreateManySubscriptionInputEnvelope = {
+    data: PaymentCreateManySubscriptionInput | PaymentCreateManySubscriptionInput[]
+    skipDuplicates?: boolean
   }
 
   export type SubscriptionPlanUpsertWithoutSubscriptionsInput = {
@@ -33169,10 +35377,11 @@ export namespace Prisma {
   export type SubscriptionPlanUpdateWithoutSubscriptionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    durationMonths?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
-    duration?: IntFieldUpdateOperationsInput | number
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    features?: SubscriptionPlanUpdatefeaturesInput | string[]
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33181,10 +35390,11 @@ export namespace Prisma {
   export type SubscriptionPlanUncheckedUpdateWithoutSubscriptionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    durationMonths?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
-    duration?: IntFieldUpdateOperationsInput | number
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    features?: SubscriptionPlanUpdatefeaturesInput | string[]
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33217,6 +35427,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -33228,6 +35439,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
     following?: FollowUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -33246,6 +35458,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -33257,16 +35470,60 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PaymentUpsertWithWhereUniqueWithoutSubscriptionInput = {
+    where: PaymentWhereUniqueInput
+    update: XOR<PaymentUpdateWithoutSubscriptionInput, PaymentUncheckedUpdateWithoutSubscriptionInput>
+    create: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput>
+  }
+
+  export type PaymentUpdateWithWhereUniqueWithoutSubscriptionInput = {
+    where: PaymentWhereUniqueInput
+    data: XOR<PaymentUpdateWithoutSubscriptionInput, PaymentUncheckedUpdateWithoutSubscriptionInput>
+  }
+
+  export type PaymentUpdateManyWithWhereWithoutSubscriptionInput = {
+    where: PaymentScalarWhereInput
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutSubscriptionInput>
+  }
+
+  export type PaymentScalarWhereInput = {
+    AND?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+    OR?: PaymentScalarWhereInput[]
+    NOT?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+    id?: StringFilter<"Payment"> | string
+    subscriptionId?: StringFilter<"Payment"> | string
+    userId?: StringFilter<"Payment"> | string
+    amount?: FloatFilter<"Payment"> | number
+    currency?: StringFilter<"Payment"> | string
+    stripePaymentId?: StringNullableFilter<"Payment"> | string | null
+    status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
+    billingPeriodStart?: DateTimeFilter<"Payment"> | Date | string
+    billingPeriodEnd?: DateTimeFilter<"Payment"> | Date | string
+    dueDate?: DateTimeFilter<"Payment"> | Date | string
+    paidAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
+    failedReason?: StringNullableFilter<"Payment"> | string | null
+    retryCount?: IntFilter<"Payment"> | number
+    createdAt?: DateTimeFilter<"Payment"> | Date | string
+    updatedAt?: DateTimeFilter<"Payment"> | Date | string
   }
 
   export type SubscriptionCreateWithoutPlanInput = {
     id?: string
     startDate?: Date | string
     expiresAt: Date | string
+    renewalDate?: Date | string | null
+    status?: $Enums.SubscriptionStatus
+    cancelledAt?: Date | string | null
+    cancelReason?: string | null
+    autoRenew?: boolean
+    billingCycle?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    payments?: PaymentCreateNestedManyWithoutSubscriptionInput
     user: UserCreateNestedOneWithoutSubscriptionsInput
+    payments?: PaymentCreateNestedManyWithoutSubscriptionInput
   }
 
   export type SubscriptionUncheckedCreateWithoutPlanInput = {
@@ -33274,6 +35531,12 @@ export namespace Prisma {
     userId: string
     startDate?: Date | string
     expiresAt: Date | string
+    renewalDate?: Date | string | null
+    status?: $Enums.SubscriptionStatus
+    cancelledAt?: Date | string | null
+    cancelReason?: string | null
+    autoRenew?: boolean
+    billingCycle?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     payments?: PaymentUncheckedCreateNestedManyWithoutSubscriptionInput
@@ -33314,6 +35577,12 @@ export namespace Prisma {
     planId?: StringFilter<"Subscription"> | string
     startDate?: DateTimeFilter<"Subscription"> | Date | string
     expiresAt?: DateTimeFilter<"Subscription"> | Date | string
+    renewalDate?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    status?: EnumSubscriptionStatusFilter<"Subscription"> | $Enums.SubscriptionStatus
+    cancelledAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    cancelReason?: StringNullableFilter<"Subscription"> | string | null
+    autoRenew?: BoolFilter<"Subscription"> | boolean
+    billingCycle?: IntFilter<"Subscription"> | number
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeFilter<"Subscription"> | Date | string
   }
@@ -33379,39 +35648,35 @@ export namespace Prisma {
   export type PaymentCreateWithoutUserInput = {
     id?: string
     amount: number
+    currency?: string
+    stripePaymentId?: string | null
     status?: $Enums.PaymentStatus
-    transactionId?: string | null
-    invoiceUrl?: string | null
-    provider?: string | null
+    billingPeriodStart: Date | string
+    billingPeriodEnd: Date | string
+    dueDate: Date | string
+    paidAt?: Date | string | null
+    failedReason?: string | null
+    retryCount?: number
     createdAt?: Date | string
-    stripeEventId?: string | null
-    method?: string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: string | null
-    refundedAmount?: number | null
-    refundedAt?: Date | string | null
-    purchaseAt?: Date | string
-    expiresAt?: Date | string
-    subscription?: SubscriptionCreateNestedOneWithoutPaymentsInput
+    updatedAt?: Date | string
+    subscription: SubscriptionCreateNestedOneWithoutPaymentsInput
   }
 
   export type PaymentUncheckedCreateWithoutUserInput = {
     id?: string
+    subscriptionId: string
     amount: number
+    currency?: string
+    stripePaymentId?: string | null
     status?: $Enums.PaymentStatus
-    transactionId?: string | null
-    subscriptionId?: string | null
-    invoiceUrl?: string | null
-    provider?: string | null
+    billingPeriodStart: Date | string
+    billingPeriodEnd: Date | string
+    dueDate: Date | string
+    paidAt?: Date | string | null
+    failedReason?: string | null
+    retryCount?: number
     createdAt?: Date | string
-    stripeEventId?: string | null
-    method?: string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: string | null
-    refundedAmount?: number | null
-    refundedAt?: Date | string | null
-    purchaseAt?: Date | string
-    expiresAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PaymentCreateOrConnectWithoutUserInput = {
@@ -33474,10 +35739,16 @@ export namespace Prisma {
     id?: string
     startDate?: Date | string
     expiresAt: Date | string
+    renewalDate?: Date | string | null
+    status?: $Enums.SubscriptionStatus
+    cancelledAt?: Date | string | null
+    cancelReason?: string | null
+    autoRenew?: boolean
+    billingCycle?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    payments?: PaymentCreateNestedManyWithoutSubscriptionInput
     plan: SubscriptionPlanCreateNestedOneWithoutSubscriptionsInput
+    payments?: PaymentCreateNestedManyWithoutSubscriptionInput
   }
 
   export type SubscriptionUncheckedCreateWithoutUserInput = {
@@ -33485,6 +35756,12 @@ export namespace Prisma {
     planId: string
     startDate?: Date | string
     expiresAt: Date | string
+    renewalDate?: Date | string | null
+    status?: $Enums.SubscriptionStatus
+    cancelledAt?: Date | string | null
+    cancelReason?: string | null
+    autoRenew?: boolean
+    billingCycle?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     payments?: PaymentUncheckedCreateNestedManyWithoutSubscriptionInput
@@ -33684,6 +35961,30 @@ export namespace Prisma {
 
   export type FollowCreateManyFollowingInputEnvelope = {
     data: FollowCreateManyFollowingInput | FollowCreateManyFollowingInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FavouriteCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    movie: MovieCreateNestedOneWithoutFavouritesInput
+  }
+
+  export type FavouriteUncheckedCreateWithoutUserInput = {
+    id?: string
+    movieId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FavouriteCreateOrConnectWithoutUserInput = {
+    where: FavouriteWhereUniqueInput
+    create: XOR<FavouriteCreateWithoutUserInput, FavouriteUncheckedCreateWithoutUserInput>
+  }
+
+  export type FavouriteCreateManyUserInputEnvelope = {
+    data: FavouriteCreateManyUserInput | FavouriteCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -33924,6 +36225,22 @@ export namespace Prisma {
     data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyWithoutFollowingInput>
   }
 
+  export type FavouriteUpsertWithWhereUniqueWithoutUserInput = {
+    where: FavouriteWhereUniqueInput
+    update: XOR<FavouriteUpdateWithoutUserInput, FavouriteUncheckedUpdateWithoutUserInput>
+    create: XOR<FavouriteCreateWithoutUserInput, FavouriteUncheckedCreateWithoutUserInput>
+  }
+
+  export type FavouriteUpdateWithWhereUniqueWithoutUserInput = {
+    where: FavouriteWhereUniqueInput
+    data: XOR<FavouriteUpdateWithoutUserInput, FavouriteUncheckedUpdateWithoutUserInput>
+  }
+
+  export type FavouriteUpdateManyWithWhereWithoutUserInput = {
+    where: FavouriteScalarWhereInput
+    data: XOR<FavouriteUpdateManyMutationInput, FavouriteUncheckedUpdateManyWithoutUserInput>
+  }
+
   export type MovieCreateWithoutWatchlistInput = {
     id?: string
     title: string
@@ -33953,6 +36270,7 @@ export namespace Prisma {
     trailerLink?: string | null
     genres?: MovieGenreCreateNestedManyWithoutMovieInput
     reviews?: ReviewCreateNestedManyWithoutMovieInput
+    favourites?: FavouriteCreateNestedManyWithoutMovieInput
   }
 
   export type MovieUncheckedCreateWithoutWatchlistInput = {
@@ -33984,6 +36302,7 @@ export namespace Prisma {
     trailerLink?: string | null
     genres?: MovieGenreUncheckedCreateNestedManyWithoutMovieInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutMovieInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutMovieInput
   }
 
   export type MovieCreateOrConnectWithoutWatchlistInput = {
@@ -34007,6 +36326,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
@@ -34018,6 +36338,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
     following?: FollowCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutWatchlistInput = {
@@ -34036,6 +36357,7 @@ export namespace Prisma {
     isPremium?: boolean
     needPasswordChange?: boolean
     rememberMe?: boolean
+    currentSubscriptionId?: string | null
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -34047,6 +36369,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    favourites?: FavouriteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutWatchlistInput = {
@@ -34094,6 +36417,7 @@ export namespace Prisma {
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
     genres?: MovieGenreUpdateManyWithoutMovieNestedInput
     reviews?: ReviewUpdateManyWithoutMovieNestedInput
+    favourites?: FavouriteUpdateManyWithoutMovieNestedInput
   }
 
   export type MovieUncheckedUpdateWithoutWatchlistInput = {
@@ -34125,6 +36449,7 @@ export namespace Prisma {
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
     genres?: MovieGenreUncheckedUpdateManyWithoutMovieNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutMovieNestedInput
+    favourites?: FavouriteUncheckedUpdateManyWithoutMovieNestedInput
   }
 
   export type UserUpsertWithoutWatchlistInput = {
@@ -34154,6 +36479,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
@@ -34165,6 +36491,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
     following?: FollowUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWatchlistInput = {
@@ -34183,6 +36510,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     rememberMe?: BoolFieldUpdateOperationsInput | boolean
+    currentSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -34194,6 +36522,7 @@ export namespace Prisma {
     reviewVotes?: ReviewVoteUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    favourites?: FavouriteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommentCreateManyParentInput = {
@@ -34282,6 +36611,13 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type FavouriteCreateManyMovieInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type MovieGenreUpdateWithoutMovieInput = {
     genre?: GenreUpdateOneRequiredWithoutMoviesNestedInput
   }
@@ -34358,6 +36694,27 @@ export namespace Prisma {
   }
 
   export type WatchlistUncheckedUpdateManyWithoutMovieInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavouriteUpdateWithoutMovieInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFavouritesNestedInput
+  }
+
+  export type FavouriteUncheckedUpdateWithoutMovieInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavouriteUncheckedUpdateManyWithoutMovieInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34510,37 +36867,33 @@ export namespace Prisma {
     id?: string
     userId: string
     amount: number
+    currency?: string
+    stripePaymentId?: string | null
     status?: $Enums.PaymentStatus
-    transactionId?: string | null
-    invoiceUrl?: string | null
-    provider?: string | null
+    billingPeriodStart: Date | string
+    billingPeriodEnd: Date | string
+    dueDate: Date | string
+    paidAt?: Date | string | null
+    failedReason?: string | null
+    retryCount?: number
     createdAt?: Date | string
-    stripeEventId?: string | null
-    method?: string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: string | null
-    refundedAmount?: number | null
-    refundedAt?: Date | string | null
-    purchaseAt?: Date | string
-    expiresAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PaymentUpdateWithoutSubscriptionInput = {
     id?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
-    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    retryCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    stripeEventId?: NullableStringFieldUpdateOperationsInput | string | null
-    method?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    refundedAmount?: NullableFloatFieldUpdateOperationsInput | number | null
-    refundedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    purchaseAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPaymentsNestedInput
   }
 
@@ -34548,38 +36901,34 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
-    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    retryCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    stripeEventId?: NullableStringFieldUpdateOperationsInput | string | null
-    method?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    refundedAmount?: NullableFloatFieldUpdateOperationsInput | number | null
-    refundedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    purchaseAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PaymentUncheckedUpdateManyWithoutSubscriptionInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
-    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    retryCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    stripeEventId?: NullableStringFieldUpdateOperationsInput | string | null
-    method?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    refundedAmount?: NullableFloatFieldUpdateOperationsInput | number | null
-    refundedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    purchaseAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SubscriptionCreateManyPlanInput = {
@@ -34587,6 +36936,12 @@ export namespace Prisma {
     userId: string
     startDate?: Date | string
     expiresAt: Date | string
+    renewalDate?: Date | string | null
+    status?: $Enums.SubscriptionStatus
+    cancelledAt?: Date | string | null
+    cancelReason?: string | null
+    autoRenew?: boolean
+    billingCycle?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -34595,10 +36950,16 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    renewalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    autoRenew?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    payments?: PaymentUpdateManyWithoutSubscriptionNestedInput
     user?: UserUpdateOneRequiredWithoutSubscriptionsNestedInput
+    payments?: PaymentUpdateManyWithoutSubscriptionNestedInput
   }
 
   export type SubscriptionUncheckedUpdateWithoutPlanInput = {
@@ -34606,6 +36967,12 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    renewalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    autoRenew?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUncheckedUpdateManyWithoutSubscriptionNestedInput
@@ -34616,6 +36983,12 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    renewalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    autoRenew?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -34640,21 +37013,19 @@ export namespace Prisma {
 
   export type PaymentCreateManyUserInput = {
     id?: string
+    subscriptionId: string
     amount: number
+    currency?: string
+    stripePaymentId?: string | null
     status?: $Enums.PaymentStatus
-    transactionId?: string | null
-    subscriptionId?: string | null
-    invoiceUrl?: string | null
-    provider?: string | null
+    billingPeriodStart: Date | string
+    billingPeriodEnd: Date | string
+    dueDate: Date | string
+    paidAt?: Date | string | null
+    failedReason?: string | null
+    retryCount?: number
     createdAt?: Date | string
-    stripeEventId?: string | null
-    method?: string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: string | null
-    refundedAmount?: number | null
-    refundedAt?: Date | string | null
-    purchaseAt?: Date | string
-    expiresAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ReviewCreateManyUserInput = {
@@ -34675,6 +37046,12 @@ export namespace Prisma {
     planId: string
     startDate?: Date | string
     expiresAt: Date | string
+    renewalDate?: Date | string | null
+    status?: $Enums.SubscriptionStatus
+    cancelledAt?: Date | string | null
+    cancelReason?: string | null
+    autoRenew?: boolean
+    billingCycle?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -34724,6 +37101,13 @@ export namespace Prisma {
   export type FollowCreateManyFollowingInput = {
     id?: string
     followerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FavouriteCreateManyUserInput = {
+    id?: string
+    movieId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -34787,58 +37171,52 @@ export namespace Prisma {
   export type PaymentUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
-    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    retryCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    stripeEventId?: NullableStringFieldUpdateOperationsInput | string | null
-    method?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    refundedAmount?: NullableFloatFieldUpdateOperationsInput | number | null
-    refundedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    purchaseAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subscription?: SubscriptionUpdateOneWithoutPaymentsNestedInput
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscription?: SubscriptionUpdateOneRequiredWithoutPaymentsNestedInput
   }
 
   export type PaymentUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subscriptionId?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
-    subscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    retryCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    stripeEventId?: NullableStringFieldUpdateOperationsInput | string | null
-    method?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    refundedAmount?: NullableFloatFieldUpdateOperationsInput | number | null
-    refundedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    purchaseAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PaymentUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subscriptionId?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
-    subscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    retryCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    stripeEventId?: NullableStringFieldUpdateOperationsInput | string | null
-    method?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentGatewayData?: NullableJsonNullValueInput | InputJsonValue
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    refundedAmount?: NullableFloatFieldUpdateOperationsInput | number | null
-    refundedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    purchaseAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReviewUpdateWithoutUserInput = {
@@ -34894,10 +37272,16 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    renewalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    autoRenew?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    payments?: PaymentUpdateManyWithoutSubscriptionNestedInput
     plan?: SubscriptionPlanUpdateOneRequiredWithoutSubscriptionsNestedInput
+    payments?: PaymentUpdateManyWithoutSubscriptionNestedInput
   }
 
   export type SubscriptionUncheckedUpdateWithoutUserInput = {
@@ -34905,6 +37289,12 @@ export namespace Prisma {
     planId?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    renewalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    autoRenew?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUncheckedUpdateManyWithoutSubscriptionNestedInput
@@ -34915,6 +37305,12 @@ export namespace Prisma {
     planId?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    renewalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    autoRenew?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -35062,6 +37458,27 @@ export namespace Prisma {
   export type FollowUncheckedUpdateManyWithoutFollowingInput = {
     id?: StringFieldUpdateOperationsInput | string
     followerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavouriteUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    movie?: MovieUpdateOneRequiredWithoutFavouritesNestedInput
+  }
+
+  export type FavouriteUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    movieId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavouriteUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    movieId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -11,8 +11,9 @@ const getWatchlist = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     httpStatusCode: 200,
     success: true,
-    message: "Watchlist retrived successfully",
-    data: result,
+    message: "Get watchlist movies successfully",
+    data: result.data,
+    meta: result.meta,
   });
 });
 

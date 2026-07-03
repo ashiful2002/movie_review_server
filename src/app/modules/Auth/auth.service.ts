@@ -4,7 +4,6 @@ import { prisma } from "../../lib/prisma";
 import { envVars } from "../../config/env";
 
 const createUser = async (payload: any) => {
-  console.log("Service: createUser", payload);
   const password = payload.password;
   const hashedPassword = await bcrypt.hash(password, 8);
 
@@ -15,7 +14,6 @@ const createUser = async (payload: any) => {
 };
 
 const loginUser = async (payload: any) => {
-  console.log("Service: loginUser", payload);
   const { email } = payload;
   const user = await prisma.user.findUnique({
     where: {

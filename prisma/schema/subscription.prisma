@@ -1,14 +1,40 @@
+
 model Subscription {
-  id        String           @id @default(uuid())
-  userId    String
-  planId    String
-  startDate DateTime         @default(now())
-  expiresAt DateTime
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
-  payments  Payment[]
-  plan      SubscriptionPlan @relation(fields: [planId], references: [id])
-  user      User             @relation(fields: [userId], references: [id])
+  id                String           @id @default(uuid())
+  userId            String
+  planId            String
+  
+  // Billing dates
+  startDate         DateTime         @default(now())
+  expiresAt         DateTime         // When current period ends
+  renewalDate       DateTime?        // Next auto-renewal (if enabled)
+  
+  // Status tracking
+  status            SubscriptionStatus @default(ACTIVE) // ACTIVE, EXPIRED, CANCELLED, PAUSED
+  cancelledAt       DateTime?        // When was it cancelled
+  cancelReason      String?          // Why was it cancelled
+  
+  // Billing info
+  autoRenew         Boolean          @default(true)
+  billingCycle      Int              @default(1) // Which cycle (1st, 2nd, etc.)
+  
+  // Relations
+  plan              SubscriptionPlan @relation(fields: [planId], references: [id])
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payments          Payment[]        // Link all payments to subscription
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
 
   @@index([userId])
+  @@index([status])
+  @@index([expiresAt])
+  @@map("subscriptions")
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  PAUSED
 }

@@ -60,14 +60,30 @@ enum UserRole {
 
 enum PaymentStatus {
   PENDING
-  SUCCESS
+  COMPLETED
   FAILED
+  REFUNDED
 }
 
 enum ReviewStatus {
   PENDING
   APPROVED
   REJECTED
+}
+
+model Favourite {
+  id      String @id @default(uuid())
+  userId  String
+  movieId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id])
+
+  @@unique([userId, movieId])
+  @@map("favourite")
 }
 
 model Follow {
@@ -157,6 +173,7 @@ model Movie {
   genres      MovieGenre[]
   reviews     Review[]
   watchlist   Watchlist[]
+  favourites  Favourite[]
 
   @@index([id])
   @@index([title])
@@ -184,29 +201,33 @@ model Notification {
 }
 
 model Payment {
-  id     String @id @default(uuid())
-  userId String
+  id              String  @id @default(uuid())
+  subscriptionId  String
+  userId          String
+  amount          Float
+  currency        String  @default("USD")
+  stripePaymentId String? @unique
 
-  amount             Float
-  status             PaymentStatus @default(PENDING)
-  transactionId      String?       @unique
-  subscriptionId     String?
-  invoiceUrl         String?
-  provider           String?
-  createdAt          DateTime      @default(now())
-  stripeEventId      String?       @unique
-  method             String?
-  paymentGatewayData Json?
-  currency           String?
-  refundedAmount     Float?
-  refundedAt         DateTime?
-  purchaseAt         DateTime      @default(now())
-  expiresAt          DateTime      @default(now())
+  // Payment status
+  status PaymentStatus @default(PENDING) // PENDING, COMPLETED, FAILED, REFUNDED
 
-  subscription Subscription? @relation(fields: [subscriptionId], references: [id])
-  user         User          @relation(fields: [userId], references: [id])
+  // Billing info
+  billingPeriodStart DateTime
+  billingPeriodEnd   DateTime
+  dueDate            DateTime
+  paidAt             DateTime?
+  failedReason       String?
+  retryCount         Int       @default(0)
+
+  user         User         @relation(fields: [userId], references: [id])
+  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([userId])
+  @@index([subscriptionId])
+  @@index([status])
   @@map("payments")
 }
 
@@ -294,51 +315,79 @@ datasource db {
 }
 
 model Subscription {
-  id        String           @id @default(uuid())
-  userId    String
-  planId    String
-  startDate DateTime         @default(now())
-  expiresAt DateTime
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
-  payments  Payment[]
-  plan      SubscriptionPlan @relation(fields: [planId], references: [id])
-  user      User             @relation(fields: [userId], references: [id])
+  id     String @id @default(uuid())
+  userId String
+  planId String
+
+  // Billing dates
+  startDate   DateTime  @default(now())
+  expiresAt   DateTime // When current period ends
+  renewalDate DateTime? // Next auto-renewal (if enabled)
+
+  // Status tracking
+  status       SubscriptionStatus @default(ACTIVE) // ACTIVE, EXPIRED, CANCELLED, PAUSED
+  cancelledAt  DateTime? // When was it cancelled
+  cancelReason String? // Why was it cancelled
+
+  // Billing info
+  autoRenew    Boolean @default(true)
+  billingCycle Int     @default(1) // Which cycle (1st, 2nd, etc.)
+
+  // Relations
+  plan     SubscriptionPlan @relation(fields: [planId], references: [id])
+  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payments Payment[] // Link all payments to subscription
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([userId])
+  @@index([status])
+  @@index([expiresAt])
+  @@map("subscriptions")
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  PAUSED
 }
 
 model SubscriptionPlan {
-  id            String         @id @default(uuid())
-  name          String
-  price         Float
-  duration      Int
-  stripePriceId String?        @unique
-  description   String?
-  isActive      Boolean        @default(true)
+  id             String   @id @default(uuid())
+  name           String // "Basic", "Pro", "Premium"
+  durationMonths Int // 1, 3, or 12 (clarity!)
+  price          Float // USD
+  stripePriceId  String?  @unique
+  description    String?
+  features       String[] // JSON array of features
+  isActive       Boolean  @default(true)
+
+  subscriptions Subscription[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  subscriptions Subscription[]
 
   @@map("subscriptionPlans")
 }
 
 model User {
-  id                 String   @id @default(uuid())
-  name               String
-  email              String   @unique
-  password           String
-  role               UserRole @default(USER)
-  avatar             String?
-  emailVerified      Boolean  @default(false)
-  isDeleted          Boolean  @default(false)
-  provider           String?
-  providerId         String?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  isPremium          Boolean  @default(false)
-  needPasswordChange Boolean  @default(true)
-  rememberMe         Boolean  @default(false)
+  id                    String   @id @default(uuid())
+  name                  String
+  email                 String   @unique
+  password              String
+  role                  UserRole @default(USER)
+  avatar                String?
+  emailVerified         Boolean  @default(false)
+  isDeleted             Boolean  @default(false)
+  provider              String?
+  providerId            String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  isPremium             Boolean  @default(false)
+  needPasswordChange    Boolean  @default(true)
+  rememberMe            Boolean  @default(false)
+  currentSubscriptionId String?
 
   comments      Comment[]
   likes         Like[]
@@ -352,6 +401,7 @@ model User {
   reviewVotes   ReviewVote[]   @relation("ReviewVotes")
   followers     Follow[]       @relation("Followers")
   following     Follow[]       @relation("Following")
+  favourites    Favourite[]
 
   @@map("users")
 }

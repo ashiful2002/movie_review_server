@@ -155,6 +155,14 @@ exports.Prisma.CommentScalarFieldEnum = {
   parentId: 'parentId'
 };
 
+exports.Prisma.FavouriteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  movieId: 'movieId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.FollowScalarFieldEnum = {
   id: 'id',
   followerId: 'followerId',
@@ -231,22 +239,20 @@ exports.Prisma.NotificationScalarFieldEnum = {
 
 exports.Prisma.PaymentScalarFieldEnum = {
   id: 'id',
+  subscriptionId: 'subscriptionId',
   userId: 'userId',
   amount: 'amount',
-  status: 'status',
-  transactionId: 'transactionId',
-  subscriptionId: 'subscriptionId',
-  invoiceUrl: 'invoiceUrl',
-  provider: 'provider',
-  createdAt: 'createdAt',
-  stripeEventId: 'stripeEventId',
-  method: 'method',
-  paymentGatewayData: 'paymentGatewayData',
   currency: 'currency',
-  refundedAmount: 'refundedAmount',
-  refundedAt: 'refundedAt',
-  purchaseAt: 'purchaseAt',
-  expiresAt: 'expiresAt'
+  stripePaymentId: 'stripePaymentId',
+  status: 'status',
+  billingPeriodStart: 'billingPeriodStart',
+  billingPeriodEnd: 'billingPeriodEnd',
+  dueDate: 'dueDate',
+  paidAt: 'paidAt',
+  failedReason: 'failedReason',
+  retryCount: 'retryCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.DocumentEmbeddingScalarFieldEnum = {
@@ -301,6 +307,12 @@ exports.Prisma.SubscriptionScalarFieldEnum = {
   planId: 'planId',
   startDate: 'startDate',
   expiresAt: 'expiresAt',
+  renewalDate: 'renewalDate',
+  status: 'status',
+  cancelledAt: 'cancelledAt',
+  cancelReason: 'cancelReason',
+  autoRenew: 'autoRenew',
+  billingCycle: 'billingCycle',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -308,10 +320,11 @@ exports.Prisma.SubscriptionScalarFieldEnum = {
 exports.Prisma.SubscriptionPlanScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  durationMonths: 'durationMonths',
   price: 'price',
-  duration: 'duration',
   stripePriceId: 'stripePriceId',
   description: 'description',
+  features: 'features',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -332,7 +345,8 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt',
   isPremium: 'isPremium',
   needPasswordChange: 'needPasswordChange',
-  rememberMe: 'rememberMe'
+  rememberMe: 'rememberMe',
+  currentSubscriptionId: 'currentSubscriptionId'
 };
 
 exports.Prisma.WatchlistScalarFieldEnum = {
@@ -370,14 +384,22 @@ exports.Prisma.JsonNullValueFilter = {
 };
 exports.PaymentStatus = exports.$Enums.PaymentStatus = {
   PENDING: 'PENDING',
-  SUCCESS: 'SUCCESS',
-  FAILED: 'FAILED'
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED'
 };
 
 exports.ReviewStatus = exports.$Enums.ReviewStatus = {
   PENDING: 'PENDING',
   APPROVED: 'APPROVED',
   REJECTED: 'REJECTED'
+};
+
+exports.SubscriptionStatus = exports.$Enums.SubscriptionStatus = {
+  ACTIVE: 'ACTIVE',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED',
+  PAUSED: 'PAUSED'
 };
 
 exports.UserRole = exports.$Enums.UserRole = {
@@ -390,6 +412,7 @@ exports.Prisma.ModelName = {
   Activity: 'Activity',
   Admin: 'Admin',
   Comment: 'Comment',
+  Favourite: 'Favourite',
   Follow: 'Follow',
   Genre: 'Genre',
   MovieGenre: 'MovieGenre',

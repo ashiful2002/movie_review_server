@@ -1,14 +1,16 @@
 model SubscriptionPlan {
   id            String         @id @default(uuid())
-  name          String
-  price         Float
-  duration      Int
+  name          String         // "Basic", "Pro", "Premium"
+  durationMonths Int           // 1, 3, or 12 (clarity!)
+  price         Float          // USD
   stripePriceId String?        @unique
   description   String?
+  features      String[]       // JSON array of features
   isActive      Boolean        @default(true)
+  
+  subscriptions Subscription[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  subscriptions Subscription[]
 
   @@map("subscriptionPlans")
 }

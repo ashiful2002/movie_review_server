@@ -1,32 +1,38 @@
 model User {
-  id                 String   @id @default(uuid())
-  name               String
-  email              String   @unique
-  password           String
-  role               UserRole @default(USER)
-  avatar             String?
-  emailVerified      Boolean  @default(false)
-  isDeleted          Boolean  @default(false)
-  provider           String?
-  providerId         String?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  isPremium          Boolean  @default(false)
-  needPasswordChange Boolean  @default(true)
-  rememberMe         Boolean  @default(false)
+  id                    String   @id @default(uuid())
+  name                  String
+  email                 String   @unique
+  password              String
+  role                  UserRole @default(USER)
+  avatar                String?
+  emailVerified         Boolean  @default(false)
+  isDeleted             Boolean  @default(false)
+  provider              String?
+  providerId            String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  isPremium             Boolean  @default(false)
+  needPasswordChange    Boolean  @default(true)
+  rememberMe            Boolean  @default(false)
+  currentSubscriptionId String?
 
-  comments      Comment[]
-  likes         Like[]
-  payments      Payment[]
-  reviews       Review[]
-  subscriptions Subscription[]
-  watchlist     Watchlist[]
-  admin         Admin?
-  notifications Notification[]
-  activities    Activity[]
-  reviewVotes   ReviewVote[]   @relation("ReviewVotes")
-  followers     Follow[]       @relation("Followers")
-  following     Follow[]       @relation("Following")
+  comments         Comment[]
+  likes            Like[]
+  payments         Payment[]
+  reviews          Review[]
+  subscriptions    Subscription[]
+  watchlist        Watchlist[]
+  admin            Admin?
+  notifications    Notification[]
+  activities       Activity[]
+  reviewVotes      ReviewVote[]   @relation("ReviewVotes")
+  followers        Follow[]       @relation("Followers")
+  following        Follow[]       @relation("Following")
+  favourites       Favourite[]
+  sentMessages     Message[]      @relation("sent")
+  receivedMessages Message[]      @relation("received")
+
+
 
   @@map("users")
 }

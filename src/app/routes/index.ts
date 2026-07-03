@@ -8,7 +8,9 @@ import { MoviesRoutes } from "../modules/movie/movie.route";
 import { GenreRoutes } from "../modules/Genre/genre.route";
 import { SubscriptionRoutes } from "../modules/Subscription_plans/subscription.route";
 import { StatsRoutes } from "../modules/Stats/stats.route";
- 
+import { FavouriteRoutes } from "../modules/favourite/favourite.router";
+import { RagRoutes } from "../modules/rag/rag.route";
+
 const router = Router();
 
 const routerManager = [
@@ -18,9 +20,11 @@ const routerManager = [
   { path: "/genres", route: GenreRoutes },
   { path: "/reviews", route: ReviewsRoutes }, // partially working, but huge work to done
   { path: "/watchlist", route: WatchlistRoutes }, // watchlist routes tick mark
+  { path: "/favourite", route: FavouriteRoutes },
   { path: "/payments", route: PaymentsRoutes },
   { path: "/subscription-plans", route: SubscriptionRoutes },
   { path: "/stats", route: StatsRoutes },
+  // { path: "/rag", route: RagRoutes },
 ];
 
 routerManager.forEach((r) => router.use(r.path, r.route));
