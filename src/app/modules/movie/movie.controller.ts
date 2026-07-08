@@ -3,27 +3,42 @@ import { MovieService } from "./movie.service";
 import { sendResponse } from "../../shared/sendResponse";
 import { IQueryParams } from "../../interfaces/query.interface";
 import { catchAsync } from "../../shared/catchAsync";
-
+import { buildCacheKey, withCache } from "../../lib/withCache";
+ 
 const getMovies = catchAsync(async (req: Request, res: Response) => {
-  const result = await MovieService.getMovies(req.query as IQueryParams);
+  const query = req.query;
 
+  // const result = await MovieService.getMovies(req.query as IQueryParams);
+  const cacheKey = buildCacheKey("movie:list", JSON.stringify(query));
+
+  const { data: result, fromCache } = await withCache(cacheKey, 1200, () =>
+    MovieService.getMovies(query as IQueryParams)
+  );
   sendResponse(res, {
     httpStatusCode: 200,
     success: true,
-    message: "Movies fetched successfully",
+    message: fromCache
+      ? "Movies fetched successfully (cached)"
+      : "Movies fetched successfully",
     meta: result.meta,
     data: result.data,
- 
   });
 });
 
 const getSingleMovie = catchAsync(async (req: Request, res: Response) => {
-  const result = await MovieService.getSingleMovie(req.params.id as string);
+  const { id } = req.params;
+  const cacheKey = buildCacheKey("singleMovie:list", JSON.stringify(id));
+  const { data: result, fromCache } = await withCache(cacheKey, 600, () =>
+    MovieService.getSingleMovie(id as string)
+  );
+  // const result = await MovieService.getSingleMovie(req.params.id as string);
 
   sendResponse(res, {
     httpStatusCode: 200,
     success: true,
-    message: "Movie fetched successfully",
+    message: fromCache
+      ? "Movie fetched successfully (cached)"
+      : "Movie fetched successfully",
     data: result,
   });
 });

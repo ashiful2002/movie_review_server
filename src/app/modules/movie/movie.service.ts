@@ -20,7 +20,6 @@ const getMovies = async (query: IQueryParams) => {
         include: {
           genre: true,
         },
-
       },
     })
     .search()

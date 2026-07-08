@@ -24,7 +24,7 @@ const routerManager = [
   { path: "/payments", route: PaymentsRoutes },
   { path: "/subscription-plans", route: SubscriptionRoutes },
   { path: "/stats", route: StatsRoutes },
-  // { path: "/rag", route: RagRoutes },
+  { path: "/rag", route: RagRoutes },
 ];
 
 routerManager.forEach((r) => router.use(r.path, r.route));

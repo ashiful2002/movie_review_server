@@ -4,13 +4,11 @@ import AppError from "../errorHelpers/AppError";
 
 dotenv.config();
 
-
-
-
 interface EnvConfig {
   NODE_ENV: string;
   PORT: string;
   DATABASE_URL: string;
+  REDIS_URL: string;
   JWT_SECRET: string;
   STRIPE_SECRET_KEY: string;
   STRIPE_WEBHOOK_SECRET: string;
@@ -68,6 +66,7 @@ const loadEnvVariables = (): EnvConfig => {
     NODE_ENV: process.env.NODE_ENV as string,
     PORT: process.env.PORT as string,
     DATABASE_URL: process.env.DATABASE_URL as string,
+    REDIS_URL: process.env.REDIS_URL as string,
     JWT_SECRET: process.env.JWT_SECRET as string,
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY as string,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET as string,

@@ -4,14 +4,24 @@ import { WatchlistService } from "./watchlist.service";
 import { catchAsync } from "../../shared/catchAsync";
 import { IQueryParams } from "../../interfaces/query.interface";
 import status from "http-status";
+import { buildCacheKey, withCache } from "../../lib/withCache";
 
 const getWatchlist = catchAsync(async (req: Request, res: Response) => {
-  const result = await WatchlistService.getWatchlist(req.query as IQueryParams);
+  const query = req.query;
+
+  // const result = await WatchlistService.getWatchlist(req.query as IQueryParams);
+  const cacheKey = buildCacheKey("favourites:list", JSON.stringify(query));
+
+  const { data: result, fromCache } = await withCache(cacheKey, 600, () =>
+    WatchlistService.getWatchlist(query as IQueryParams)
+  );
 
   sendResponse(res, {
     httpStatusCode: 200,
     success: true,
-    message: "Get watchlist movies successfully",
+    message: fromCache
+      ? "Get watchlist movies successfully (from cache)"
+      : "Get watchlist movies successfully",
     data: result.data,
     meta: result.meta,
   });

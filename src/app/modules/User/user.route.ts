@@ -6,12 +6,6 @@ import { UserRole } from "../../../generated/prisma";
 const router = express.Router();
 
 router.get("/me/access/:movieId", UserController.checkAccess);
-// current user routes
-// router.get("/me/watchlist", UserController.getMyWatchlist);
-// router.post("/watchlist", UserController.addToWatchlist);
-// router.delete("/watchlist/:movieId", UserController.removeFromWatchlist);
-
-// purchases
 router.get(
   "/me/purchases",
   auth(UserRole.ADMIN, UserRole.USER),

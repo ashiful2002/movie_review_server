@@ -1,18 +1,25 @@
-// genre.controller.ts
 import { RequestHandler } from "express";
 import { GenreService } from "./genre.service";
 import { sendResponse } from "../../shared/sendResponse";
 import { IQueryParams } from "../../interfaces/query.interface";
 import { catchAsync } from "../../shared/catchAsync";
+ import { buildCacheKey, withCache } from "../../lib/withCache";
 
 const getGenres = catchAsync(async (req, res) => {
   const query = req.query;
-  const result = await GenreService.getAllGenres(query as IQueryParams);
+  const cacheKey = buildCacheKey("genres:list", JSON.stringify(query));
+
+
+  const { data: result, fromCache } = await withCache(cacheKey, 600, () =>
+    GenreService.getAllGenres(query as IQueryParams)
+  );
 
   sendResponse(res, {
     httpStatusCode: 200,
     success: true,
-    message: "Genres fetched successfully",
+    message: fromCache
+      ? "Genres fetched successfully (cached)"
+      : "Genres fetched successfully",
     meta: result.meta,
     data: result.data,
   });
