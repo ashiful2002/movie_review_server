@@ -196,6 +196,16 @@ exports.Prisma.LikeScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.MessageScalarFieldEnum = {
+  id: 'id',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  content: 'content',
+  read: 'read',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.MovieScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -339,8 +349,11 @@ exports.Prisma.UserScalarFieldEnum = {
   avatar: 'avatar',
   emailVerified: 'emailVerified',
   isDeleted: 'isDeleted',
-  provider: 'provider',
-  providerId: 'providerId',
+  phone: 'phone',
+  street: 'street',
+  city: 'city',
+  postalCode: 'postalCode',
+  address: 'address',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   isPremium: 'isPremium',
@@ -417,6 +430,7 @@ exports.Prisma.ModelName = {
   Genre: 'Genre',
   MovieGenre: 'MovieGenre',
   Like: 'Like',
+  Message: 'Message',
   Movie: 'Movie',
   Notification: 'Notification',
   Payment: 'Payment',

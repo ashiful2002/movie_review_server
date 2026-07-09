@@ -1,27 +1,87 @@
-const getUser = async (id: string) => {
-  console.log("Service: getUser", id);
+import { prisma } from "../../lib/prisma";
 
-  return {
-    id,
-    name: "Demo User",
-    email: "demo@example.com",
-  };
+const getMe = async (userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+      isDeleted: false,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      avatar: true,
+      phone: true,
+      address: true,
+      street: true,
+      city: true,
+      postalCode: true,
+      role: true,
+      isPremium: true,
+      emailVerified: true,
+      createdAt: true,
+    },
+  });
+
+  return user;
+};
+const updateProfile = async (userId: string, payload: Record<string, any>) => {
+  const allowedFields = [
+    "name",
+    "phone",
+    "avatar",
+    "street",
+    "city",
+    "postalCode",
+    "address",
+  ];
+
+  const data: Record<string, any> = {};
+
+  allowedFields.forEach((field) => {
+    if (payload[field] !== undefined) {
+      data[field] = payload[field];
+    }
+  });
+
+  const updatedUser = await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      avatar: true,
+      phone: true,
+      address: true,
+      street: true,
+      city: true,
+      postalCode: true,
+      role: true,
+      isPremium: true,
+      emailVerified: true,
+      updatedAt: true,
+    },
+  });
+
+  return updatedUser;
 };
 
-const updateUser = async (id: string, payload: any) => {
-  console.log("Service: updateUser", id, payload);
+const deleteUser = async (userId: string) => {
+  await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      isDeleted: true,
+    },
+  });
 
-  return {
-    id,
-    ...payload,
-  };
+  return null;
 };
 
-const deleteUser = async (id: string) => {
-  console.log("Service: deleteUser", id);
-};
-
-// WATCHLIST
 const getMyWatchlist = async (userId: string) => {
   console.log("Service: getMyWatchlist", userId);
 
@@ -43,17 +103,15 @@ const removeFromWatchlist = async (userId: string, movieId: string) => {
   return { userId, movieId };
 };
 
-// ACCESS (purchase/rent check)
 const checkAccess = async (userId: string, movieId: string) => {
   console.log("Service: checkAccess", userId, movieId);
 
   return {
     hasAccess: true,
-    type: "purchase", // or rent
+    type: "purchase",
   };
 };
 
-// PURCHASES
 const getMyPurchases = async (userId: string) => {
   console.log("Service: getMyPurchases", userId);
 
@@ -64,9 +122,10 @@ const getMyPurchases = async (userId: string) => {
 };
 
 export const UserService = {
-  getUser,
-  updateUser,
+  getMe,
+  updateProfile,
   deleteUser,
+
   getMyWatchlist,
   addToWatchlist,
   removeFromWatchlist,

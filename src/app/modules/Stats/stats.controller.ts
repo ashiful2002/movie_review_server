@@ -7,8 +7,7 @@ import { IRequestUser } from "../../interfaces/requestUser.interface";
 
 const getStats = catchAsync(async (req: Request, res: Response) => {
   const user = req.user;
-  console.log(user.id);
-  
+    
   const result = await StatsService.getDashboardStatsData(user! as IRequestUser);
 
   sendResponse(res, {

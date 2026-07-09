@@ -1,58 +1,40 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { sendResponse } from "../../shared/sendResponse";
 import { UserService } from "./user.service";
+import { catchAsync } from "../../shared/catchAsync";
 
-const getUser: RequestHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const result = await UserService.getUser(req.params.id as string);
+const getMe = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserService.getMe(req.user.id);
 
-    sendResponse(res, {
-      httpStatusCode: 200,
-      success: true,
-      message: "User fetched",
-      data: result,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+  sendResponse(res, {
+    httpStatusCode: 200,
+    success: true,
+    message: "Profile fetched successfully",
+    data: result,
+  });
+});
 
-const updateUser: RequestHandler = async (req, res, next) => {
-  try {
-    const result = await UserService.updateUser(
-      req.params.id as string,
-      req.body
-    );
+const updateProfile = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserService.updateProfile(req.user.id, req.body);
 
-    sendResponse(res, {
-      httpStatusCode: 200,
-      success: true,
-      message: "User updated",
-      data: result,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+  sendResponse(res, {
+    httpStatusCode: 200,
+    success: true,
+    message: "Profile updated successfully",
+    data: result,
+  });
+});
 
-const deleteUser: RequestHandler = async (req, res, next) => {
-  try {
-    await UserService.deleteUser(req.params.id as string);
+const deleteUser = catchAsync(async (req: Request, res: Response) => {
+  await UserService.deleteUser(req.user.id);
 
-    sendResponse(res, {
-      httpStatusCode: 200,
-      success: true,
-      message: "User deleted",
-      data: null,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+  sendResponse(res, {
+    httpStatusCode: 200,
+    success: true,
+    message: "Account deleted successfully",
+    data: null,
+  });
+});
 
 // WATCHLIST
 const getMyWatchlist: RequestHandler = async (req, res, next) => {
@@ -142,9 +124,10 @@ const getMyPurchases: RequestHandler = async (req, res, next) => {
 };
 
 export const UserController = {
-  getUser,
-  updateUser,
+  getMe,
+  updateProfile,
   deleteUser,
+
   getMyWatchlist,
   addToWatchlist,
   removeFromWatchlist,

@@ -1,12 +1,12 @@
-import { UserRole } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../config";
 import { prisma } from "../lib/prisma";
+import { UserRole } from "../../generated/prisma";
 const auth = (...roles: UserRole[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-       if (req.method === "OPTIONS") {
+      if (req.method === "OPTIONS") {
         return next();
       }
       const authHeader = req.headers.authorization;
@@ -18,7 +18,7 @@ const auth = (...roles: UserRole[]) => {
         });
       }
 
-       const token = authHeader.startsWith("Bearer ")
+      const token = authHeader.startsWith("Bearer ")
         ? authHeader.split(" ")[1]
         : authHeader;
 

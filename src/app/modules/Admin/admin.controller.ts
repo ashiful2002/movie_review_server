@@ -54,40 +54,8 @@ const logoutUser: RequestHandler = async (req, res, next) => {
   }
 };
 
-const getMe: RequestHandler = async (req, res, next) => {
-  try {
-    const result = await AuthService.getMe(req.user?.id);
-
-    sendResponse(res, {
-      httpStatusCode: 200,
-      success: true,
-      message: "Current user fetched",
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-const updateProfile: RequestHandler = async (req, res, next) => {
-  try {
-    const result = await AuthService.updateProfile(req.user?.id, req.body);
-
-    sendResponse(res, {
-      httpStatusCode: 200,
-      success: true,
-      message: "Profile updated",
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
 export const AuthController = {
   createUser,
   loginUser,
   logoutUser,
-  getMe,
-  updateProfile,
 };

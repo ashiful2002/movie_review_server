@@ -142,6 +142,21 @@ model Like {
   @@map("likes")
 }
 
+model Message {
+  id         String   @id @default(cuid())
+  sender     User     @relation("sent", fields: [senderId], references: [id])
+  senderId   String
+  receiver   User     @relation("received", fields: [receiverId], references: [id])
+  receiverId String
+  content    String
+  read       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([senderId])
+  @@index([receiverId])
+}
+
 model Movie {
   id            String   @id @default(uuid())
   title         String
@@ -202,33 +217,27 @@ model Notification {
 
 model Payment {
   id              String  @id @default(uuid())
-  subscriptionId  String
+  subscriptionId  String?
   userId          String
   amount          Float
   currency        String  @default("USD")
   stripePaymentId String? @unique
 
-  // Payment status
-  status PaymentStatus @default(PENDING) // PENDING, COMPLETED, FAILED, REFUNDED
+  status PaymentStatus @default(PENDING)
 
-  // Billing info
-  billingPeriodStart DateTime
-  billingPeriodEnd   DateTime
-  dueDate            DateTime
-  paidAt             DateTime?
-  failedReason       String?
-  retryCount         Int       @default(0)
+  billingPeriodStart DateTime?
+  billingPeriodEnd   DateTime?
+  dueDate            DateTime?
 
-  user         User         @relation(fields: [userId], references: [id])
-  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  paidAt       DateTime?
+  failedReason String?
+  retryCount   Int       @default(0)
+
+  user         User          @relation(fields: [userId], references: [id])
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@index([userId])
-  @@index([subscriptionId])
-  @@index([status])
-  @@map("payments")
 }
 
 model DocumentEmbedding {
@@ -372,16 +381,21 @@ model SubscriptionPlan {
 }
 
 model User {
-  id                    String   @id @default(uuid())
-  name                  String
-  email                 String   @unique
-  password              String
-  role                  UserRole @default(USER)
-  avatar                String?
-  emailVerified         Boolean  @default(false)
-  isDeleted             Boolean  @default(false)
-  provider              String?
-  providerId            String?
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password      String
+  role          UserRole @default(USER)
+  avatar        String?
+  emailVerified Boolean  @default(false)
+  isDeleted     Boolean  @default(false)
+
+  phone      String?
+  street     String?
+  city       String?
+  postalCode String?
+  address    String?
+
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
   isPremium             Boolean  @default(false)
@@ -389,19 +403,21 @@ model User {
   rememberMe            Boolean  @default(false)
   currentSubscriptionId String?
 
-  comments      Comment[]
-  likes         Like[]
-  payments      Payment[]
-  reviews       Review[]
-  subscriptions Subscription[]
-  watchlist     Watchlist[]
-  admin         Admin?
-  notifications Notification[]
-  activities    Activity[]
-  reviewVotes   ReviewVote[]   @relation("ReviewVotes")
-  followers     Follow[]       @relation("Followers")
-  following     Follow[]       @relation("Following")
-  favourites    Favourite[]
+  comments         Comment[]
+  likes            Like[]
+  payments         Payment[]
+  reviews          Review[]
+  subscriptions    Subscription[]
+  watchlist        Watchlist[]
+  admin            Admin?
+  notifications    Notification[]
+  activities       Activity[]
+  reviewVotes      ReviewVote[]   @relation("ReviewVotes")
+  followers        Follow[]       @relation("Followers")
+  following        Follow[]       @relation("Following")
+  favourites       Favourite[]
+  sentMessages     Message[]      @relation("sent")
+  receivedMessages Message[]      @relation("received")
 
   @@map("users")
 }

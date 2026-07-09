@@ -5,15 +5,12 @@ import { UserRole } from "../../../generated/prisma";
 
 const router = express.Router();
 
-router.get("/me/access/:movieId", UserController.checkAccess);
-router.get(
-  "/me/purchases",
-  auth(UserRole.ADMIN, UserRole.USER),
-  UserController.getMyPurchases
-);
+router.get("/me", auth(UserRole.USER), UserController.getMe);
+router.patch("/me", auth(UserRole.USER), UserController.updateProfile);
+router.delete("/me", UserController.deleteUser);
 
-router.get("/:id", UserController.getUser);
-router.patch("/:id", UserController.updateUser);
-router.delete("/:id", UserController.deleteUser);
+router.get("/me/access/:movieId", UserController.checkAccess);
+router.get("/me/purchases", auth(UserRole.USER), UserController.getMyPurchases);
+
 
 export const UserRoutes = router;

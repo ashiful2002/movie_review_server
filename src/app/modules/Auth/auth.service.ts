@@ -55,47 +55,9 @@ const logoutUser = async () => {
   return null;
 };
 
-const getMe = async (id: string) => {
-  console.log(id);
 
-  const user = await prisma.user.findUnique({
-    where: {
-      id,
-    },
-  });
-
-  return { user };
-};
-
-const updateProfile = async (userId: string, payload: any) => {
-  const allowedFields = [
-    "name",
-    "phone",
-    "avatar",
-    "street",
-    "city",
-    "postalCode",
-    "address",
-  ];
-
-  const data: any = {};
-  allowedFields.forEach((field) => {
-    if (payload[field] !== undefined) {
-      data[field] = payload[field];
-    }
-  });
-
-  const updatedUser = await prisma.user.update({
-    where: { id: userId },
-    data,
-  });
-
-  return { user: updatedUser };
-};
 export const AuthService = {
   createUser,
   loginUser,
   logoutUser,
-  getMe,
-  updateProfile,
 };

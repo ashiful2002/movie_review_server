@@ -16,9 +16,7 @@ const getFavourite = async () => {
 };
 
 const addToFavourite = async (userId: string, movieId: string) => {
-  console.log({ userId, movieId });
-
-  const existing = await prisma.watchlist.findUnique({
+  const existing = await prisma.favourite.findUnique({
     where: { userId_movieId: { userId, movieId } },
   });
 

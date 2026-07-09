@@ -1,14 +1,19 @@
 model User {
-  id                    String   @id @default(uuid())
-  name                  String
-  email                 String   @unique
-  password              String
-  role                  UserRole @default(USER)
-  avatar                String?
-  emailVerified         Boolean  @default(false)
-  isDeleted             Boolean  @default(false)
-  provider              String?
-  providerId            String?
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password      String
+  role          UserRole @default(USER)
+  avatar        String?
+  emailVerified Boolean  @default(false)
+  isDeleted     Boolean  @default(false)
+
+  phone      String?
+  street     String?
+  city       String?
+  postalCode String?
+  address    String?
+
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
   isPremium             Boolean  @default(false)
@@ -31,8 +36,6 @@ model User {
   favourites       Favourite[]
   sentMessages     Message[]      @relation("sent")
   receivedMessages Message[]      @relation("received")
-
-
 
   @@map("users")
 }

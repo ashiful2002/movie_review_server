@@ -46,32 +46,7 @@ const loginUser: RequestHandler = async (
   }
 };
 
-const getMe: RequestHandler = async (req, res, next: NextFunction) => {
-  try {
-    const result = await AuthService.getMe(req.user?.id);
-    sendResponse(res, {
-      httpStatusCode: 200,
-      success: true,
-      message: "get current user successfull",
-      data: result,
-    });
-  } catch (error: any) {
-    next(error);
-  }
-};
-const updateProfile: RequestHandler = async (req, res, next) => {
-  try {
-    const result = await AuthService.updateProfile(req.user?.id, req.body);
-    sendResponse(res, {
-      httpStatusCode: 200,
-      success: true,
-      message: "Profile updated successfully",
-      data: result,
-    });
-  } catch (error: any) {
-    next(error);
-  }
-};
+
 
 const logoutUser: RequestHandler = async (req, res, next) => {
   try {
@@ -92,7 +67,6 @@ const logoutUser: RequestHandler = async (req, res, next) => {
 export const AuthController = {
   createUser,
   loginUser,
-  getMe,
-  updateProfile,
+
   logoutUser,
 };
