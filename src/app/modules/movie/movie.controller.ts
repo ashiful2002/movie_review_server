@@ -4,11 +4,10 @@ import { sendResponse } from "../../shared/sendResponse";
 import { IQueryParams } from "../../interfaces/query.interface";
 import { catchAsync } from "../../shared/catchAsync";
 import { buildCacheKey, withCache } from "../../lib/withCache";
- 
+
 const getMovies = catchAsync(async (req: Request, res: Response) => {
   const query = req.query;
 
-  // const result = await MovieService.getMovies(req.query as IQueryParams);
   const cacheKey = buildCacheKey("movie:list", JSON.stringify(query));
 
   const { data: result, fromCache } = await withCache(cacheKey, 1200, () =>
@@ -26,12 +25,11 @@ const getMovies = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getSingleMovie = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const cacheKey = buildCacheKey("singleMovie:list", JSON.stringify(id));
+  const { slug } = req.params;
+  const cacheKey = buildCacheKey("singleMovie:list", JSON.stringify(slug));
   const { data: result, fromCache } = await withCache(cacheKey, 600, () =>
-    MovieService.getSingleMovie(id as string)
+    MovieService.getSingleMovie(slug as string)
   );
-  // const result = await MovieService.getSingleMovie(req.params.id as string);
 
   sendResponse(res, {
     httpStatusCode: 200,
@@ -39,17 +37,6 @@ const getSingleMovie = catchAsync(async (req: Request, res: Response) => {
     message: fromCache
       ? "Movie fetched successfully (cached)"
       : "Movie fetched successfully",
-    data: result,
-  });
-});
-
-const getReviews = catchAsync(async (req: Request, res: Response) => {
-  const result = await MovieService.getReviews(req.params.movieId as string);
-
-  sendResponse(res, {
-    httpStatusCode: 200,
-    success: true,
-    message: "Reviews fetched successfully",
     data: result,
   });
 });
@@ -82,7 +69,7 @@ const createMovie = catchAsync(async (req: Request, res: Response) => {
 
 const updateMovie = catchAsync(async (req: Request, res: Response) => {
   const result = await MovieService.updateMovie(
-    req.params.id as string,
+    req.params.slug as string,
     req.body
   );
 
@@ -95,7 +82,7 @@ const updateMovie = catchAsync(async (req: Request, res: Response) => {
 });
 
 const deleteMovie = catchAsync(async (req: Request, res: Response) => {
-  const result = await MovieService.deleteMovie(req.params.id as string);
+  const result = await MovieService.deleteMovie(req.params.slug as string);
 
   sendResponse(res, {
     httpStatusCode: 200,
@@ -108,7 +95,6 @@ const deleteMovie = catchAsync(async (req: Request, res: Response) => {
 export const MovieController = {
   getMovies,
   getSingleMovie,
-  getReviews,
   createMovie,
   updateMovie,
   deleteMovie,

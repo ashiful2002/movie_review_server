@@ -3,12 +3,11 @@ import { GenreService } from "./genre.service";
 import { sendResponse } from "../../shared/sendResponse";
 import { IQueryParams } from "../../interfaces/query.interface";
 import { catchAsync } from "../../shared/catchAsync";
- import { buildCacheKey, withCache } from "../../lib/withCache";
+import { buildCacheKey, withCache } from "../../lib/withCache";
 
 const getGenres = catchAsync(async (req, res) => {
   const query = req.query;
   const cacheKey = buildCacheKey("genres:list", JSON.stringify(query));
-
 
   const { data: result, fromCache } = await withCache(cacheKey, 600, () =>
     GenreService.getAllGenres(query as IQueryParams)

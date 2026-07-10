@@ -208,6 +208,7 @@ exports.Prisma.MessageScalarFieldEnum = {
 
 exports.Prisma.MovieScalarFieldEnum = {
   id: 'id',
+  slug: 'slug',
   title: 'title',
   description: 'description',
   releaseYear: 'releaseYear',
@@ -217,7 +218,6 @@ exports.Prisma.MovieScalarFieldEnum = {
   isPremium: 'isPremium',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  ageRating: 'ageRating',
   awards: 'awards',
   banner: 'banner',
   views: 'views',
@@ -228,11 +228,14 @@ exports.Prisma.MovieScalarFieldEnum = {
   country: 'country',
   duration: 'duration',
   language: 'language',
+  imdbRating: 'imdbRating',
   rating: 'rating',
+  averageRating: 'averageRating',
   status: 'status',
   subtitles: 'subtitles',
   thumbnail: 'thumbnail',
-  trailerLink: 'trailerLink'
+  trailerLink: 'trailerLink',
+  isDeleted: 'isDeleted'
 };
 
 exports.Prisma.NotificationScalarFieldEnum = {

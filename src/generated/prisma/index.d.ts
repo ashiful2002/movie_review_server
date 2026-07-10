@@ -12937,7 +12937,9 @@ export namespace Prisma {
     boxOffice: number | null
     budget: number | null
     duration: number | null
+    imdbRating: number | null
     rating: number | null
+    averageRating: number | null
   }
 
   export type MovieSumAggregateOutputType = {
@@ -12947,11 +12949,14 @@ export namespace Prisma {
     boxOffice: number | null
     budget: number | null
     duration: number | null
+    imdbRating: number | null
     rating: number | null
+    averageRating: number | null
   }
 
   export type MovieMinAggregateOutputType = {
     id: string | null
+    slug: string | null
     title: string | null
     description: string | null
     releaseYear: number | null
@@ -12961,7 +12966,6 @@ export namespace Prisma {
     isPremium: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
-    ageRating: string | null
     banner: string | null
     views: number | null
     isFeatured: boolean | null
@@ -12969,15 +12973,18 @@ export namespace Prisma {
     budget: number | null
     country: string | null
     duration: number | null
-    language: string | null
+    imdbRating: number | null
     rating: number | null
+    averageRating: number | null
     status: string | null
     thumbnail: string | null
     trailerLink: string | null
+    isDeleted: boolean | null
   }
 
   export type MovieMaxAggregateOutputType = {
     id: string | null
+    slug: string | null
     title: string | null
     description: string | null
     releaseYear: number | null
@@ -12987,7 +12994,6 @@ export namespace Prisma {
     isPremium: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
-    ageRating: string | null
     banner: string | null
     views: number | null
     isFeatured: boolean | null
@@ -12995,15 +13001,18 @@ export namespace Prisma {
     budget: number | null
     country: string | null
     duration: number | null
-    language: string | null
+    imdbRating: number | null
     rating: number | null
+    averageRating: number | null
     status: string | null
     thumbnail: string | null
     trailerLink: string | null
+    isDeleted: boolean | null
   }
 
   export type MovieCountAggregateOutputType = {
     id: number
+    slug: number
     title: number
     description: number
     releaseYear: number
@@ -13013,7 +13022,6 @@ export namespace Prisma {
     isPremium: number
     createdAt: number
     updatedAt: number
-    ageRating: number
     awards: number
     banner: number
     views: number
@@ -13024,11 +13032,14 @@ export namespace Prisma {
     country: number
     duration: number
     language: number
+    imdbRating: number
     rating: number
+    averageRating: number
     status: number
     subtitles: number
     thumbnail: number
     trailerLink: number
+    isDeleted: number
     _all: number
   }
 
@@ -13040,7 +13051,9 @@ export namespace Prisma {
     boxOffice?: true
     budget?: true
     duration?: true
+    imdbRating?: true
     rating?: true
+    averageRating?: true
   }
 
   export type MovieSumAggregateInputType = {
@@ -13050,11 +13063,14 @@ export namespace Prisma {
     boxOffice?: true
     budget?: true
     duration?: true
+    imdbRating?: true
     rating?: true
+    averageRating?: true
   }
 
   export type MovieMinAggregateInputType = {
     id?: true
+    slug?: true
     title?: true
     description?: true
     releaseYear?: true
@@ -13064,7 +13080,6 @@ export namespace Prisma {
     isPremium?: true
     createdAt?: true
     updatedAt?: true
-    ageRating?: true
     banner?: true
     views?: true
     isFeatured?: true
@@ -13072,15 +13087,18 @@ export namespace Prisma {
     budget?: true
     country?: true
     duration?: true
-    language?: true
+    imdbRating?: true
     rating?: true
+    averageRating?: true
     status?: true
     thumbnail?: true
     trailerLink?: true
+    isDeleted?: true
   }
 
   export type MovieMaxAggregateInputType = {
     id?: true
+    slug?: true
     title?: true
     description?: true
     releaseYear?: true
@@ -13090,7 +13108,6 @@ export namespace Prisma {
     isPremium?: true
     createdAt?: true
     updatedAt?: true
-    ageRating?: true
     banner?: true
     views?: true
     isFeatured?: true
@@ -13098,15 +13115,18 @@ export namespace Prisma {
     budget?: true
     country?: true
     duration?: true
-    language?: true
+    imdbRating?: true
     rating?: true
+    averageRating?: true
     status?: true
     thumbnail?: true
     trailerLink?: true
+    isDeleted?: true
   }
 
   export type MovieCountAggregateInputType = {
     id?: true
+    slug?: true
     title?: true
     description?: true
     releaseYear?: true
@@ -13116,7 +13136,6 @@ export namespace Prisma {
     isPremium?: true
     createdAt?: true
     updatedAt?: true
-    ageRating?: true
     awards?: true
     banner?: true
     views?: true
@@ -13127,11 +13146,14 @@ export namespace Prisma {
     country?: true
     duration?: true
     language?: true
+    imdbRating?: true
     rating?: true
+    averageRating?: true
     status?: true
     subtitles?: true
     thumbnail?: true
     trailerLink?: true
+    isDeleted?: true
     _all?: true
   }
 
@@ -13223,6 +13245,7 @@ export namespace Prisma {
 
   export type MovieGroupByOutputType = {
     id: string
+    slug: string | null
     title: string
     description: string
     releaseYear: number
@@ -13232,7 +13255,6 @@ export namespace Prisma {
     isPremium: boolean
     createdAt: Date
     updatedAt: Date
-    ageRating: string | null
     awards: string[]
     banner: string | null
     views: number
@@ -13242,12 +13264,15 @@ export namespace Prisma {
     cast: string[]
     country: string | null
     duration: number | null
-    language: string | null
+    language: string[]
+    imdbRating: number | null
     rating: number | null
+    averageRating: number | null
     status: string | null
     subtitles: string[]
     thumbnail: string | null
     trailerLink: string | null
+    isDeleted: boolean
     _count: MovieCountAggregateOutputType | null
     _avg: MovieAvgAggregateOutputType | null
     _sum: MovieSumAggregateOutputType | null
@@ -13271,6 +13296,7 @@ export namespace Prisma {
 
   export type MovieSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    slug?: boolean
     title?: boolean
     description?: boolean
     releaseYear?: boolean
@@ -13280,7 +13306,6 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    ageRating?: boolean
     awards?: boolean
     banner?: boolean
     views?: boolean
@@ -13291,11 +13316,14 @@ export namespace Prisma {
     country?: boolean
     duration?: boolean
     language?: boolean
+    imdbRating?: boolean
     rating?: boolean
+    averageRating?: boolean
     status?: boolean
     subtitles?: boolean
     thumbnail?: boolean
     trailerLink?: boolean
+    isDeleted?: boolean
     genres?: boolean | Movie$genresArgs<ExtArgs>
     reviews?: boolean | Movie$reviewsArgs<ExtArgs>
     watchlist?: boolean | Movie$watchlistArgs<ExtArgs>
@@ -13305,6 +13333,7 @@ export namespace Prisma {
 
   export type MovieSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    slug?: boolean
     title?: boolean
     description?: boolean
     releaseYear?: boolean
@@ -13314,7 +13343,6 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    ageRating?: boolean
     awards?: boolean
     banner?: boolean
     views?: boolean
@@ -13325,15 +13353,19 @@ export namespace Prisma {
     country?: boolean
     duration?: boolean
     language?: boolean
+    imdbRating?: boolean
     rating?: boolean
+    averageRating?: boolean
     status?: boolean
     subtitles?: boolean
     thumbnail?: boolean
     trailerLink?: boolean
+    isDeleted?: boolean
   }, ExtArgs["result"]["movie"]>
 
   export type MovieSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    slug?: boolean
     title?: boolean
     description?: boolean
     releaseYear?: boolean
@@ -13343,7 +13375,6 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    ageRating?: boolean
     awards?: boolean
     banner?: boolean
     views?: boolean
@@ -13354,15 +13385,19 @@ export namespace Prisma {
     country?: boolean
     duration?: boolean
     language?: boolean
+    imdbRating?: boolean
     rating?: boolean
+    averageRating?: boolean
     status?: boolean
     subtitles?: boolean
     thumbnail?: boolean
     trailerLink?: boolean
+    isDeleted?: boolean
   }, ExtArgs["result"]["movie"]>
 
   export type MovieSelectScalar = {
     id?: boolean
+    slug?: boolean
     title?: boolean
     description?: boolean
     releaseYear?: boolean
@@ -13372,7 +13407,6 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    ageRating?: boolean
     awards?: boolean
     banner?: boolean
     views?: boolean
@@ -13383,14 +13417,17 @@ export namespace Prisma {
     country?: boolean
     duration?: boolean
     language?: boolean
+    imdbRating?: boolean
     rating?: boolean
+    averageRating?: boolean
     status?: boolean
     subtitles?: boolean
     thumbnail?: boolean
     trailerLink?: boolean
+    isDeleted?: boolean
   }
 
-  export type MovieOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "releaseYear" | "director" | "streamingLink" | "price" | "isPremium" | "createdAt" | "updatedAt" | "ageRating" | "awards" | "banner" | "views" | "isFeatured" | "boxOffice" | "budget" | "cast" | "country" | "duration" | "language" | "rating" | "status" | "subtitles" | "thumbnail" | "trailerLink", ExtArgs["result"]["movie"]>
+  export type MovieOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "releaseYear" | "director" | "streamingLink" | "price" | "isPremium" | "createdAt" | "updatedAt" | "awards" | "banner" | "views" | "isFeatured" | "boxOffice" | "budget" | "cast" | "country" | "duration" | "language" | "imdbRating" | "rating" | "averageRating" | "status" | "subtitles" | "thumbnail" | "trailerLink" | "isDeleted", ExtArgs["result"]["movie"]>
   export type MovieInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     genres?: boolean | Movie$genresArgs<ExtArgs>
     reviews?: boolean | Movie$reviewsArgs<ExtArgs>
@@ -13411,6 +13448,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      slug: string | null
       title: string
       description: string
       releaseYear: number
@@ -13420,7 +13458,6 @@ export namespace Prisma {
       isPremium: boolean
       createdAt: Date
       updatedAt: Date
-      ageRating: string | null
       awards: string[]
       banner: string | null
       views: number
@@ -13430,12 +13467,15 @@ export namespace Prisma {
       cast: string[]
       country: string | null
       duration: number | null
-      language: string | null
+      language: string[]
+      imdbRating: number | null
       rating: number | null
+      averageRating: number | null
       status: string | null
       subtitles: string[]
       thumbnail: string | null
       trailerLink: string | null
+      isDeleted: boolean
     }, ExtArgs["result"]["movie"]>
     composites: {}
   }
@@ -13864,6 +13904,7 @@ export namespace Prisma {
    */
   interface MovieFieldRefs {
     readonly id: FieldRef<"Movie", 'String'>
+    readonly slug: FieldRef<"Movie", 'String'>
     readonly title: FieldRef<"Movie", 'String'>
     readonly description: FieldRef<"Movie", 'String'>
     readonly releaseYear: FieldRef<"Movie", 'Int'>
@@ -13873,7 +13914,6 @@ export namespace Prisma {
     readonly isPremium: FieldRef<"Movie", 'Boolean'>
     readonly createdAt: FieldRef<"Movie", 'DateTime'>
     readonly updatedAt: FieldRef<"Movie", 'DateTime'>
-    readonly ageRating: FieldRef<"Movie", 'String'>
     readonly awards: FieldRef<"Movie", 'String[]'>
     readonly banner: FieldRef<"Movie", 'String'>
     readonly views: FieldRef<"Movie", 'Int'>
@@ -13883,12 +13923,15 @@ export namespace Prisma {
     readonly cast: FieldRef<"Movie", 'String[]'>
     readonly country: FieldRef<"Movie", 'String'>
     readonly duration: FieldRef<"Movie", 'Int'>
-    readonly language: FieldRef<"Movie", 'String'>
+    readonly language: FieldRef<"Movie", 'String[]'>
+    readonly imdbRating: FieldRef<"Movie", 'Float'>
     readonly rating: FieldRef<"Movie", 'Float'>
+    readonly averageRating: FieldRef<"Movie", 'Float'>
     readonly status: FieldRef<"Movie", 'String'>
     readonly subtitles: FieldRef<"Movie", 'String[]'>
     readonly thumbnail: FieldRef<"Movie", 'String'>
     readonly trailerLink: FieldRef<"Movie", 'String'>
+    readonly isDeleted: FieldRef<"Movie", 'Boolean'>
   }
     
 
@@ -26456,6 +26499,7 @@ export namespace Prisma {
 
   export const MovieScalarFieldEnum: {
     id: 'id',
+    slug: 'slug',
     title: 'title',
     description: 'description',
     releaseYear: 'releaseYear',
@@ -26465,7 +26509,6 @@ export namespace Prisma {
     isPremium: 'isPremium',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    ageRating: 'ageRating',
     awards: 'awards',
     banner: 'banner',
     views: 'views',
@@ -26476,11 +26519,14 @@ export namespace Prisma {
     country: 'country',
     duration: 'duration',
     language: 'language',
+    imdbRating: 'imdbRating',
     rating: 'rating',
+    averageRating: 'averageRating',
     status: 'status',
     subtitles: 'subtitles',
     thumbnail: 'thumbnail',
-    trailerLink: 'trailerLink'
+    trailerLink: 'trailerLink',
+    isDeleted: 'isDeleted'
   };
 
   export type MovieScalarFieldEnum = (typeof MovieScalarFieldEnum)[keyof typeof MovieScalarFieldEnum]
@@ -27434,6 +27480,7 @@ export namespace Prisma {
     OR?: MovieWhereInput[]
     NOT?: MovieWhereInput | MovieWhereInput[]
     id?: StringFilter<"Movie"> | string
+    slug?: StringNullableFilter<"Movie"> | string | null
     title?: StringFilter<"Movie"> | string
     description?: StringFilter<"Movie"> | string
     releaseYear?: IntFilter<"Movie"> | number
@@ -27443,7 +27490,6 @@ export namespace Prisma {
     isPremium?: BoolFilter<"Movie"> | boolean
     createdAt?: DateTimeFilter<"Movie"> | Date | string
     updatedAt?: DateTimeFilter<"Movie"> | Date | string
-    ageRating?: StringNullableFilter<"Movie"> | string | null
     awards?: StringNullableListFilter<"Movie">
     banner?: StringNullableFilter<"Movie"> | string | null
     views?: IntFilter<"Movie"> | number
@@ -27453,12 +27499,15 @@ export namespace Prisma {
     cast?: StringNullableListFilter<"Movie">
     country?: StringNullableFilter<"Movie"> | string | null
     duration?: IntNullableFilter<"Movie"> | number | null
-    language?: StringNullableFilter<"Movie"> | string | null
+    language?: StringNullableListFilter<"Movie">
+    imdbRating?: FloatNullableFilter<"Movie"> | number | null
     rating?: FloatNullableFilter<"Movie"> | number | null
+    averageRating?: FloatNullableFilter<"Movie"> | number | null
     status?: StringNullableFilter<"Movie"> | string | null
     subtitles?: StringNullableListFilter<"Movie">
     thumbnail?: StringNullableFilter<"Movie"> | string | null
     trailerLink?: StringNullableFilter<"Movie"> | string | null
+    isDeleted?: BoolFilter<"Movie"> | boolean
     genres?: MovieGenreListRelationFilter
     reviews?: ReviewListRelationFilter
     watchlist?: WatchlistListRelationFilter
@@ -27467,6 +27516,7 @@ export namespace Prisma {
 
   export type MovieOrderByWithRelationInput = {
     id?: SortOrder
+    slug?: SortOrderInput | SortOrder
     title?: SortOrder
     description?: SortOrder
     releaseYear?: SortOrder
@@ -27476,7 +27526,6 @@ export namespace Prisma {
     isPremium?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    ageRating?: SortOrderInput | SortOrder
     awards?: SortOrder
     banner?: SortOrderInput | SortOrder
     views?: SortOrder
@@ -27486,12 +27535,15 @@ export namespace Prisma {
     cast?: SortOrder
     country?: SortOrderInput | SortOrder
     duration?: SortOrderInput | SortOrder
-    language?: SortOrderInput | SortOrder
+    language?: SortOrder
+    imdbRating?: SortOrderInput | SortOrder
     rating?: SortOrderInput | SortOrder
+    averageRating?: SortOrderInput | SortOrder
     status?: SortOrderInput | SortOrder
     subtitles?: SortOrder
     thumbnail?: SortOrderInput | SortOrder
     trailerLink?: SortOrderInput | SortOrder
+    isDeleted?: SortOrder
     genres?: MovieGenreOrderByRelationAggregateInput
     reviews?: ReviewOrderByRelationAggregateInput
     watchlist?: WatchlistOrderByRelationAggregateInput
@@ -27500,6 +27552,7 @@ export namespace Prisma {
 
   export type MovieWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    slug?: string
     AND?: MovieWhereInput | MovieWhereInput[]
     OR?: MovieWhereInput[]
     NOT?: MovieWhereInput | MovieWhereInput[]
@@ -27512,7 +27565,6 @@ export namespace Prisma {
     isPremium?: BoolFilter<"Movie"> | boolean
     createdAt?: DateTimeFilter<"Movie"> | Date | string
     updatedAt?: DateTimeFilter<"Movie"> | Date | string
-    ageRating?: StringNullableFilter<"Movie"> | string | null
     awards?: StringNullableListFilter<"Movie">
     banner?: StringNullableFilter<"Movie"> | string | null
     views?: IntFilter<"Movie"> | number
@@ -27522,20 +27574,24 @@ export namespace Prisma {
     cast?: StringNullableListFilter<"Movie">
     country?: StringNullableFilter<"Movie"> | string | null
     duration?: IntNullableFilter<"Movie"> | number | null
-    language?: StringNullableFilter<"Movie"> | string | null
+    language?: StringNullableListFilter<"Movie">
+    imdbRating?: FloatNullableFilter<"Movie"> | number | null
     rating?: FloatNullableFilter<"Movie"> | number | null
+    averageRating?: FloatNullableFilter<"Movie"> | number | null
     status?: StringNullableFilter<"Movie"> | string | null
     subtitles?: StringNullableListFilter<"Movie">
     thumbnail?: StringNullableFilter<"Movie"> | string | null
     trailerLink?: StringNullableFilter<"Movie"> | string | null
+    isDeleted?: BoolFilter<"Movie"> | boolean
     genres?: MovieGenreListRelationFilter
     reviews?: ReviewListRelationFilter
     watchlist?: WatchlistListRelationFilter
     favourites?: FavouriteListRelationFilter
-  }, "id">
+  }, "id" | "slug">
 
   export type MovieOrderByWithAggregationInput = {
     id?: SortOrder
+    slug?: SortOrderInput | SortOrder
     title?: SortOrder
     description?: SortOrder
     releaseYear?: SortOrder
@@ -27545,7 +27601,6 @@ export namespace Prisma {
     isPremium?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    ageRating?: SortOrderInput | SortOrder
     awards?: SortOrder
     banner?: SortOrderInput | SortOrder
     views?: SortOrder
@@ -27555,12 +27610,15 @@ export namespace Prisma {
     cast?: SortOrder
     country?: SortOrderInput | SortOrder
     duration?: SortOrderInput | SortOrder
-    language?: SortOrderInput | SortOrder
+    language?: SortOrder
+    imdbRating?: SortOrderInput | SortOrder
     rating?: SortOrderInput | SortOrder
+    averageRating?: SortOrderInput | SortOrder
     status?: SortOrderInput | SortOrder
     subtitles?: SortOrder
     thumbnail?: SortOrderInput | SortOrder
     trailerLink?: SortOrderInput | SortOrder
+    isDeleted?: SortOrder
     _count?: MovieCountOrderByAggregateInput
     _avg?: MovieAvgOrderByAggregateInput
     _max?: MovieMaxOrderByAggregateInput
@@ -27573,6 +27631,7 @@ export namespace Prisma {
     OR?: MovieScalarWhereWithAggregatesInput[]
     NOT?: MovieScalarWhereWithAggregatesInput | MovieScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Movie"> | string
+    slug?: StringNullableWithAggregatesFilter<"Movie"> | string | null
     title?: StringWithAggregatesFilter<"Movie"> | string
     description?: StringWithAggregatesFilter<"Movie"> | string
     releaseYear?: IntWithAggregatesFilter<"Movie"> | number
@@ -27582,7 +27641,6 @@ export namespace Prisma {
     isPremium?: BoolWithAggregatesFilter<"Movie"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Movie"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Movie"> | Date | string
-    ageRating?: StringNullableWithAggregatesFilter<"Movie"> | string | null
     awards?: StringNullableListFilter<"Movie">
     banner?: StringNullableWithAggregatesFilter<"Movie"> | string | null
     views?: IntWithAggregatesFilter<"Movie"> | number
@@ -27592,12 +27650,15 @@ export namespace Prisma {
     cast?: StringNullableListFilter<"Movie">
     country?: StringNullableWithAggregatesFilter<"Movie"> | string | null
     duration?: IntNullableWithAggregatesFilter<"Movie"> | number | null
-    language?: StringNullableWithAggregatesFilter<"Movie"> | string | null
+    language?: StringNullableListFilter<"Movie">
+    imdbRating?: FloatNullableWithAggregatesFilter<"Movie"> | number | null
     rating?: FloatNullableWithAggregatesFilter<"Movie"> | number | null
+    averageRating?: FloatNullableWithAggregatesFilter<"Movie"> | number | null
     status?: StringNullableWithAggregatesFilter<"Movie"> | string | null
     subtitles?: StringNullableListFilter<"Movie">
     thumbnail?: StringNullableWithAggregatesFilter<"Movie"> | string | null
     trailerLink?: StringNullableWithAggregatesFilter<"Movie"> | string | null
+    isDeleted?: BoolWithAggregatesFilter<"Movie"> | boolean
   }
 
   export type NotificationWhereInput = {
@@ -29106,6 +29167,7 @@ export namespace Prisma {
 
   export type MovieCreateInput = {
     id?: string
+    slug?: string | null
     title: string
     description: string
     releaseYear: number
@@ -29115,7 +29177,6 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
     views?: number
@@ -29125,12 +29186,15 @@ export namespace Prisma {
     cast?: MovieCreatecastInput | string[]
     country?: string | null
     duration?: number | null
-    language?: string | null
+    language?: MovieCreatelanguageInput | string[]
+    imdbRating?: number | null
     rating?: number | null
+    averageRating?: number | null
     status?: string | null
     subtitles?: MovieCreatesubtitlesInput | string[]
     thumbnail?: string | null
     trailerLink?: string | null
+    isDeleted?: boolean
     genres?: MovieGenreCreateNestedManyWithoutMovieInput
     reviews?: ReviewCreateNestedManyWithoutMovieInput
     watchlist?: WatchlistCreateNestedManyWithoutMovieInput
@@ -29139,6 +29203,7 @@ export namespace Prisma {
 
   export type MovieUncheckedCreateInput = {
     id?: string
+    slug?: string | null
     title: string
     description: string
     releaseYear: number
@@ -29148,7 +29213,6 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
     views?: number
@@ -29158,12 +29222,15 @@ export namespace Prisma {
     cast?: MovieCreatecastInput | string[]
     country?: string | null
     duration?: number | null
-    language?: string | null
+    language?: MovieCreatelanguageInput | string[]
+    imdbRating?: number | null
     rating?: number | null
+    averageRating?: number | null
     status?: string | null
     subtitles?: MovieCreatesubtitlesInput | string[]
     thumbnail?: string | null
     trailerLink?: string | null
+    isDeleted?: boolean
     genres?: MovieGenreUncheckedCreateNestedManyWithoutMovieInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutMovieInput
     watchlist?: WatchlistUncheckedCreateNestedManyWithoutMovieInput
@@ -29172,6 +29239,7 @@ export namespace Prisma {
 
   export type MovieUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     releaseYear?: IntFieldUpdateOperationsInput | number
@@ -29181,7 +29249,6 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
     views?: IntFieldUpdateOperationsInput | number
@@ -29191,12 +29258,15 @@ export namespace Prisma {
     cast?: MovieUpdatecastInput | string[]
     country?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: MovieUpdatelanguageInput | string[]
+    imdbRating?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     subtitles?: MovieUpdatesubtitlesInput | string[]
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     genres?: MovieGenreUpdateManyWithoutMovieNestedInput
     reviews?: ReviewUpdateManyWithoutMovieNestedInput
     watchlist?: WatchlistUpdateManyWithoutMovieNestedInput
@@ -29205,6 +29275,7 @@ export namespace Prisma {
 
   export type MovieUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     releaseYear?: IntFieldUpdateOperationsInput | number
@@ -29214,7 +29285,6 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
     views?: IntFieldUpdateOperationsInput | number
@@ -29224,12 +29294,15 @@ export namespace Prisma {
     cast?: MovieUpdatecastInput | string[]
     country?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: MovieUpdatelanguageInput | string[]
+    imdbRating?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     subtitles?: MovieUpdatesubtitlesInput | string[]
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     genres?: MovieGenreUncheckedUpdateManyWithoutMovieNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutMovieNestedInput
     watchlist?: WatchlistUncheckedUpdateManyWithoutMovieNestedInput
@@ -29238,6 +29311,7 @@ export namespace Prisma {
 
   export type MovieCreateManyInput = {
     id?: string
+    slug?: string | null
     title: string
     description: string
     releaseYear: number
@@ -29247,7 +29321,6 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
     views?: number
@@ -29257,16 +29330,20 @@ export namespace Prisma {
     cast?: MovieCreatecastInput | string[]
     country?: string | null
     duration?: number | null
-    language?: string | null
+    language?: MovieCreatelanguageInput | string[]
+    imdbRating?: number | null
     rating?: number | null
+    averageRating?: number | null
     status?: string | null
     subtitles?: MovieCreatesubtitlesInput | string[]
     thumbnail?: string | null
     trailerLink?: string | null
+    isDeleted?: boolean
   }
 
   export type MovieUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     releaseYear?: IntFieldUpdateOperationsInput | number
@@ -29276,7 +29353,6 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
     views?: IntFieldUpdateOperationsInput | number
@@ -29286,16 +29362,20 @@ export namespace Prisma {
     cast?: MovieUpdatecastInput | string[]
     country?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: MovieUpdatelanguageInput | string[]
+    imdbRating?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     subtitles?: MovieUpdatesubtitlesInput | string[]
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MovieUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     releaseYear?: IntFieldUpdateOperationsInput | number
@@ -29305,7 +29385,6 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
     views?: IntFieldUpdateOperationsInput | number
@@ -29315,12 +29394,15 @@ export namespace Prisma {
     cast?: MovieUpdatecastInput | string[]
     country?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: MovieUpdatelanguageInput | string[]
+    imdbRating?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     subtitles?: MovieUpdatesubtitlesInput | string[]
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type NotificationCreateInput = {
@@ -30853,6 +30935,7 @@ export namespace Prisma {
 
   export type MovieCountOrderByAggregateInput = {
     id?: SortOrder
+    slug?: SortOrder
     title?: SortOrder
     description?: SortOrder
     releaseYear?: SortOrder
@@ -30862,7 +30945,6 @@ export namespace Prisma {
     isPremium?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    ageRating?: SortOrder
     awards?: SortOrder
     banner?: SortOrder
     views?: SortOrder
@@ -30873,11 +30955,14 @@ export namespace Prisma {
     country?: SortOrder
     duration?: SortOrder
     language?: SortOrder
+    imdbRating?: SortOrder
     rating?: SortOrder
+    averageRating?: SortOrder
     status?: SortOrder
     subtitles?: SortOrder
     thumbnail?: SortOrder
     trailerLink?: SortOrder
+    isDeleted?: SortOrder
   }
 
   export type MovieAvgOrderByAggregateInput = {
@@ -30887,11 +30972,14 @@ export namespace Prisma {
     boxOffice?: SortOrder
     budget?: SortOrder
     duration?: SortOrder
+    imdbRating?: SortOrder
     rating?: SortOrder
+    averageRating?: SortOrder
   }
 
   export type MovieMaxOrderByAggregateInput = {
     id?: SortOrder
+    slug?: SortOrder
     title?: SortOrder
     description?: SortOrder
     releaseYear?: SortOrder
@@ -30901,7 +30989,6 @@ export namespace Prisma {
     isPremium?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    ageRating?: SortOrder
     banner?: SortOrder
     views?: SortOrder
     isFeatured?: SortOrder
@@ -30909,15 +30996,18 @@ export namespace Prisma {
     budget?: SortOrder
     country?: SortOrder
     duration?: SortOrder
-    language?: SortOrder
+    imdbRating?: SortOrder
     rating?: SortOrder
+    averageRating?: SortOrder
     status?: SortOrder
     thumbnail?: SortOrder
     trailerLink?: SortOrder
+    isDeleted?: SortOrder
   }
 
   export type MovieMinOrderByAggregateInput = {
     id?: SortOrder
+    slug?: SortOrder
     title?: SortOrder
     description?: SortOrder
     releaseYear?: SortOrder
@@ -30927,7 +31017,6 @@ export namespace Prisma {
     isPremium?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    ageRating?: SortOrder
     banner?: SortOrder
     views?: SortOrder
     isFeatured?: SortOrder
@@ -30935,11 +31024,13 @@ export namespace Prisma {
     budget?: SortOrder
     country?: SortOrder
     duration?: SortOrder
-    language?: SortOrder
+    imdbRating?: SortOrder
     rating?: SortOrder
+    averageRating?: SortOrder
     status?: SortOrder
     thumbnail?: SortOrder
     trailerLink?: SortOrder
+    isDeleted?: SortOrder
   }
 
   export type MovieSumOrderByAggregateInput = {
@@ -30949,7 +31040,9 @@ export namespace Prisma {
     boxOffice?: SortOrder
     budget?: SortOrder
     duration?: SortOrder
+    imdbRating?: SortOrder
     rating?: SortOrder
+    averageRating?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -32036,6 +32129,10 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type MovieCreatelanguageInput = {
+    set: string[]
+  }
+
   export type MovieCreatesubtitlesInput = {
     set: string[]
   }
@@ -32140,6 +32237,11 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type MovieUpdatelanguageInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type MovieUpdatesubtitlesInput = {
@@ -34491,6 +34593,7 @@ export namespace Prisma {
 
   export type MovieCreateWithoutFavouritesInput = {
     id?: string
+    slug?: string | null
     title: string
     description: string
     releaseYear: number
@@ -34500,7 +34603,6 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
     views?: number
@@ -34510,12 +34612,15 @@ export namespace Prisma {
     cast?: MovieCreatecastInput | string[]
     country?: string | null
     duration?: number | null
-    language?: string | null
+    language?: MovieCreatelanguageInput | string[]
+    imdbRating?: number | null
     rating?: number | null
+    averageRating?: number | null
     status?: string | null
     subtitles?: MovieCreatesubtitlesInput | string[]
     thumbnail?: string | null
     trailerLink?: string | null
+    isDeleted?: boolean
     genres?: MovieGenreCreateNestedManyWithoutMovieInput
     reviews?: ReviewCreateNestedManyWithoutMovieInput
     watchlist?: WatchlistCreateNestedManyWithoutMovieInput
@@ -34523,6 +34628,7 @@ export namespace Prisma {
 
   export type MovieUncheckedCreateWithoutFavouritesInput = {
     id?: string
+    slug?: string | null
     title: string
     description: string
     releaseYear: number
@@ -34532,7 +34638,6 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
     views?: number
@@ -34542,12 +34647,15 @@ export namespace Prisma {
     cast?: MovieCreatecastInput | string[]
     country?: string | null
     duration?: number | null
-    language?: string | null
+    language?: MovieCreatelanguageInput | string[]
+    imdbRating?: number | null
     rating?: number | null
+    averageRating?: number | null
     status?: string | null
     subtitles?: MovieCreatesubtitlesInput | string[]
     thumbnail?: string | null
     trailerLink?: string | null
+    isDeleted?: boolean
     genres?: MovieGenreUncheckedCreateNestedManyWithoutMovieInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutMovieInput
     watchlist?: WatchlistUncheckedCreateNestedManyWithoutMovieInput
@@ -34648,6 +34756,7 @@ export namespace Prisma {
 
   export type MovieUpdateWithoutFavouritesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     releaseYear?: IntFieldUpdateOperationsInput | number
@@ -34657,7 +34766,6 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
     views?: IntFieldUpdateOperationsInput | number
@@ -34667,12 +34775,15 @@ export namespace Prisma {
     cast?: MovieUpdatecastInput | string[]
     country?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: MovieUpdatelanguageInput | string[]
+    imdbRating?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     subtitles?: MovieUpdatesubtitlesInput | string[]
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     genres?: MovieGenreUpdateManyWithoutMovieNestedInput
     reviews?: ReviewUpdateManyWithoutMovieNestedInput
     watchlist?: WatchlistUpdateManyWithoutMovieNestedInput
@@ -34680,6 +34791,7 @@ export namespace Prisma {
 
   export type MovieUncheckedUpdateWithoutFavouritesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     releaseYear?: IntFieldUpdateOperationsInput | number
@@ -34689,7 +34801,6 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
     views?: IntFieldUpdateOperationsInput | number
@@ -34699,12 +34810,15 @@ export namespace Prisma {
     cast?: MovieUpdatecastInput | string[]
     country?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: MovieUpdatelanguageInput | string[]
+    imdbRating?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     subtitles?: MovieUpdatesubtitlesInput | string[]
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     genres?: MovieGenreUncheckedUpdateManyWithoutMovieNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutMovieNestedInput
     watchlist?: WatchlistUncheckedUpdateManyWithoutMovieNestedInput
@@ -35186,6 +35300,7 @@ export namespace Prisma {
 
   export type MovieCreateWithoutGenresInput = {
     id?: string
+    slug?: string | null
     title: string
     description: string
     releaseYear: number
@@ -35195,7 +35310,6 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
     views?: number
@@ -35205,12 +35319,15 @@ export namespace Prisma {
     cast?: MovieCreatecastInput | string[]
     country?: string | null
     duration?: number | null
-    language?: string | null
+    language?: MovieCreatelanguageInput | string[]
+    imdbRating?: number | null
     rating?: number | null
+    averageRating?: number | null
     status?: string | null
     subtitles?: MovieCreatesubtitlesInput | string[]
     thumbnail?: string | null
     trailerLink?: string | null
+    isDeleted?: boolean
     reviews?: ReviewCreateNestedManyWithoutMovieInput
     watchlist?: WatchlistCreateNestedManyWithoutMovieInput
     favourites?: FavouriteCreateNestedManyWithoutMovieInput
@@ -35218,6 +35335,7 @@ export namespace Prisma {
 
   export type MovieUncheckedCreateWithoutGenresInput = {
     id?: string
+    slug?: string | null
     title: string
     description: string
     releaseYear: number
@@ -35227,7 +35345,6 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
     views?: number
@@ -35237,12 +35354,15 @@ export namespace Prisma {
     cast?: MovieCreatecastInput | string[]
     country?: string | null
     duration?: number | null
-    language?: string | null
+    language?: MovieCreatelanguageInput | string[]
+    imdbRating?: number | null
     rating?: number | null
+    averageRating?: number | null
     status?: string | null
     subtitles?: MovieCreatesubtitlesInput | string[]
     thumbnail?: string | null
     trailerLink?: string | null
+    isDeleted?: boolean
     reviews?: ReviewUncheckedCreateNestedManyWithoutMovieInput
     watchlist?: WatchlistUncheckedCreateNestedManyWithoutMovieInput
     favourites?: FavouriteUncheckedCreateNestedManyWithoutMovieInput
@@ -35301,6 +35421,7 @@ export namespace Prisma {
 
   export type MovieUpdateWithoutGenresInput = {
     id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     releaseYear?: IntFieldUpdateOperationsInput | number
@@ -35310,7 +35431,6 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
     views?: IntFieldUpdateOperationsInput | number
@@ -35320,12 +35440,15 @@ export namespace Prisma {
     cast?: MovieUpdatecastInput | string[]
     country?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: MovieUpdatelanguageInput | string[]
+    imdbRating?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     subtitles?: MovieUpdatesubtitlesInput | string[]
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     reviews?: ReviewUpdateManyWithoutMovieNestedInput
     watchlist?: WatchlistUpdateManyWithoutMovieNestedInput
     favourites?: FavouriteUpdateManyWithoutMovieNestedInput
@@ -35333,6 +35456,7 @@ export namespace Prisma {
 
   export type MovieUncheckedUpdateWithoutGenresInput = {
     id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     releaseYear?: IntFieldUpdateOperationsInput | number
@@ -35342,7 +35466,6 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
     views?: IntFieldUpdateOperationsInput | number
@@ -35352,12 +35475,15 @@ export namespace Prisma {
     cast?: MovieUpdatecastInput | string[]
     country?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: MovieUpdatelanguageInput | string[]
+    imdbRating?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     subtitles?: MovieUpdatesubtitlesInput | string[]
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     reviews?: ReviewUncheckedUpdateManyWithoutMovieNestedInput
     watchlist?: WatchlistUncheckedUpdateManyWithoutMovieNestedInput
     favourites?: FavouriteUncheckedUpdateManyWithoutMovieNestedInput
@@ -36606,6 +36732,7 @@ export namespace Prisma {
 
   export type MovieCreateWithoutReviewsInput = {
     id?: string
+    slug?: string | null
     title: string
     description: string
     releaseYear: number
@@ -36615,7 +36742,6 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
     views?: number
@@ -36625,12 +36751,15 @@ export namespace Prisma {
     cast?: MovieCreatecastInput | string[]
     country?: string | null
     duration?: number | null
-    language?: string | null
+    language?: MovieCreatelanguageInput | string[]
+    imdbRating?: number | null
     rating?: number | null
+    averageRating?: number | null
     status?: string | null
     subtitles?: MovieCreatesubtitlesInput | string[]
     thumbnail?: string | null
     trailerLink?: string | null
+    isDeleted?: boolean
     genres?: MovieGenreCreateNestedManyWithoutMovieInput
     watchlist?: WatchlistCreateNestedManyWithoutMovieInput
     favourites?: FavouriteCreateNestedManyWithoutMovieInput
@@ -36638,6 +36767,7 @@ export namespace Prisma {
 
   export type MovieUncheckedCreateWithoutReviewsInput = {
     id?: string
+    slug?: string | null
     title: string
     description: string
     releaseYear: number
@@ -36647,7 +36777,6 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
     views?: number
@@ -36657,12 +36786,15 @@ export namespace Prisma {
     cast?: MovieCreatecastInput | string[]
     country?: string | null
     duration?: number | null
-    language?: string | null
+    language?: MovieCreatelanguageInput | string[]
+    imdbRating?: number | null
     rating?: number | null
+    averageRating?: number | null
     status?: string | null
     subtitles?: MovieCreatesubtitlesInput | string[]
     thumbnail?: string | null
     trailerLink?: string | null
+    isDeleted?: boolean
     genres?: MovieGenreUncheckedCreateNestedManyWithoutMovieInput
     watchlist?: WatchlistUncheckedCreateNestedManyWithoutMovieInput
     favourites?: FavouriteUncheckedCreateNestedManyWithoutMovieInput
@@ -36881,6 +37013,7 @@ export namespace Prisma {
 
   export type MovieUpdateWithoutReviewsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     releaseYear?: IntFieldUpdateOperationsInput | number
@@ -36890,7 +37023,6 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
     views?: IntFieldUpdateOperationsInput | number
@@ -36900,12 +37032,15 @@ export namespace Prisma {
     cast?: MovieUpdatecastInput | string[]
     country?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: MovieUpdatelanguageInput | string[]
+    imdbRating?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     subtitles?: MovieUpdatesubtitlesInput | string[]
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     genres?: MovieGenreUpdateManyWithoutMovieNestedInput
     watchlist?: WatchlistUpdateManyWithoutMovieNestedInput
     favourites?: FavouriteUpdateManyWithoutMovieNestedInput
@@ -36913,6 +37048,7 @@ export namespace Prisma {
 
   export type MovieUncheckedUpdateWithoutReviewsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     releaseYear?: IntFieldUpdateOperationsInput | number
@@ -36922,7 +37058,6 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
     views?: IntFieldUpdateOperationsInput | number
@@ -36932,12 +37067,15 @@ export namespace Prisma {
     cast?: MovieUpdatecastInput | string[]
     country?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: MovieUpdatelanguageInput | string[]
+    imdbRating?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     subtitles?: MovieUpdatesubtitlesInput | string[]
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     genres?: MovieGenreUncheckedUpdateManyWithoutMovieNestedInput
     watchlist?: WatchlistUncheckedUpdateManyWithoutMovieNestedInput
     favourites?: FavouriteUncheckedUpdateManyWithoutMovieNestedInput
@@ -38589,6 +38727,7 @@ export namespace Prisma {
 
   export type MovieCreateWithoutWatchlistInput = {
     id?: string
+    slug?: string | null
     title: string
     description: string
     releaseYear: number
@@ -38598,7 +38737,6 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
     views?: number
@@ -38608,12 +38746,15 @@ export namespace Prisma {
     cast?: MovieCreatecastInput | string[]
     country?: string | null
     duration?: number | null
-    language?: string | null
+    language?: MovieCreatelanguageInput | string[]
+    imdbRating?: number | null
     rating?: number | null
+    averageRating?: number | null
     status?: string | null
     subtitles?: MovieCreatesubtitlesInput | string[]
     thumbnail?: string | null
     trailerLink?: string | null
+    isDeleted?: boolean
     genres?: MovieGenreCreateNestedManyWithoutMovieInput
     reviews?: ReviewCreateNestedManyWithoutMovieInput
     favourites?: FavouriteCreateNestedManyWithoutMovieInput
@@ -38621,6 +38762,7 @@ export namespace Prisma {
 
   export type MovieUncheckedCreateWithoutWatchlistInput = {
     id?: string
+    slug?: string | null
     title: string
     description: string
     releaseYear: number
@@ -38630,7 +38772,6 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    ageRating?: string | null
     awards?: MovieCreateawardsInput | string[]
     banner?: string | null
     views?: number
@@ -38640,12 +38781,15 @@ export namespace Prisma {
     cast?: MovieCreatecastInput | string[]
     country?: string | null
     duration?: number | null
-    language?: string | null
+    language?: MovieCreatelanguageInput | string[]
+    imdbRating?: number | null
     rating?: number | null
+    averageRating?: number | null
     status?: string | null
     subtitles?: MovieCreatesubtitlesInput | string[]
     thumbnail?: string | null
     trailerLink?: string | null
+    isDeleted?: boolean
     genres?: MovieGenreUncheckedCreateNestedManyWithoutMovieInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutMovieInput
     favourites?: FavouriteUncheckedCreateNestedManyWithoutMovieInput
@@ -38746,6 +38890,7 @@ export namespace Prisma {
 
   export type MovieUpdateWithoutWatchlistInput = {
     id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     releaseYear?: IntFieldUpdateOperationsInput | number
@@ -38755,7 +38900,6 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
     views?: IntFieldUpdateOperationsInput | number
@@ -38765,12 +38909,15 @@ export namespace Prisma {
     cast?: MovieUpdatecastInput | string[]
     country?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: MovieUpdatelanguageInput | string[]
+    imdbRating?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     subtitles?: MovieUpdatesubtitlesInput | string[]
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     genres?: MovieGenreUpdateManyWithoutMovieNestedInput
     reviews?: ReviewUpdateManyWithoutMovieNestedInput
     favourites?: FavouriteUpdateManyWithoutMovieNestedInput
@@ -38778,6 +38925,7 @@ export namespace Prisma {
 
   export type MovieUncheckedUpdateWithoutWatchlistInput = {
     id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     releaseYear?: IntFieldUpdateOperationsInput | number
@@ -38787,7 +38935,6 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ageRating?: NullableStringFieldUpdateOperationsInput | string | null
     awards?: MovieUpdateawardsInput | string[]
     banner?: NullableStringFieldUpdateOperationsInput | string | null
     views?: IntFieldUpdateOperationsInput | number
@@ -38797,12 +38944,15 @@ export namespace Prisma {
     cast?: MovieUpdatecastInput | string[]
     country?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: MovieUpdatelanguageInput | string[]
+    imdbRating?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     subtitles?: MovieUpdatesubtitlesInput | string[]
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     trailerLink?: NullableStringFieldUpdateOperationsInput | string | null
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     genres?: MovieGenreUncheckedUpdateManyWithoutMovieNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutMovieNestedInput
     favourites?: FavouriteUncheckedUpdateManyWithoutMovieNestedInput

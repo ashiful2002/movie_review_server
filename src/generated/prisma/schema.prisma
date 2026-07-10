@@ -159,6 +159,7 @@ model Message {
 
 model Movie {
   id            String   @id @default(uuid())
+  slug          String?  @unique
   title         String
   description   String
   releaseYear   Int
@@ -168,27 +169,29 @@ model Movie {
   isPremium     Boolean  @default(false)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  ageRating     String?
   awards        String[]
   banner        String?
   views         Int      @default(0)
   isFeatured    Boolean? @default(false)
 
-  boxOffice   Float?
-  budget      Float?
-  cast        String[]
-  country     String?
-  duration    Int?
-  language    String?
-  rating      Float?
-  status      String?
-  subtitles   String[]
-  thumbnail   String?
-  trailerLink String?
-  genres      MovieGenre[]
-  reviews     Review[]
-  watchlist   Watchlist[]
-  favourites  Favourite[]
+  boxOffice     Float?
+  budget        Float?
+  cast          String[]
+  country       String?
+  duration      Int?
+  language      String[]
+  imdbRating    Float?       @default(0)
+  rating        Float?
+  averageRating Float?       @default(0)
+  status        String?
+  subtitles     String[]
+  thumbnail     String?
+  trailerLink   String?
+  isDeleted     Boolean      @default(false)
+  genres        MovieGenre[]
+  reviews       Review[]
+  watchlist     Watchlist[]
+  favourites    Favourite[]
 
   @@index([id])
   @@index([title])

@@ -5,16 +5,8 @@ import { FavouriteController } from "./favourite.controller";
 
 const router = express.Router();
 
-router.post(
-  "/",
-  auth(UserRole.USER, UserRole.SUPER_ADMIN),
-  FavouriteController.addToFavourite
-);
-router.get(
-  "/",
-  auth(UserRole.USER, UserRole.SUPER_ADMIN),
-  FavouriteController.getFavourite
-);
+router.post("/", auth(UserRole.USER), FavouriteController.addToFavourite);
+router.get("/", auth(UserRole.USER), FavouriteController.getFavourite);
 router.delete(
   "/:movieId",
   auth(UserRole.USER, UserRole.SUPER_ADMIN),

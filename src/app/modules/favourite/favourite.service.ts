@@ -1,8 +1,5 @@
 import status from "http-status";
-import { Favourite, Prisma } from "../../../generated/prisma";
 import AppError from "../../errorHelpers/AppError";
-import { IQueryParams } from "../../interfaces/query.interface";
-import { QueryBuilder } from "../../utils/QueryBuilder";
 import { prisma } from "../../lib/prisma";
 
 const getFavourite = async () => {
@@ -21,7 +18,7 @@ const addToFavourite = async (userId: string, movieId: string) => {
   });
 
   if (existing) {
-    throw new AppError(status.CONFLICT, "Movie already in favourite");
+    throw new AppError(status.CONFLICT, `Movie already in favourite`);
   }
   const result = await prisma.favourite.create({
     data: {

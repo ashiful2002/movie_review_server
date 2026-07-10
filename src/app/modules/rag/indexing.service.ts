@@ -102,7 +102,7 @@ export class IndexingService {
       Duration: ${movie.duration ? `${movie.duration} mins` : "Unknown"}
       Language: ${movie.language || "Unknown"}
       Country: ${movie.country || "Unknown"}
-      Age Rating: ${movie.ageRating || "Not rated"}
+      Age Rating: ${movie.averageRating || "Not rated"}
       Rating: ${movie.rating ?? "N/A"}
       Reviews:
       ${reviewsText || "No Reviews"}
@@ -126,9 +126,8 @@ export class IndexingService {
         );
 
         indexedCount++;
-        console.log(`Successfully indexed ${indexedCount} movies`
-        );
-      } 
+        console.log(`Successfully indexed ${indexedCount} movies`);
+      }
       return {
         success: true,
         message: `Successfully indexed ${indexedCount} movies`,

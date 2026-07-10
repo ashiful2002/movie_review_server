@@ -8,7 +8,7 @@ import { MoviesRoutes } from "../modules/movie/movie.route";
 import { GenreRoutes } from "../modules/Genre/genre.route";
 import { SubscriptionRoutes } from "../modules/Subscription_plans/subscription.route";
 import { StatsRoutes } from "../modules/Stats/stats.route";
-import { FavouriteRoutes } from "../modules/favourite/favourite.router";
+import { FavouriteRoutes } from "../modules/favourite/favourite.route";
 import { RagRoutes } from "../modules/rag/rag.route";
 
 const router = Router();

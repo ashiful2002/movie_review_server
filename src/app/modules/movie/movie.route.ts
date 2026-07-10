@@ -7,16 +7,14 @@ const router = express.Router();
 
 // public routes
 router.get("/", MovieController.getMovies);
-router.get("/:id", MovieController.getSingleMovie);
+router.get("/:slug", MovieController.getSingleMovie);
 // admin routes
 router.post(
   "/",
   auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
   MovieController.createMovie
 );
-router.patch("/:id", auth(UserRole.ADMIN), MovieController.updateMovie);
-router.delete("/:id", auth(UserRole.ADMIN), MovieController.deleteMovie);
-
-router.get("/:movieId/reviews", MovieController.getReviews);
+router.patch("/:slug", auth(UserRole.ADMIN), MovieController.updateMovie);
+router.delete("/:slug", auth(UserRole.ADMIN), MovieController.deleteMovie);
 
 export const MoviesRoutes = router;

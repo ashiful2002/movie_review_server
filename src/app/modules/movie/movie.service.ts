@@ -2,6 +2,29 @@ import { Movie, Prisma } from "../../../generated/prisma";
 import { IQueryParams } from "../../interfaces/query.interface";
 import { prisma } from "../../lib/prisma";
 import { QueryBuilder } from "../../utils/QueryBuilder";
+import slugify from "slugify";
+
+export async function generateUniqueSlug(title: string) {
+  const baseSlug = slugify(title, {
+    lower: true,
+    strict: true,
+    trim: true,
+  });
+
+  let slug = baseSlug;
+  let counter = 1;
+
+  while (true) {
+    const exists = await prisma.movie.findUnique({
+      where: { slug },
+    });
+
+    if (!exists) return slug;
+
+    counter++;
+    slug = `${baseSlug}-${counter}`;
+  }
+}
 
 const getMovies = async (query: IQueryParams) => {
   const queryBuilder = new QueryBuilder<
@@ -9,7 +32,7 @@ const getMovies = async (query: IQueryParams) => {
     Prisma.MovieWhereInput,
     Prisma.MovieInclude
   >(prisma.movie, query, {
-    searchableFields: ["title"],
+    searchableFields: ["title", "director"],
     filterableFields: ["genres.genreId", "isPremium", "rating"],
   });
 
@@ -22,6 +45,7 @@ const getMovies = async (query: IQueryParams) => {
         },
       },
     })
+    .where({ isDeleted: false })
     .search()
     .filter()
     .paginate()
@@ -32,10 +56,21 @@ const getMovies = async (query: IQueryParams) => {
   return result;
 };
 
-const getSingleMovie = async (id: string) => {
+const getSingleMovie = async (slug: string) => {
+  const movie = await prisma.movie.findFirst({
+    where: {
+      slug,
+      isDeleted: false,
+    },
+  });
+
+  if (!movie) {
+    throw new Error("Movie not found");
+  }
   const singleMovie = await prisma.movie.update({
     where: {
-      id,
+      slug,
+      isDeleted: false,
     },
     data: {
       views: { increment: 1 },
@@ -57,15 +92,6 @@ const getSingleMovie = async (id: string) => {
   return singleMovie;
 };
 
-const getReviews = async (movieId: string) => {
-  const review = await prisma.movie.findMany({
-    where: {
-      id: movieId,
-    },
-  });
-  return review;
-};
-
 const createMovie = async (payload: any) => {
   const { genreIds = [], ...movieData } = payload;
 
@@ -77,10 +103,12 @@ const createMovie = async (payload: any) => {
     if (existingGenres.length !== genreIds.length) {
       throw new Error("One or more genres do not exist");
     }
+    const slug = await generateUniqueSlug(payload.title);
 
     const movie = await prisma.movie.create({
       data: {
         ...movieData,
+        slug,
         genres: {
           create: genreIds.map((genreId: string) => ({
             genre: {
@@ -105,9 +133,9 @@ const createMovie = async (payload: any) => {
   }
 };
 
-const updateMovie = async (id: string, payload: any) => {
+const updateMovie = async (slug: string, payload: any) => {
   const existing = await prisma.movie.findUnique({
-    where: { id },
+    where: { slug },
   });
 
   if (!existing) {
@@ -115,29 +143,31 @@ const updateMovie = async (id: string, payload: any) => {
   }
 
   return await prisma.movie.update({
-    where: { id },
+    where: { slug },
     data: payload,
   });
 };
 
-const deleteMovie = async (id: string) => {
+const deleteMovie = async (slug: string) => {
   const existingMovie = await prisma.movie.findUnique({
-    where: { id },
+    where: { slug },
   });
 
   if (!existingMovie) {
     throw new Error("Movie not found");
   }
 
-  return await prisma.movie.delete({
-    where: { id },
+  return await prisma.movie.update({
+    where: { slug },
+    data: {
+      isDeleted: false,
+    },
   });
 };
 
 export const MovieService = {
   getMovies,
   getSingleMovie,
-  getReviews,
   createMovie,
   updateMovie,
   deleteMovie,
