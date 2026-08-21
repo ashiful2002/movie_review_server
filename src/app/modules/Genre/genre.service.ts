@@ -29,29 +29,47 @@ export async function generateUniqueGenreSlug(name: string) {
   }
 }
 
-const getAllGenres = async (query: IQueryParams) => {
-  const queryBuilder = new QueryBuilder<
-    Genre,
-    Prisma.GenreWhereInput,
-    Prisma.GenreInclude
-  >(prisma.genre, query);
+// const getAllGenres = async (query: IQueryParams) => {
+//   const queryBuilder = new QueryBuilder<
+//     Genre,
+//     Prisma.GenreWhereInput,
+//     Prisma.GenreInclude
+//   >(prisma.genre, query);
 
-  const result = await queryBuilder
-    .search()
-    .where({
-      isDeleted: false,
-    })
-    .include({
+//   const result = await queryBuilder
+//     .search()
+//     .where({
+//       isDeleted: false,
+//     })
+//     .include({
+//       movies: true,
+//     })
+//     .paginate()
+//     .sort()
+//     .fields()
+//     .execute();
+
+//   return result;
+// };
+
+const getAllGenres = async (params: any) => {
+  const result = await prisma.genre.findMany({
+    where: { isDeleted: false },
+    orderBy: {
+      createdAt: "asc",
+    },
+    include: {
       movies: true,
-    })
-    .paginate()
-    .sort()
-    .fields()
-    .execute();
+      _count: {
+        select: {
+          movies: true,
+        },
+      },
+    },
+  });
 
   return result;
 };
-
 const getGenreById = async (id: string) => {
   return await prisma.genre.findUnique({
     where: { id, isDeleted: false },

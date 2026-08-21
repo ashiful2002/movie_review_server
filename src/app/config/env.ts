@@ -10,6 +10,11 @@ interface EnvConfig {
   DATABASE_URL: string;
   REDIS_URL: string;
   JWT_SECRET: string;
+  ACCESS_TOKEN_SECRET: string;
+  REFRESH_TOKEN_SECRET: string;
+  ACCESS_TOKEN_EXPIRATION: string;
+  REFRESH_TOKEN_EXPIRATION: string;
+
   STRIPE_SECRET_KEY: string;
   STRIPE_WEBHOOK_SECRET: string;
   FRONTEND_URL: string;
@@ -52,6 +57,10 @@ const loadEnvVariables = (): EnvConfig => {
     "OPEN_ROUTER_API_KEY",
     "OPENROUTER_EMBEDDING_MODEL",
     "OPENROUTER_LLM_MODEL",
+    "ACCESS_TOKEN_SECRET",
+    "REFRESH_TOKEN_SECRET",
+    "ACCESS_TOKEN_EXPIRATION",
+    "REFRESH_TOKEN_EXPIRATION",
   ];
 
   requireEnvVariable.forEach((variable) => {
@@ -62,12 +71,18 @@ const loadEnvVariables = (): EnvConfig => {
       );
     }
   });
+
   return {
     NODE_ENV: process.env.NODE_ENV as string,
     PORT: process.env.PORT as string,
     DATABASE_URL: process.env.DATABASE_URL as string,
     REDIS_URL: process.env.REDIS_URL as string,
     JWT_SECRET: process.env.JWT_SECRET as string,
+    ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET as string,
+    REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET as string,
+    ACCESS_TOKEN_EXPIRATION: process.env.ACCESS_TOKEN_EXPIRATION as string,
+    REFRESH_TOKEN_EXPIRATION: process.env.REFRESH_TOKEN_EXPIRATION as string,
+
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY as string,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET as string,
     FRONTEND_URL: process.env.FRONTEND_URL as string,

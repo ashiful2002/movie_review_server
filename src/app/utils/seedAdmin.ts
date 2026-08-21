@@ -20,9 +20,8 @@ export const seedSuperAdmin = async () => {
       body: {
         email: envVars.SUPER_ADMIN_EMAIL,
         password: envVars.SUPER_ADMIN_PASSWORD,
-        name: "Super Admin",
+        name: "Super Admin MMDB",
         role: UserRole.SUPER_ADMIN,
-        rememberMe: false,
       },
     });
 
@@ -39,11 +38,10 @@ export const seedSuperAdmin = async () => {
       await tx.admin.create({
         data: {
           userId: superAdminUser.user.id,
-          name: "Super Admin",
+          name: "Super Admin MMDB",
           email: envVars.SUPER_ADMIN_EMAIL,
         },
       });
-      
     });
 
     const superAdmin = await prisma.admin.findFirst({
@@ -59,7 +57,6 @@ export const seedSuperAdmin = async () => {
   } catch (error) {
     console.error("Error seeding super admin: ", error);
 
-    // Only attempt cleanup if the user was actually created
     const userExists = await prisma.user.findUnique({
       where: { email: envVars.SUPER_ADMIN_EMAIL },
     });

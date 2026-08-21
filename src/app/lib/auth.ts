@@ -2,31 +2,29 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 import { envVars } from "../config/env";
+import { UserRole } from "../../generated/prisma";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
+
   emailAndPassword: {
     enabled: true,
   },
+
   user: {
     additionalFields: {
       role: {
         type: "string",
-        required: false,
-        defaultValue: "USER",
-      },
-      isPremium: {
-        type: "boolean",
-        required: false,
-        defaultValue: false,
+        defaultValue: UserRole.USER,
       },
       avatar: {
         type: "string",
         required: false,
+        defaultValue: null,
       },
-      isVerified: {
+      isPremium: {
         type: "boolean",
         required: false,
         defaultValue: false,
@@ -36,15 +34,17 @@ export const auth = betterAuth({
         required: false,
         defaultValue: false,
       },
-      provider: {
-        type: "string",
+      deletedAt: {
+        type: "date",
         required: false,
-      },
-      providerId: {
-        type: "string",
-        required: false,
+        defaultValue: null,
       },
     },
+  },
+
+  trustedOrigins: [envVars.BETTER_AUTH_URL || "http://localhost:5001"],
+  advanced: {
+    disableCSRFCheck: true,
   },
   socialProviders: {
     google: {

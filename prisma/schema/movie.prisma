@@ -1,40 +1,51 @@
 model Movie {
-  id            String   @id @default(uuid())
-  slug          String?   @unique
+  id            String      @id @default(uuid())
+  slug          String      @unique
   title         String
   description   String
   releaseYear   Int
   director      String
   streamingLink String?
-  price         Float    @default(0)
-  isPremium     Boolean  @default(false)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  reviewCount   Int         @default(0)
+  price         Float       @default(0)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   awards        String[]
   banner        String?
-  views         Int      @default(0)
-  isFeatured    Boolean? @default(false)
-
+  views         Int         @default(0)
+  isFeatured    Boolean?    @default(false)
   boxOffice     Float?
   budget        Float?
   cast          String[]
   country       String?
   duration      Int?
   language      String[]
-  imdbRating    Float?       @default(0)
-  rating        Float?
-  averageRating Float?       @default(0)
-  status        String?
+  imdbRating    Float?      @default(0)
+  averageRating Float?      @default(0)
+  status        MovieStatus @default(RELEASED)
   subtitles     String[]
   thumbnail     String?
   trailerLink   String?
-  isDeleted     Boolean      @default(false)
-  genres        MovieGenre[]
-  reviews       Review[]
-  watchlist     Watchlist[]
-  favourites    Favourite[]
+  isDeleted     Boolean     @default(false)
+  createdById   String?
 
-  @@index([id])
+  createdBy  User?        @relation(fields: [createdById], references: [id])
+  genres     MovieGenre[]
+  reviews    Review[]
+  watchlist  Watchlist[]
+  favourites Favourite[]
+  userId     String?
+
+  @@index([slug])
+  @@index([status])
   @@index([title])
+  @@index([isDeleted])
+  @@index([releaseYear])
   @@map("movies")
+}
+
+enum MovieStatus {
+  UPCOMING
+  RELEASED
+  ARCHIVED
 }

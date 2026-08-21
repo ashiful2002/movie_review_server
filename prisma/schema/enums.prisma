@@ -6,9 +6,11 @@ enum UserRole {
 
 enum PaymentStatus {
   PENDING
-  COMPLETED
+  PROCESSING
+  SUCCEEDED
   FAILED
   REFUNDED
+  CANCELLED
 }
 
 enum ReviewStatus {

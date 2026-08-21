@@ -1,41 +1,95 @@
-model User {
-  id            String   @id @default(uuid())
-  name          String
-  email         String   @unique
-  password      String
-  role          UserRole @default(USER)
-  avatar        String?
-  emailVerified Boolean  @default(false)
-  isDeleted     Boolean  @default(false)
+// model User {
+//   id            String   @id @default(uuid())
+//   name          String
+//   email         String   @unique
+//   role          UserRole @default(USER)
+//   avatar        String?
+//   emailVerified Boolean  @default(false)
+//   isDeleted     Boolean  @default(false)
 
-  phone      String?
-  street     String?
-  city       String?
-  postalCode String?
-  address    String?
+//   phone      String?
+//   street     String?
+//   city       String?
+//   postalCode String?
+//   address    String?
 
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
-  isPremium             Boolean  @default(false)
-  needPasswordChange    Boolean  @default(true)
-  rememberMe            Boolean  @default(false)
-  currentSubscriptionId String?
+//   createdAt          DateTime @default(now())
+//   updatedAt          DateTime @updatedAt
+//   isPremium          Boolean  @default(false)
+//   needPasswordChange Boolean  @default(true)
+//   rememberMe         Boolean  @default(false)
 
-  comments         Comment[]
-  likes            Like[]
-  payments         Payment[]
-  reviews          Review[]
-  subscriptions    Subscription[]
-  watchlist        Watchlist[]
-  admin            Admin?
-  notifications    Notification[]
-  activities       Activity[]
-  reviewVotes      ReviewVote[]   @relation("ReviewVotes")
-  followers        Follow[]       @relation("Followers")
-  following        Follow[]       @relation("Following")
-  favourites       Favourite[]
-  sentMessages     Message[]      @relation("sent")
-  receivedMessages Message[]      @relation("received")
+//   comments         Comment[]
+//   likes            Like[]
+//   payments         Payment[]
+//   reviews          Review[]
+//   subscriptions    Subscription[]
+//   watchlist        Watchlist[]
+//   admin            Admin?
+//   notifications    Notification[]
+//   activities       Activity[]
+//   reviewVotes      ReviewVote[]   @relation("ReviewVotes")
+//   followers        Follow[]       @relation("Followers")
+//   following        Follow[]       @relation("Following")
+//   favourites       Favourite[]
+//   sentMessages     Message[]      @relation("sent")
+//   receivedMessages Message[]      @relation("received")
+//   movies           Movie[]
+//   accounts         Account[]
+//   sessions         Session[]
 
-  @@map("users")
-}
+//   @@map("users")
+// }
+
+// model Account {
+//   id         String @id
+//   accountId  String
+//   providerId String
+//   userId     String
+
+//   accessToken           String?
+//   refreshToken          String?
+//   accessTokenExpiresAt  DateTime?
+//   refreshTokenExpiresAt DateTime?
+
+//   scope   String?
+//   idToken String?
+
+//   password String?
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+//   @@index([userId])
+// }
+
+// model Session {
+//   id        String   @id
+//   expiresAt DateTime
+//   token     String   @unique
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   ipAddress String?
+//   userAgent String?
+
+//   userId String
+//   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+//   @@index([userId])
+// }
+
+// model Verification {
+//   id         String   @id
+//   identifier String
+//   value      String
+//   expiresAt  DateTime
+
+//   createdAt DateTime?
+//   updatedAt DateTime?
+
+//   @@unique([identifier, value])
+// }

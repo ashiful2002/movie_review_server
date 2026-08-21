@@ -19,8 +19,9 @@ const getGenres = catchAsync(async (req, res) => {
     message: fromCache
       ? "Genres fetched successfully (cached)"
       : "Genres fetched successfully",
-    meta: result.meta,
-    data: result.data,
+    // meta: result.meta,
+    // data: result.data,
+    data: result,
   });
 });
 

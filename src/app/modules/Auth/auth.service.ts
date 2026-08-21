@@ -1,63 +1,146 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { prisma } from "../../lib/prisma";
 import { envVars } from "../../config/env";
+import { User, UserRole } from "../../../generated/prisma";
+import { auth } from "../../lib/auth";
+import AppError from "../../errorHelpers/AppError";
+import status from "http-status";
+import { jwtUtils } from "../../utils/jwt";
+import { tokenUtils } from "../../utils/token";
 
-const createUser = async (payload: any) => {
-  const password = payload.password;
-  const hashedPassword = await bcrypt.hash(password, 8);
 
-  const result = await prisma.user.create({
-    data: { ...payload, password: hashedPassword },
-  });
-  return result;
-};
+interface IRegisterPayload {
+  name: string;
+  email: string;
+  password: string;
+}
 
-const loginUser = async (payload: any) => {
-  const { email } = payload;
-  const user = await prisma.user.findUnique({
-    where: {
+interface ILoginUserPayload {
+  email: string;
+  password: string;
+}
+const createUser = async (payload: IRegisterPayload) => {
+  const { name, email, password } = payload;
+
+  const data = await auth.api.signUpEmail({
+    body: {
+      name,
       email,
+      password,
+      // role: UserRole.USER,
     },
   });
 
-  if (!user) {
-    throw new Error("user not found");
+  if (!data.user) {
+    throw new Error("Failed to register user");
   }
 
-  const isPasswordMatched = await bcrypt.compare(
-    payload.password,
-    user.password
-  );
-  if (!isPasswordMatched) {
-    throw new Error("password does not matched");
+  return data;
+};
+
+const loginUser = async (payload: ILoginUserPayload) => {
+  const { email, password } = payload;
+
+  const data = await auth.api.signInEmail({
+    body: {
+      email,
+      password,
+    },
+  });
+  if (data.user.isDeleted) {
+    throw new Error(" User is deleted");
   }
-  const userData = {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    isPremium: user.isPremium,
-  };
-  const token = jwt.sign(userData, envVars.JWT_SECRET, {
-    expiresIn: "1d",
+  return data;
+};
+
+const getNewToken = async (refreshToken: string, sessionToken: string) => {
+  const isSessionTokenExists = await prisma.session.findUnique({
+    where: {
+      token: sessionToken,
+    },
+    include: {
+      user: true,
+    },
+  });
+
+  if (!isSessionTokenExists) {
+    throw new AppError(status.UNAUTHORIZED, "Invalid session token");
+  }
+
+  const verifiedRefreshToken = jwtUtils.verifyToken(
+    refreshToken,
+    envVars.REFRESH_TOKEN_SECRET
+  );
+
+  if (!verifiedRefreshToken.success && verifiedRefreshToken.error) {
+    throw new AppError(status.UNAUTHORIZED, "Invalid refresh token");
+  }
+
+  const data = verifiedRefreshToken.data as JwtPayload;
+
+  const newAccessToken = tokenUtils.getAccessToken({
+    userId: data.userId,
+    role: data.role,
+    name: data.name,
+    email: data.email,
+    status: data.status,
+    isDeleted: data.isDeleted,
+    emailVerified: data.emailVerified,
+  });
+
+  const newRefreshToken = tokenUtils.getRefreshToken({
+    userId: data.userId,
+    role: data.role,
+    name: data.name,
+    email: data.email,
+    status: data.status,
+    isDeleted: data.isDeleted,
+    emailVerified: data.emailVerified,
+  });
+
+  const { token } = await prisma.session.update({
+    where: {
+      token: sessionToken,
+    },
+    data: {
+      token: sessionToken,
+      expiresAt: new Date(Date.now() + 60 * 60 * 60 * 24 * 1000),
+      updatedAt: new Date(),
+    },
   });
 
   return {
-    token,
-    user,
+    accessToken: newAccessToken,
+    refreshToken: newRefreshToken,
+    sessionToken: token,
   };
 };
 
-const logoutUser = async () => {
-  console.log("Service: logoutUser");
+const logoutUser = async (token: string) => {
+  const result = await auth.api.signOut({
+    headers: new Headers({
+      Authorization: token,
+    }),
+  });
 
-  return null;
+  return result;
 };
+const getMe = async (id: string) => {
+  console.log(id);
 
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
 
+  return { user };
+};
 export const AuthService = {
   createUser,
   loginUser,
+  getNewToken,
   logoutUser,
+  getMe,
 };

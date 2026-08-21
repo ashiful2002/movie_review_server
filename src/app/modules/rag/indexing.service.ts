@@ -103,7 +103,6 @@ export class IndexingService {
       Language: ${movie.language || "Unknown"}
       Country: ${movie.country || "Unknown"}
       Age Rating: ${movie.averageRating || "Not rated"}
-      Rating: ${movie.rating ?? "N/A"}
       Reviews:
       ${reviewsText || "No Reviews"}
     `;
@@ -113,7 +112,6 @@ export class IndexingService {
           name: movie.title,
           genres: movie.genres.map((ge) => ge.genre.name),
           releaseYear: movie.releaseYear,
-          rating: movie.rating,
         };
 
         const chunkKey = `movie-${movie.id}`;

@@ -143,6 +143,64 @@ exports.Prisma.AdminScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  role: 'role',
+  avatar: 'avatar',
+  emailVerified: 'emailVerified',
+  isDeleted: 'isDeleted',
+  password: 'password',
+  phone: 'phone',
+  street: 'street',
+  city: 'city',
+  postalCode: 'postalCode',
+  address: 'address',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  isPremium: 'isPremium',
+  needPasswordChange: 'needPasswordChange',
+  rememberMe: 'rememberMe'
+};
+
+exports.Prisma.SessionScalarFieldEnum = {
+  id: 'id',
+  expiresAt: 'expiresAt',
+  token: 'token',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  userId: 'userId'
+};
+
+exports.Prisma.AccountScalarFieldEnum = {
+  id: 'id',
+  accountId: 'accountId',
+  providerId: 'providerId',
+  userId: 'userId',
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken',
+  idToken: 'idToken',
+  accessTokenExpiresAt: 'accessTokenExpiresAt',
+  refreshTokenExpiresAt: 'refreshTokenExpiresAt',
+  scope: 'scope',
+  password: 'password',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VerificationScalarFieldEnum = {
+  id: 'id',
+  identifier: 'identifier',
+  value: 'value',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.CommentScalarFieldEnum = {
   id: 'id',
   content: 'content',
@@ -214,8 +272,8 @@ exports.Prisma.MovieScalarFieldEnum = {
   releaseYear: 'releaseYear',
   director: 'director',
   streamingLink: 'streamingLink',
+  reviewCount: 'reviewCount',
   price: 'price',
-  isPremium: 'isPremium',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   awards: 'awards',
@@ -229,13 +287,14 @@ exports.Prisma.MovieScalarFieldEnum = {
   duration: 'duration',
   language: 'language',
   imdbRating: 'imdbRating',
-  rating: 'rating',
   averageRating: 'averageRating',
   status: 'status',
   subtitles: 'subtitles',
   thumbnail: 'thumbnail',
   trailerLink: 'trailerLink',
-  isDeleted: 'isDeleted'
+  isDeleted: 'isDeleted',
+  createdById: 'createdById',
+  userId: 'userId'
 };
 
 exports.Prisma.NotificationScalarFieldEnum = {
@@ -256,7 +315,12 @@ exports.Prisma.PaymentScalarFieldEnum = {
   userId: 'userId',
   amount: 'amount',
   currency: 'currency',
-  stripePaymentId: 'stripePaymentId',
+  stripePaymentIntentId: 'stripePaymentIntentId',
+  stripeCheckoutSessionId: 'stripeCheckoutSessionId',
+  stripeInvoiceId: 'stripeInvoiceId',
+  receiptUrl: 'receiptUrl',
+  transactionId: 'transactionId',
+  billingCycle: 'billingCycle',
   status: 'status',
   billingPeriodStart: 'billingPeriodStart',
   billingPeriodEnd: 'billingPeriodEnd',
@@ -320,7 +384,6 @@ exports.Prisma.SubscriptionScalarFieldEnum = {
   planId: 'planId',
   startDate: 'startDate',
   expiresAt: 'expiresAt',
-  renewalDate: 'renewalDate',
   status: 'status',
   cancelledAt: 'cancelledAt',
   cancelReason: 'cancelReason',
@@ -332,8 +395,9 @@ exports.Prisma.SubscriptionScalarFieldEnum = {
 
 exports.Prisma.SubscriptionPlanScalarFieldEnum = {
   id: 'id',
+  slug: 'slug',
   name: 'name',
-  durationMonths: 'durationMonths',
+  durationDays: 'durationDays',
   price: 'price',
   stripePriceId: 'stripePriceId',
   description: 'description',
@@ -341,28 +405,6 @@ exports.Prisma.SubscriptionPlanScalarFieldEnum = {
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
-};
-
-exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  password: 'password',
-  role: 'role',
-  avatar: 'avatar',
-  emailVerified: 'emailVerified',
-  isDeleted: 'isDeleted',
-  phone: 'phone',
-  street: 'street',
-  city: 'city',
-  postalCode: 'postalCode',
-  address: 'address',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  isPremium: 'isPremium',
-  needPasswordChange: 'needPasswordChange',
-  rememberMe: 'rememberMe',
-  currentSubscriptionId: 'currentSubscriptionId'
 };
 
 exports.Prisma.WatchlistScalarFieldEnum = {
@@ -398,11 +440,30 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.UserRole = exports.$Enums.UserRole = {
+  USER: 'USER',
+  ADMIN: 'ADMIN',
+  SUPER_ADMIN: 'SUPER_ADMIN'
+};
+
+exports.MovieStatus = exports.$Enums.MovieStatus = {
+  UPCOMING: 'UPCOMING',
+  RELEASED: 'RELEASED',
+  ARCHIVED: 'ARCHIVED'
+};
+
+exports.BillingCycle = exports.$Enums.BillingCycle = {
+  MONTHLY: 'MONTHLY',
+  YEARLY: 'YEARLY'
+};
+
 exports.PaymentStatus = exports.$Enums.PaymentStatus = {
   PENDING: 'PENDING',
-  COMPLETED: 'COMPLETED',
+  PROCESSING: 'PROCESSING',
+  SUCCEEDED: 'SUCCEEDED',
   FAILED: 'FAILED',
-  REFUNDED: 'REFUNDED'
+  REFUNDED: 'REFUNDED',
+  CANCELLED: 'CANCELLED'
 };
 
 exports.ReviewStatus = exports.$Enums.ReviewStatus = {
@@ -418,15 +479,13 @@ exports.SubscriptionStatus = exports.$Enums.SubscriptionStatus = {
   PAUSED: 'PAUSED'
 };
 
-exports.UserRole = exports.$Enums.UserRole = {
-  USER: 'USER',
-  ADMIN: 'ADMIN',
-  SUPER_ADMIN: 'SUPER_ADMIN'
-};
-
 exports.Prisma.ModelName = {
   Activity: 'Activity',
   Admin: 'Admin',
+  User: 'User',
+  Session: 'Session',
+  Account: 'Account',
+  Verification: 'Verification',
   Comment: 'Comment',
   Favourite: 'Favourite',
   Follow: 'Follow',
@@ -443,7 +502,6 @@ exports.Prisma.ModelName = {
   ReviewAnalytics: 'ReviewAnalytics',
   Subscription: 'Subscription',
   SubscriptionPlan: 'SubscriptionPlan',
-  User: 'User',
   Watchlist: 'Watchlist'
 };
 

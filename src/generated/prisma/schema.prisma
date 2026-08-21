@@ -34,6 +34,98 @@ model Admin {
   @@map("admins")
 }
 
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  role          UserRole @default(USER)
+  avatar        String?
+  emailVerified Boolean  @default(false)
+  isDeleted     Boolean  @default(false)
+  password      String?
+  phone         String?
+  street        String?
+  city          String?
+  postalCode    String?
+  address       String?
+
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  deletedAt          DateTime?
+  isPremium          Boolean   @default(false)
+  needPasswordChange Boolean   @default(true)
+  rememberMe         Boolean   @default(false)
+
+  comments         Comment[]
+  likes            Like[]
+  payments         Payment[]
+  reviews          Review[]
+  subscriptions    Subscription[]
+  watchlist        Watchlist[]
+  admin            Admin?
+  notifications    Notification[]
+  activities       Activity[]
+  reviewVotes      ReviewVote[]   @relation("ReviewVotes")
+  followers        Follow[]       @relation("Followers")
+  following        Follow[]       @relation("Following")
+  favourites       Favourite[]
+  sentMessages     Message[]      @relation("sent")
+  receivedMessages Message[]      @relation("received")
+  movies           Movie[]
+  accounts         Account[]
+  sessions         Session[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
 model Comment {
   id        String    @id @default(uuid())
   content   String
@@ -60,9 +152,11 @@ enum UserRole {
 
 enum PaymentStatus {
   PENDING
-  COMPLETED
+  PROCESSING
+  SUCCEEDED
   FAILED
   REFUNDED
+  CANCELLED
 }
 
 enum ReviewStatus {
@@ -158,44 +252,55 @@ model Message {
 }
 
 model Movie {
-  id            String   @id @default(uuid())
-  slug          String?  @unique
+  id            String      @id @default(uuid())
+  slug          String      @unique
   title         String
   description   String
   releaseYear   Int
   director      String
   streamingLink String?
-  price         Float    @default(0)
-  isPremium     Boolean  @default(false)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  reviewCount   Int         @default(0)
+  price         Float       @default(0)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   awards        String[]
   banner        String?
-  views         Int      @default(0)
-  isFeatured    Boolean? @default(false)
-
+  views         Int         @default(0)
+  isFeatured    Boolean?    @default(false)
   boxOffice     Float?
   budget        Float?
   cast          String[]
   country       String?
   duration      Int?
   language      String[]
-  imdbRating    Float?       @default(0)
-  rating        Float?
-  averageRating Float?       @default(0)
-  status        String?
+  imdbRating    Float?      @default(0)
+  averageRating Float?      @default(0)
+  status        MovieStatus @default(RELEASED)
   subtitles     String[]
   thumbnail     String?
   trailerLink   String?
-  isDeleted     Boolean      @default(false)
-  genres        MovieGenre[]
-  reviews       Review[]
-  watchlist     Watchlist[]
-  favourites    Favourite[]
+  isDeleted     Boolean     @default(false)
+  createdById   String?
 
-  @@index([id])
+  createdBy  User?        @relation(fields: [createdById], references: [id])
+  genres     MovieGenre[]
+  reviews    Review[]
+  watchlist  Watchlist[]
+  favourites Favourite[]
+  userId     String?
+
+  @@index([slug])
+  @@index([status])
   @@index([title])
+  @@index([isDeleted])
+  @@index([releaseYear])
   @@map("movies")
+}
+
+enum MovieStatus {
+  UPCOMING
+  RELEASED
+  ARCHIVED
 }
 
 // Feature: Real-time Notifications
@@ -219,28 +324,37 @@ model Notification {
 }
 
 model Payment {
-  id              String  @id @default(uuid())
-  subscriptionId  String?
-  userId          String
-  amount          Float
-  currency        String  @default("USD")
-  stripePaymentId String? @unique
+  id             String  @id @default(uuid())
+  subscriptionId String?
 
-  status PaymentStatus @default(PENDING)
+  userId                  String
+  amount                  Float
+  currency                String        @default("USD")
+  stripePaymentIntentId   String?       @unique
+  stripeCheckoutSessionId String?       @unique
+  stripeInvoiceId         String?       @unique
+  receiptUrl              String?
+  transactionId           String?
+  billingCycle            BillingCycle  @default(MONTHLY)
+  status                  PaymentStatus @default(PENDING)
 
   billingPeriodStart DateTime?
   billingPeriodEnd   DateTime?
   dueDate            DateTime?
-
-  paidAt       DateTime?
-  failedReason String?
-  retryCount   Int       @default(0)
+  paidAt             DateTime?
+  failedReason       String?
+  retryCount         Int       @default(0)
 
   user         User          @relation(fields: [userId], references: [id])
   subscription Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId, status])
+  @@index([subscriptionId])
+  @@index([createdAt])
+  @@map("payments")
 }
 
 model DocumentEmbedding {
@@ -331,31 +445,25 @@ model Subscription {
   userId String
   planId String
 
-  // Billing dates
-  startDate   DateTime  @default(now())
-  expiresAt   DateTime // When current period ends
-  renewalDate DateTime? // Next auto-renewal (if enabled)
+  startDate DateTime @default(now())
+  expiresAt DateTime
 
-  // Status tracking
-  status       SubscriptionStatus @default(ACTIVE) // ACTIVE, EXPIRED, CANCELLED, PAUSED
-  cancelledAt  DateTime? // When was it cancelled
-  cancelReason String? // Why was it cancelled
+  status       SubscriptionStatus @default(ACTIVE)
+  cancelledAt  DateTime?
+  cancelReason String?
 
-  // Billing info
-  autoRenew    Boolean @default(true)
-  billingCycle Int     @default(1) // Which cycle (1st, 2nd, etc.)
+  autoRenew    Boolean      @default(true)
+  billingCycle BillingCycle
 
-  // Relations
   plan     SubscriptionPlan @relation(fields: [planId], references: [id])
   user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  payments Payment[] // Link all payments to subscription
+  payments Payment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([userId])
   @@index([status])
-  @@index([expiresAt])
   @@map("subscriptions")
 }
 
@@ -366,15 +474,21 @@ enum SubscriptionStatus {
   PAUSED
 }
 
+enum BillingCycle {
+  MONTHLY
+  YEARLY
+}
+
 model SubscriptionPlan {
-  id             String   @id @default(uuid())
-  name           String // "Basic", "Pro", "Premium"
-  durationMonths Int // 1, 3, or 12 (clarity!)
-  price          Float // USD
-  stripePriceId  String?  @unique
-  description    String?
-  features       String[] // JSON array of features
-  isActive       Boolean  @default(true)
+  id            String   @id @default(uuid())
+  slug          String   @unique
+  name          String // "Basic", "Pro", "Premium"
+  durationDays  Int // 1, 3, or 12 (clarity!)
+  price         Float // USD
+  stripePriceId String?  @unique
+  description   String?
+  features      String[] // JSON array of features
+  isActive      Boolean  @default(true)
 
   subscriptions Subscription[]
   createdAt     DateTime       @default(now())
@@ -383,47 +497,101 @@ model SubscriptionPlan {
   @@map("subscriptionPlans")
 }
 
-model User {
-  id            String   @id @default(uuid())
-  name          String
-  email         String   @unique
-  password      String
-  role          UserRole @default(USER)
-  avatar        String?
-  emailVerified Boolean  @default(false)
-  isDeleted     Boolean  @default(false)
+// model User {
+//   id            String   @id @default(uuid())
+//   name          String
+//   email         String   @unique
+//   role          UserRole @default(USER)
+//   avatar        String?
+//   emailVerified Boolean  @default(false)
+//   isDeleted     Boolean  @default(false)
 
-  phone      String?
-  street     String?
-  city       String?
-  postalCode String?
-  address    String?
+//   phone      String?
+//   street     String?
+//   city       String?
+//   postalCode String?
+//   address    String?
 
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
-  isPremium             Boolean  @default(false)
-  needPasswordChange    Boolean  @default(true)
-  rememberMe            Boolean  @default(false)
-  currentSubscriptionId String?
+//   createdAt          DateTime @default(now())
+//   updatedAt          DateTime @updatedAt
+//   isPremium          Boolean  @default(false)
+//   needPasswordChange Boolean  @default(true)
+//   rememberMe         Boolean  @default(false)
 
-  comments         Comment[]
-  likes            Like[]
-  payments         Payment[]
-  reviews          Review[]
-  subscriptions    Subscription[]
-  watchlist        Watchlist[]
-  admin            Admin?
-  notifications    Notification[]
-  activities       Activity[]
-  reviewVotes      ReviewVote[]   @relation("ReviewVotes")
-  followers        Follow[]       @relation("Followers")
-  following        Follow[]       @relation("Following")
-  favourites       Favourite[]
-  sentMessages     Message[]      @relation("sent")
-  receivedMessages Message[]      @relation("received")
+//   comments         Comment[]
+//   likes            Like[]
+//   payments         Payment[]
+//   reviews          Review[]
+//   subscriptions    Subscription[]
+//   watchlist        Watchlist[]
+//   admin            Admin?
+//   notifications    Notification[]
+//   activities       Activity[]
+//   reviewVotes      ReviewVote[]   @relation("ReviewVotes")
+//   followers        Follow[]       @relation("Followers")
+//   following        Follow[]       @relation("Following")
+//   favourites       Favourite[]
+//   sentMessages     Message[]      @relation("sent")
+//   receivedMessages Message[]      @relation("received")
+//   movies           Movie[]
+//   accounts         Account[]
+//   sessions         Session[]
 
-  @@map("users")
-}
+//   @@map("users")
+// }
+
+// model Account {
+//   id         String @id
+//   accountId  String
+//   providerId String
+//   userId     String
+
+//   accessToken           String?
+//   refreshToken          String?
+//   accessTokenExpiresAt  DateTime?
+//   refreshTokenExpiresAt DateTime?
+
+//   scope   String?
+//   idToken String?
+
+//   password String?
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+//   @@index([userId])
+// }
+
+// model Session {
+//   id        String   @id
+//   expiresAt DateTime
+//   token     String   @unique
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   ipAddress String?
+//   userAgent String?
+
+//   userId String
+//   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+//   @@index([userId])
+// }
+
+// model Verification {
+//   id         String   @id
+//   identifier String
+//   value      String
+//   expiresAt  DateTime
+
+//   createdAt DateTime?
+//   updatedAt DateTime?
+
+//   @@unique([identifier, value])
+// }
 
 model Watchlist {
   id      String @id @default(uuid())
