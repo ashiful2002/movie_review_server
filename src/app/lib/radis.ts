@@ -11,7 +11,7 @@ class RedisService {
       this.client = createClient({ url: redisUrl });
 
       // handle connection events
-      this.client.on("error", (err) => {
+      this.client.on("error", (err: any) => {
         console.error("Redis client error", err);
         this.isConnected = false;
       });

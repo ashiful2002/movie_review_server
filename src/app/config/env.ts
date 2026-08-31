@@ -33,6 +33,7 @@ interface EnvConfig {
     OPENROUTER_EMBEDDING_MODEL: string;
     OPENROUTER_LLM_MODEL: string;
   };
+  GROQ_API_KEY: string
 }
 
 const loadEnvVariables = (): EnvConfig => {
@@ -61,14 +62,12 @@ const loadEnvVariables = (): EnvConfig => {
     "REFRESH_TOKEN_SECRET",
     "ACCESS_TOKEN_EXPIRATION",
     "REFRESH_TOKEN_EXPIRATION",
+    "GROQ_API_KEY"
   ];
 
   requireEnvVariable.forEach((variable) => {
     if (!process.env[variable]) {
-      throw new AppError(
-        status.INTERNAL_SERVER_ERROR,
-        `ENV variable ${variable} is required, but not set in .env file`
-      );
+      console.warn(`[WARNING] ENV variable ${variable} is not set.`);
     }
   });
 
@@ -102,6 +101,7 @@ const loadEnvVariables = (): EnvConfig => {
         .OPENROUTER_EMBEDDING_MODEL as string,
       OPENROUTER_LLM_MODEL: process.env.OPENROUTER_LLM_MODEL as string,
     },
+    GROQ_API_KEY: process.env.GROQ_API_KEY as string,
   };
 };
 

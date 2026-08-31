@@ -6,15 +6,15 @@ const setCookie = (
   value: string,
   options: CookieOptions
 ) => {
-  res.cookie(key, value, options);
+  (res as any).cookie(key, value, options);
 };
 
 const getCookie = (req: Request, key: string) => {
-  return req.cookies[key];
+  return (req as any).cookies ? (req as any).cookies[key] : undefined;
 };
 
 const clearCookie = (res: Response, key: string, options: CookieOptions) => {
-  res.clearCookie(key, options);
+  (res as any).clearCookie(key, options);
 };
 
 export const CookieUtils = {

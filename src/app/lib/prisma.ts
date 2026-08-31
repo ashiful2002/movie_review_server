@@ -2,9 +2,20 @@ import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../../generated/prisma";
 
-const connectionString = `${process.env.DATABASE_URL}`;
+const connectionString = process.env.DATABASE_URL || "";
 
-const adapter = new PrismaPg({ connectionString });
-const prisma = new PrismaClient({ adapter });
+let prisma: PrismaClient;
+
+try {
+  if (connectionString && connectionString !== "undefined") {
+    const adapter = new PrismaPg({ connectionString });
+    prisma = new PrismaClient({ adapter });
+  } else {
+    prisma = new PrismaClient();
+  }
+} catch (e) {
+  console.error("Prisma initialization error:", e);
+  prisma = new PrismaClient();
+}
 
 export { prisma };

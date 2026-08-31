@@ -1,7 +1,7 @@
 import { stripe } from "../../config/stripe.config";
 import { prisma } from "../../lib/prisma";
 import config from "../../config";
-import { PaymentStatus } from "../../../generated/prisma";
+import { BillingCycle, PaymentStatus } from "../../../generated/prisma";
 
 const checkout = async (payload: any, userId: string) => {
   let dbAmount = payload.amount || 10;
@@ -68,7 +68,7 @@ const handleStripeWebhookEvent = async (event: any) => {
   if (event.type === "checkout.session.completed") {
     // Check idempotency first before processing
     const existingPayment = await prisma.payment.findFirst({
-      where: { stripePaymentId: event.id },
+      where: { stripePaymentIntentId: event.id },
     });
 
     if (existingPayment) {
@@ -83,8 +83,8 @@ const handleStripeWebhookEvent = async (event: any) => {
       const payment = await tx.payment.update({
         where: { id: session.id },
         data: {
-          status: PaymentStatus.COMPLETED,
-          stripePaymentId: session.payment_intent as string,
+          status: PaymentStatus.SUCCEEDED,
+          stripePaymentIntentId: session.payment_intent as string,
         },
       });
 
@@ -97,13 +97,14 @@ const handleStripeWebhookEvent = async (event: any) => {
         if (plan) {
           const startDate = new Date();
           const expiresAt = new Date();
-          expiresAt.setMonth(expiresAt.getMonth() + plan.durationMonths);
+          expiresAt.setDate(expiresAt.getDate() + (plan.durationDays || 30));
           const subscription = await tx.subscription.create({
             data: {
               userId: metadata.userId,
               planId: plan.id,
               startDate,
               expiresAt,
+              billingCycle: BillingCycle.MONTHLY,
             },
           });
 

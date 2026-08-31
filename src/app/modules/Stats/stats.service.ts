@@ -90,7 +90,7 @@ const getUserStatsData = async (userId: string) => {
     prisma.like.count({ where: { review: { userId } } }), // likes on my reviews
     prisma.user.findUnique({
       where: { id: userId },
-      select: { isPremium: true, currentSubscriptionId: true },
+      select: { isPremium: true },
     }),
     prisma.review.findMany({
       where: { userId },
@@ -139,7 +139,7 @@ const getUserStatsData = async (userId: string) => {
     totalFollowing,
     likesReceived,
     isPremium: user?.isPremium ?? false,
-    hasActiveSubscription: !!user?.currentSubscriptionId,
+    hasActiveSubscription: user?.isPremium ?? false,
     moviesByGenre,
     recentReviews,
   };

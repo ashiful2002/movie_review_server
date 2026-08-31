@@ -117,11 +117,13 @@ const getNewToken = async (refreshToken: string, sessionToken: string) => {
   };
 };
 
-const logoutUser = async (token: string) => {
+const logoutUser = async (token?: string) => {
+  const headers = new Headers();
+  if (token) {
+    headers.set("Authorization", token);
+  }
   const result = await auth.api.signOut({
-    headers: new Headers({
-      Authorization: token,
-    }),
+    headers,
   });
 
   return result;

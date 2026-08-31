@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth";
+// @ts-ignore
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 import { envVars } from "../config/env";

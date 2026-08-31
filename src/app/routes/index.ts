@@ -10,6 +10,7 @@ import { SubscriptionRoutes } from "../modules/Subscription_plans/subscription.r
 import { StatsRoutes } from "../modules/Stats/stats.route";
 import { FavouriteRoutes } from "../modules/favourite/favourite.route";
 import { RagRoutes } from "../modules/rag/rag.route";
+import { AiMovieSearchRoutes } from "../modules/AI/search_movies/search_movie.router";
 
 const router = Router();
 
@@ -25,7 +26,9 @@ const routerManager = [
   { path: "/subscription-plans", route: SubscriptionRoutes },
   { path: "/stats", route: StatsRoutes },
   { path: "/rag", route: RagRoutes },
+  { path: "/ai", route: AiMovieSearchRoutes },
+
 ];
- 
+
 routerManager.forEach((r) => router.use(r.path, r.route));
 export default router;

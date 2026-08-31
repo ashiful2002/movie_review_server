@@ -39,7 +39,8 @@ const loginUser: RequestHandler = async (req, res, next) => {
 
 const logoutUser: RequestHandler = async (req, res, next) => {
   try {
-    const result = await AuthService.logoutUser();
+    const token = (req.headers.authorization || req.cookies?.token) as string | undefined;
+    const result = await AuthService.logoutUser(token);
 
     res.clearCookie("token");
 

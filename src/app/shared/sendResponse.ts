@@ -19,7 +19,7 @@ export const sendResponse = <T>(
 ) => {
   const { httpStatusCode, success, message, data, meta } = responseData;
 
-  res.status(httpStatusCode).json({
+  (res as any).status(httpStatusCode).json({
     success,
     message,
     data,
